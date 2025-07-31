@@ -3,7 +3,6 @@ import NavButton from "../components/NavButton";
 
 const Dashboard = () => {
   const token = localStorage.getItem("token");
-  console.log("Token:", token);
   if (!token) {
     return (
       <div className="card">
