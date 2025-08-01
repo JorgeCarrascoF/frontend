@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
-import api from "../api";
+import {testApi as api} from "../api";
 
 const POSTS_PER_PAGE = 10;
 

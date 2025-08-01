@@ -19,6 +19,8 @@ const LoginForm = () => {
     onSuccess: (data) => {
       console.log("Login exitoso:", data);
       setSuccess("Login exitoso!");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.user.id);
     },
     onError: (error) => {
       console.error("Login fallido:", error);

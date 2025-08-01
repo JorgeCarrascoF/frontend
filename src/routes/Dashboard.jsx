@@ -1,4 +1,4 @@
-import PostDashboard from "../components/PostDashboard";
+import PaginatedPostDashboard from "../components/PaginatedPostDashboard";
 import NavButton from "../components/NavButton";
 
 const Dashboard = () => {
@@ -15,17 +15,18 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
+      <NavButton text="Ir a inicio" route="/" />
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           border: "1px solid #ccc",
-          padding: "20px",
+          margin: "10px",
           borderRadius: "5px",
         }}
       >
-        <PostDashboard />
+        <PaginatedPostDashboard />
       </div>
     </div>
   );
