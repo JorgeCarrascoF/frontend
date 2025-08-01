@@ -1,5 +1,6 @@
 import PaginatedPostDashboard from "../components/PaginatedPostDashboard";
 import NavButton from "../components/NavButton";
+import LogoutButton from "../components/LogoutButton";
 
 const Dashboard = () => {
   const token = localStorage.getItem("token");
@@ -15,7 +16,17 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
-      <NavButton text="Ir a inicio" route="/" />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
+          margin: "20px 0",
+        }}
+      >
+        <NavButton text="Ir a inicio" route="/" />
+        <LogoutButton />
+      </div>
       <div
         style={{
           display: "flex",
