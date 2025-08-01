@@ -32,7 +32,7 @@ const RegisterForm = () => {
     setError("");
     setSuccess("");
 
-    if(!userName || userName.length < 5) {
+    if (!userName || userName.length < 5) {
       setError("El nombre de usuario debe tener al menos 5 caracteres.");
       return;
     }
@@ -46,6 +46,7 @@ const RegisterForm = () => {
       setError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
+    setUserName("");
     setEmail("");
     setPassword("");
 
