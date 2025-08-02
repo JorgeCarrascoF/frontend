@@ -4,7 +4,7 @@ import { ClipLoader } from "react-spinners";
 import { api } from "../api";
 
 const loginUser = async (data) => {
-  const response = await api.post(`/login`, data);
+  const response = await api.post(`/auth/login`, data);
   return response.data;
 };
 

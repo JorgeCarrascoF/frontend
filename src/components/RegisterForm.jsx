@@ -69,7 +69,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="p-4">
       <div
         style={{
           marginBottom: "12px",
@@ -79,7 +79,6 @@ const RegisterForm = () => {
           gap: "8px",
         }}
       >
-        <h2>Formulario de registro</h2>
         <label htmlFor="username">Nombre de usuario</label>
         <input
           id="username"
