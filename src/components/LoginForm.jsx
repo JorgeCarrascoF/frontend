@@ -9,7 +9,7 @@ const loginUser = async (data) => {
 };
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
+  const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -33,7 +33,7 @@ const LoginForm = () => {
     setError("");
     setSuccess("");
 
-    if (!email.includes("@")) {
+    if (!login.includes("@")) {
       setError("El correo electronico no es valido.");
       return;
     }
@@ -43,11 +43,11 @@ const LoginForm = () => {
       return;
     }
 
-    setEmail("");
+    setLogin("");
     setPassword("");
 
     // fetch a la DB
-    mutation.mutate({ email, password });
+    mutation.mutate({ login, password });
   };
 
   return (
@@ -60,14 +60,13 @@ const LoginForm = () => {
           gap: "8px",
         }}
       >
-        <h2>Formulario de login</h2>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="login">Email</label>
         <input
-          id="email"
+          id="login"
           type="text"
           placeholder="user@gmail.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={login}
+          onChange={(e) => setLogin(e.target.value)}
           required
         />
         <label htmlFor="password">Password</label>
