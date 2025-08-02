@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { api } from "../api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
+import { getRoles } from "../queries/getRoles";
 
 const registerUser = async (data) => {
-  const response = await api.post(`/register`, data);
+  const response = await api.post(`/auth/register`, data);
   return response.data;
 };
 
 const RegisterForm = () => {
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [role, setRole] = useState("");
+  const [roleId, setRoleId] = useState("");
+
+  const { data: roles, isLoading: loadingRoles } = useQuery({
+    queryKey: ["roles"],
+    queryFn: getRoles,
+  });
 
   const mutation = useMutation({
     mutationFn: registerUser,
@@ -23,7 +31,9 @@ const RegisterForm = () => {
     },
     onError: (error) => {
       console.error("Registro fallido:", error);
-      setError("Ha habido un error en el registro: " + error.message);
+      setError(
+        "Ha habido un error en el registro: " + error.response.data.message
+      );
     },
   });
 
@@ -32,7 +42,7 @@ const RegisterForm = () => {
     setError("");
     setSuccess("");
 
-    if(!userName || userName.length < 5) {
+    if (!username || username.length < 5) {
       setError("El nombre de usuario debe tener al menos 5 caracteres.");
       return;
     }
@@ -46,11 +56,16 @@ const RegisterForm = () => {
       setError("La contraseña debe tener al menos 6 caracteres.");
       return;
     }
+
+    if (!roleId) {
+      setError("Debe seleccionar un rol.");
+      return;
+    }
     setEmail("");
     setPassword("");
 
     // fetch a la DB
-    mutation.mutate({ userName, email, password });
+    mutation.mutate({ username, email, password, role, roleId });
   };
 
   return (
@@ -65,13 +80,13 @@ const RegisterForm = () => {
         }}
       >
         <h2>Formulario de registro</h2>
-        <label htmlFor="userName">Nombre de usuario</label>
+        <label htmlFor="username">Nombre de usuario</label>
         <input
-          id="userName"
+          id="username"
           type="text"
           placeholder="usuario123"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
         <label htmlFor="email">Email</label>
@@ -92,6 +107,29 @@ const RegisterForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+
+        <label htmlFor="roleId">Rol</label>
+        {loadingRoles ? (
+          <p>Cargando roles...</p>
+        ) : (
+          <select
+            id="roleId"
+            value={roleId}
+            onChange={(e) => {
+              setRoleId(e.target.value);
+              setRole(e.target.options[e.target.selectedIndex].text);
+            }}
+            required
+          >
+            <option value="">Seleccione un rol</option>
+            {roles.map((role) => (
+              <option key={role._id} value={role._id}>
+                {role.name}
+              </option>
+            ))}
+          </select>
+        )}
+
         {mutation.isPending ? (
           <ClipLoader color="#36d7b7" size={20} />
         ) : (
