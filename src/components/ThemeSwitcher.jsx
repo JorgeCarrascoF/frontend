@@ -1,0 +1,19 @@
+import { useEffect, useState } from "react";
+
+export default function ThemeSwitcher() {
+  const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    localStorage.setItem("theme", dark ? "dark" : "light");
+  }, [dark]);
+
+  return (
+    <button
+      onClick={() => setDark(!dark)}
+      className="p-2 border rounded-md text-sm"
+    >
+      {dark ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
+    </button>
+  );
+}
