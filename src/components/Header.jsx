@@ -26,6 +26,7 @@ const Header = () => {
       {isLoggedIn ? (
         <div className="flex gap-4">
           <LogoutButton />
+          <NavButton text="Registro" route="/register" />
           <button className="bg-transparent border border-gray-300 rounded-md px-4 py-2">
             Perfil
           </button>
@@ -33,7 +34,6 @@ const Header = () => {
       ) : (
         <div className="flex gap-4">
           <NavButton text="Login" route="/login" />
-          <NavButton text="Register" route="/register" />
         </div>
       )}
     </header>
