@@ -12,7 +12,7 @@ import LogPage from "./routes/LogPage";
 import LogEditPage from "./routes/LogEditPage";
 import LogCreatePage from "./routes/LogCreatePage";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
-import Unauthorized from "./routes/unauthorized";
+import Unauthorized from "./routes/Unauthorized";
 
 function App() {
   return (
