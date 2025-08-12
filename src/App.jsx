@@ -11,6 +11,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import LogPage from "./routes/LogPage";
 import LogEditPage from "./routes/LogEditPage";
 import LogCreatePage from "./routes/LogCreatePage";
+import AdminPrivateRoute from "./components/AdminPrivateRoute";
+import Unauthorized from "./routes/unauthorized";
 
 function App() {
   return (
@@ -19,8 +21,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route 
+          path="/register" 
+          element={
+            <AdminPrivateRoute>
+              <Register />
+            </AdminPrivateRoute>
+          } 
+        />
         <Route
           path="/users"
           element={
