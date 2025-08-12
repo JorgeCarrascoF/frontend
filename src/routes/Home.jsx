@@ -1,7 +1,7 @@
 const Home = () => {
   return (
     <div className="flex items-center">
-      <h1 className="mb-4 text-5xl">Proyecto para pruebas de concepto</h1>
+      <h1 className="mb-4 text-5xl">Buggle</h1>
       <div
         className="card"
         style={{

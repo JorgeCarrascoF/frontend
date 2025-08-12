@@ -7,7 +7,7 @@ const AdminPrivateRoute = ({ children }) => {
   if (!token) {
     return <Navigate to="/login" replace />;
   }
-  
+
   try {
     const decoded = jwtDecode(token);
     const userRole = decoded.role;

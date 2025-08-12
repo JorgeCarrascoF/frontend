@@ -10,7 +10,7 @@ const PaginatedLogDashboard = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
-  const [platformFilter, setPlatformFilter] = useState("");
+  const [environmentFilter, setEnvironmentFilter] = useState("");
   const [priorityFilter, setPriorityFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
 
@@ -26,7 +26,6 @@ const PaginatedLogDashboard = () => {
     setFilters({
       type: typeFilter,
       status: statusFilter,
-      platform: platformFilter,
       priority: priorityFilter,
       search: search,
       page: page,
@@ -46,82 +45,64 @@ const PaginatedLogDashboard = () => {
     { key: "message", label: "Error title" },
     { key: "priority", label: "Priority" },
     { key: "status", label: "Status" },
-    { key: "created_at", label: "Date" }
+    { key: "created_at", label: "Date" },
   ];
 
   return (
     <div className="flex flex-col w-full items-center self-start">
       <div className="w-full">
-        <div className="flex gap-4 items-center mb-4">
-          <h3 className="text-md font-semibold mb-2 text-left">Filtros</h3>
-          <button
-            onClick={applyFilters}
-            className="bg-blue-500 rounded-md px-4 py-2"
-          >
-            Filtrar
-          </button>
-          <button
-            onClick={() => {
-              setFilters({});
-              setSearch("");
-              setStatusFilter("");
-              setPlatformFilter("");
-              setPriorityFilter("");
-              setTypeFilter("");
-            }}
-            className="bg-blue-500 rounded-md px-4 py-2"
-          >
-            Reiniciar filtros
-          </button>
-        </div>
         <div className="flex flex-wrap items-center gap-4">
-          <input
-            type="text"
-            placeholder="Buscar por nombre o descripción..."
-            className="border w-[15vw] border-gray-300 rounded-md px-4 py-2"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="border rounded px-2 py-1"
+            className="bg-[#f0f2f5] rounded px-2 py-2"
           >
-            <option value="">Todos los tipos</option>
+            <option value="" selected disabled hidden>Error type</option>
             <option value="error">Error</option>
             <option value="warning">Warning</option>
             <option value="info">Info</option>
           </select>
 
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="border rounded px-2 py-1"
-          >
-            <option value="">Todos los estados</option>
-            <option value="open">Open</option>
-            <option value="closed">Closed</option>
-            <option value="resolved">Resolved</option>
-          </select>
-
           <input
-            type="text"
-            placeholder="Javascript"
-            className="border border-gray-300 rounded-md px-4 py-2"
-            value={platformFilter}
-            onChange={(e) => setPlatformFilter(e.target.value)}
+            type="date"
+            className="bg-[#f0f2f5] rounded px-2 py-2"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
 
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="border rounded px-2 py-1"
+            className="bg-[#f0f2f5] rounded px-2 py-2"
           >
-            <option value="">Todas las prioridades</option>
+            <option value="" selected disabled hidden>Priority</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
+
+          <select
+            value={environmentFilter}
+            onChange={(e) => setEnvironmentFilter(e.target.value)}
+            className="bg-[#f0f2f5] rounded px-2 py-2"
+          >
+            <option value="" selected disabled hidden>Environment</option>
+            <option value="production">Production</option>
+            <option value="staging">Staging</option>
+            <option value="development">Development</option>
+          </select>
+
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-[#f0f2f5] rounded px-2 py-2"
+          >
+            <option value="" selected disabled hidden>Status</option>
+            <option value="success">Pending</option>
+            <option value="error">In Review</option>
+            <option value="warning">Resolved</option>
+          </select>
+
         </div>
       </div>
       <div className="w-full mt-6">
