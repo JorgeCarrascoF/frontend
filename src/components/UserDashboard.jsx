@@ -3,6 +3,10 @@ import { getUsers } from "../queries/getUsers";
 import { ClipLoader } from "react-spinners";
 import DataTable from "./DataTable";
 import { useState } from "react";
+import Button from "./Button";
+import Icon from "@mdi/react";
+import { mdiChevronLeft } from "@mdi/js";
+import { mdiChevronRight } from "@mdi/js";
 
 const USERS_PER_PAGE = 10;
 
@@ -14,7 +18,7 @@ const UserDashboard = () => {
     isLoading: loadingUsers,
     isError: errorLoadingUsers,
     error,
-    isPreviousData
+    isPreviousData,
   } = useQuery({
     queryKey: ["users", page],
     queryFn: () => getUsers({ page, limit: USERS_PER_PAGE }),
@@ -52,33 +56,44 @@ const UserDashboard = () => {
     );
   }
 
-  console.log(users);
+  let totalPages = Math.ceil(users.total / USERS_PER_PAGE);
 
   return (
-    <div>
-      <div className="flex flex-col w-[800px] mt-8 h-[500px]">
+    <div className="flex flex-col w-full self-start">
+      {users && (
+        <h1 className="text-2xl font-bold text-left">{users.total} Users</h1>
+      )}
+      <div className="flex flex-col w-full mt-4 h-[500px]">
         <DataTable columns={columns} data={users.data} />
       </div>
       <div className="flex justify-center items-center gap-4 mt-4">
-        <button
+        <Button
           onClick={() => setPage((old) => Math.max(old - 1, 1))}
           disabled={page === 1}
-          className="bg-blue-500 rounded-md px-4 py-2 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
         >
-          Página anterior
-        </button>
-        <span>{page}</span>
-        <button
-          onClick={() => {
-            if (!isPreviousData && users.data.length === USERS_PER_PAGE) {
-              setPage((old) => old + 1);
-            }
-          }}
+          <Icon path={mdiChevronLeft} size={1} />
+          Previous page
+        </Button>
+        <div className="flex gap-2">
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            (pageNum) => (
+              <Button
+                key={pageNum}
+                onClick={() => setPage(pageNum)}
+                active={pageNum === page}
+              >
+                {pageNum}
+              </Button>
+            )
+          )}
+        </div>
+        <Button
+          onClick={() => setPage((old) => old + 1)}
           disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
-          className="bg-blue-500 rounded-md px-4 py-2 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
         >
-          Página siguiente
-        </button>
+          Next page
+          <Icon path={mdiChevronRight} size={1} />
+        </Button>
       </div>
     </div>
   );
