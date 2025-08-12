@@ -13,6 +13,12 @@ Sentry.init({
   // Setting this option to true will send default PII data to Sentry.
   // For example, automatic IP address collection on events
   sendDefaultPii: true,
+  environment: import.meta.env.ENVIRONMENT,
+  integrations: [
+    Sentry.captureConsoleIntegration({
+      levels: ["error", "warn", "info"],
+    }),
+  ],
 });
 
 createRoot(document.getElementById("root")).render(
