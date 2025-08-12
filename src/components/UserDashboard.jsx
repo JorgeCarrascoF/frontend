@@ -1,17 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../queries/getUsers";
 import { ClipLoader } from "react-spinners";
+import DataTable from "./DataTable";
+import { useState } from "react";
+
+const USERS_PER_PAGE = 10;
 
 const UserDashboard = () => {
+  const [page, setPage] = useState(1);
+
   const {
     data: users,
     isLoading: loadingUsers,
     isError: errorLoadingUsers,
     error,
+    isPreviousData
   } = useQuery({
-    queryKey: ["users"],
-    queryFn: getUsers,
+    queryKey: ["users", page],
+    queryFn: () => getUsers({ page, limit: USERS_PER_PAGE }),
+    keepPreviousData: true,
   });
+
+  const columns = [
+    { key: "username", label: "Username" },
+    { key: "email", label: "Email" },
+    { key: "role", label: "Role" },
+  ];
 
   if (loadingUsers) {
     return (
@@ -38,23 +52,34 @@ const UserDashboard = () => {
     );
   }
 
+  console.log(users);
+
   return (
     <div>
-      <>
-        <span>{users.count} usuarios</span>
-        <div className="flex flex-col border-2 rounded-xl w-[800px] mt-8 h-[500px] overflow-y-scroll">
-          <ul className="py-4 w-full gap-4 flex flex-col">
-            {users.data.map((user) => (
-              <li
-                className="bg-white text-black px-4 py-2 rounded shadow w-full"
-                key={user.id}
-              >
-                {user.username} ({user.role})
-              </li>
-            ))}
-          </ul>
-        </div>
-      </>
+      <div className="flex flex-col w-[800px] mt-8 h-[500px]">
+        <DataTable columns={columns} data={users.data} />
+      </div>
+      <div className="flex justify-center items-center gap-4 mt-4">
+        <button
+          onClick={() => setPage((old) => Math.max(old - 1, 1))}
+          disabled={page === 1}
+          className="bg-blue-500 rounded-md px-4 py-2 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+        >
+          Página anterior
+        </button>
+        <span>{page}</span>
+        <button
+          onClick={() => {
+            if (!isPreviousData && users.data.length === USERS_PER_PAGE) {
+              setPage((old) => old + 1);
+            }
+          }}
+          disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
+          className="bg-blue-500 rounded-md px-4 py-2 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+        >
+          Página siguiente
+        </button>
+      </div>
     </div>
   );
 };

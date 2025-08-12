@@ -1,9 +1,7 @@
-import ErrorButton from "../components/ErrorButton";
-
 const Home = () => {
   return (
-    <div>
-      <h1 className="mb-4">Proyecto para pruebas de concepto</h1>
+    <div className="flex items-center">
+      <h1 className="mb-4 text-5xl">Proyecto para pruebas de concepto</h1>
       <div
         className="card"
         style={{

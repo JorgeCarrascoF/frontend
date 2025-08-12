@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
-import Log from "./Log";
 import { getLogs } from "../queries/getLogs";
+import DataTable from "./DataTable";
 
 const POSTS_PER_PAGE = 5;
 
@@ -40,9 +40,18 @@ const PaginatedLogDashboard = () => {
     keepPreviousData: true,
   });
 
+  const columns = [
+    { key: "id", label: "ID" },
+    { key: "environment", label: "Environment" },
+    { key: "message", label: "Error title" },
+    { key: "priority", label: "Priority" },
+    { key: "status", label: "Status" },
+    { key: "created_at", label: "Date" }
+  ];
+
   return (
-    <>
-      <div>
+    <div className="flex flex-col w-full items-center self-start">
+      <div className="w-full">
         <div className="flex gap-4 items-center mb-4">
           <h3 className="text-md font-semibold mb-2 text-left">Filtros</h3>
           <button
@@ -115,14 +124,7 @@ const PaginatedLogDashboard = () => {
           </select>
         </div>
       </div>
-      <div
-        style={{
-          padding: "20px",
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
+      <div className="w-full mt-6">
         {isLoading ? (
           <ClipLoader color="#36d7b7" size={50} />
         ) : error ? (
@@ -130,28 +132,7 @@ const PaginatedLogDashboard = () => {
         ) : data.data.length === 0 ? (
           <div>No hay más logs disponibles.</div>
         ) : (
-          <>
-            <table className="border-separate border-spacing-4">
-              <thead>
-                <tr>
-                  <th className="px-3 py-2 font-medium">Project</th>
-                  <th className="px-3 py-2 font-medium">Type</th>
-                  <th className="px-3 py-2 font-medium">Status</th>
-                  <th className="px-3 py-2 font-medium">Platform</th>
-                  <th className="px-3 py-2 font-medium">Filename</th>
-                  <th className="px-3 py-2 font-medium">Function</th>
-                  <th className="px-3 py-2 font-medium">Priority</th>
-                  <th className="px-3 py-2m font-medium">Count</th>
-                  <th className="px-3 py-2 font-medium">First Seen</th>
-                  <th className="px-3 py-2 font-medium">Last Seen</th>
-                  <th className="px-3 py-2 font-medium">Sentry</th>
-                </tr>
-              </thead>
-              <tbody className="">
-                {data && data.data.map((log) => <Log key={log.id} log={log} />)}
-              </tbody>
-            </table>{" "}
-          </>
+          <DataTable columns={columns} data={data.data} />
         )}
         <div className="flex justify-center items-center gap-4 mt-4">
           <button
@@ -175,7 +156,7 @@ const PaginatedLogDashboard = () => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

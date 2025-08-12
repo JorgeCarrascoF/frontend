@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
+import Icon from "@mdi/react";
+import { mdiLogout } from "@mdi/js";
 
 const LogoutButton = () => {
   const navigate = useNavigate();
@@ -10,7 +12,14 @@ const LogoutButton = () => {
     navigate("/login");
   };
 
-  return <button onClick={handleLogout}>Cerrar sesión</button>;
+  return (
+    <button
+      className={`px-5  font-semibold cursor-pointer text-gray-900 py-3 flex items-center justify-left rounded-lg hover:bg-[#f0f2f5] transition-colors duration-200`}
+      onClick={handleLogout}
+    >
+      <Icon path={mdiLogout} size={1} /> <span className="ml-2">Cerrar sesión</span>
+    </button>
+  );
 };
 
 export default LogoutButton;

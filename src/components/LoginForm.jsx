@@ -95,11 +95,14 @@ const LoginForm = () => {
         </div>
         {mutation.isPending ? (
           <ClipLoader color="#36d7b7" size={20} />
+        ) : success ? (
+          success && <p style={{ color: "green" }}>{success}</p>
         ) : (
-          <button type="submit">Login</button>
+          <button className="cursor-pointer bg-[#f0f2f5] w-[50%]" type="submit">
+            Login
+          </button>
         )}
         {error && <p style={{ color: "red" }}>{error}</p>}
-        {success && <p style={{ color: "green" }}>{success}</p>}
       </div>
     </form>
   );

@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./context/AuthProvider.jsx";
+import Layout from "./components/Layout.jsx";
 
 const queryClient = new QueryClient();
 
