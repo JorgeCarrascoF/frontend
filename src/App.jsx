@@ -24,7 +24,7 @@ function App() {
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/register"
+            path="/users/register"
             element={
               <AdminPrivateRoute>
                 <Register />
