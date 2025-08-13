@@ -21,7 +21,7 @@ const Users = () => {
         <h1 className="text-2xl font-bold">Users</h1>
         <NavButton
           text="Create user"
-          route="/users/create"
+          route="/users/register"
           variant="dark"
           icon={<Icon path={mdiOpenInNew} size={1} />}
         />
