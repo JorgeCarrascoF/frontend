@@ -1,6 +1,10 @@
 import { formatDate } from "../utils/formatDate";
+import Icon from "@mdi/react";
+import { mdiDelete } from "@mdi/js";
 
 export default function DataTable({ columns, data }) {
+
+  const dateKeys = ["createdAt", "updatedAt", "created_at", "updated_at"];
   return (
     <div className="w-full border border-gray-200 rounded-md overflow-hidden">
       <table className="w-full text-left">
@@ -22,30 +26,54 @@ export default function DataTable({ columns, data }) {
         <tbody>
           {data.map((row, idx) => (
             <tr key={idx} className="hover:bg-gray-50">
-              {columns.map((col, i) => (
-                <td
-                  key={col.key}
-                  className={`px-4 py-2 truncate w-fit border-gray-200 ${
-                    idx === data.length - 1 && i === 0 ? "rounded-bl-md" : ""
-                  }
+              {columns.map((col, i) =>
+                col.key == "delete" ? (
+                  <td
+                    key={col.key}
+                    className={`truncate w-fit border-gray-200 ${
+                      idx === data.length - 1 && i === 0 ? "rounded-bl-md" : ""
+                    }
                   ${
                     idx === data.length - 1 && i === columns.length - 1
                       ? "rounded-br-md"
                       : ""
                   }
                   ${idx === data.length - 1 ? "" : "border-b-[1px]"}`}
-                >
-                  {row[col.key] ? (
-                    col.key == "created_at" ? (
-                      <span>{formatDate(row[col.key])}</span>
+                  >
+                    <button
+                      className="cursor-pointer"
+                      onClick={() => {
+                        console.log("Delete user with ID:", row.id);
+                      }}
+                    >
+                      <Icon path={mdiDelete} size={0.9} />
+                    </button>
+                  </td>
+                ) : (
+                  <td
+                    key={col.key}
+                    className={`px-4 py-2 truncate w-fit border-gray-200 ${
+                      idx === data.length - 1 && i === 0 ? "rounded-bl-md" : ""
+                    }
+                  ${
+                    idx === data.length - 1 && i === columns.length - 1
+                      ? "rounded-br-md"
+                      : ""
+                  }
+                  ${idx === data.length - 1 ? "" : "border-b-[1px]"}`}
+                  >
+                    {row[col.key] ? (
+                      dateKeys.includes(col.key) ? (
+                        <span>{formatDate(row[col.key])}</span>
+                      ) : (
+                        <span>{row[col.key]}</span>
+                      )
                     ) : (
-                      <span>{row[col.key]}</span>
-                    )
-                  ) : (
-                    ""
-                  )}
-                </td>
-              ))}
+                      ""
+                    )}
+                  </td>
+                )
+              )}
             </tr>
           ))}
         </tbody>

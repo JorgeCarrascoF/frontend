@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
   const variants = {
   light: {
     base: "text-gray-900",
-    bg: "",
+    bg: "bg-[#fafafa]",
     bgActive: "bg-[#f0f2f5]",
     hover: "hover:bg-[#f0f2f5]",
     icon: "text-black",

@@ -37,7 +37,6 @@ export default function EditLogForm({ logId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Updating log:", log);
     mutation.mutate({ id: logId, updatedFields: log });
     setLog({});
   };

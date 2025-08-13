@@ -12,7 +12,6 @@ export default function CreateLogForm() {
     mutationFn: (newLog) => createLog(newLog),
     onSuccess: (data) => {
       setMessage("Log creado correctamente");
-      console.log("Nuevo log:", data);
       navigate(`/dashboard/log/${data.id}`);
     },
     onError: (error) => {

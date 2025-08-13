@@ -18,6 +18,8 @@ const PaginatedLogDashboard = ({search}) => {
   const [typeFilter, setTypeFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
 
+  let userData = JSON.parse(localStorage.getItem("userData"));
+
 
   const { data, isLoading, error, isPreviousData } = useQuery({
     queryKey: ["logs", page, search, typeFilter, dateFilter, statusFilter, environmentFilter, priorityFilter],
@@ -39,8 +41,14 @@ const PaginatedLogDashboard = ({search}) => {
     { key: "message", label: "Error title" },
     { key: "priority", label: "Priority" },
     { key: "status", label: "Status" },
-    { key: "created_at", label: "Date" },
   ];
+
+  if (userData.role == "admin" || userData.role == "superadmin") {
+    columns.push({ key: "assigned_to", label: "Assignee" });
+  }
+
+  columns.push({ key: "created_at", label: "Date" });
+
 
   return (
     <div className="flex flex-col w-full items-center self-start">
