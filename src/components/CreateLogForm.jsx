@@ -47,7 +47,7 @@ export default function CreateLogForm() {
       className="bg-white rounded-md mt-4 border-2 pb-4 border-blue-300 w-fit flex flex-col items-baseline gap-4"
     >
       <div className="w-full bg-blue-300 p-3 px-6 mb-2 flex justify-between items-center">
-        <h2 className="font-bold">Crear nuevo log</h2>
+        <h2 className="font-bold">Create new log</h2>
       </div>
 
       {/* Proyecto + Status */}

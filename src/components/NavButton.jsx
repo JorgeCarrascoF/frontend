@@ -27,7 +27,7 @@ const NavButton = ({ text, route, icon, variant = "light"}) => {
   return (
     <Link
       to={route}
-      className={`px-4 py-3 flex items-center justify-left ${v.bg} ${v.base} rounded-lg ${isActive && v.bgActive}  ${v.hover} transition-colors duration-200`}
+      className={`px-4 py-3 flex items-center justify-left ${v.base} rounded-lg ${isActive ? v.bgActive : v.bg} ${v.hover} transition-colors duration-200`}
     >
       {icon && <span className={`mr-2 ${v.icon}`}>{icon}</span>}
       <span className={v.base}>{text}</span>

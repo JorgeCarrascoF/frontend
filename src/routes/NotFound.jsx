@@ -5,13 +5,13 @@ import { mdiHome } from "@mdi/js";
 function NotFound() {
   return (
     <div className="mb-4 text-center flex justify-center items-center flex-col">
-      <h1 className="mb-8 text-5xl">404 - Página no encontrada</h1>
+      <h1 className="mb-8 text-5xl">404 - Page not found</h1>
 
       <p className="my-5">
-        Lo sentimos, la página que estás buscando no existe.
+        The page you're looking for doesn't exist.
       </p>
       <NavButton
-        text="Volver al inicio"
+        text="Go to Home"
         route="/"
         icon={<Icon path={mdiHome} size={1} />}
         variant="dark"

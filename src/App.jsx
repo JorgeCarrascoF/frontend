@@ -34,9 +34,9 @@ function App() {
           <Route
             path="/users"
             element={
-              <PrivateRoute>
+              <AdminPrivateRoute>
                 <Users />
-              </PrivateRoute>
+              </AdminPrivateRoute>
             }
           />
           <Route

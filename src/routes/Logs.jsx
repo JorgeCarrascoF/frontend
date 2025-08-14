@@ -8,16 +8,6 @@ import { useState } from "react";
 const Logs = () => {
   const [search, setSearch] = useState("");
 
-  const token = localStorage.getItem("token");
-  if (!token) {
-    return (
-      <div className="card">
-        <h1>Sin autorización</h1>
-        <p>Por favor, inicie sesión para acceder a la aplicación.</p>
-        <NavButton text="Ir a Login" route="/login" />
-      </div>
-    );
-  }
   return (
     <div className=" w-[90%]">
       <div className="flex items-center justify-between mb-8">

@@ -17,7 +17,7 @@ const LogoutButton = () => {
       className={`px-5  font-semibold cursor-pointer text-gray-900 py-3 flex items-center justify-left rounded-lg hover:bg-[#f0f2f5] transition-colors duration-200`}
       onClick={handleLogout}
     >
-      <Icon path={mdiLogout} size={1} /> <span className="ml-2">Cerrar sesión</span>
+      <Icon path={mdiLogout} size={1} /> <span className="ml-2">Log out</span>
     </button>
   );
 };

@@ -6,15 +6,6 @@ import NavButton from "../components/NavButton";
 
 
 const Users = () => {
-  const userData = JSON.parse(localStorage.getItem("userData"));
-  const isAuthorized = userData?.role === "admin";
-
-  if (!isAuthorized) {
-    return (
-      <UnauthorizedPage />
-    );
-  }
-
   return (
     <div className=" w-[90%]">
       <div className="flex items-center justify-between mb-8">

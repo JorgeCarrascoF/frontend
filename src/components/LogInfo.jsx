@@ -109,7 +109,7 @@ const LogInfo = ({ logId }) => {
           to={`/dashboard/log/${logId}/edit`}
           className="bg-blue-400 border-2 hover:bg-blue-500 text-white rounded-md px-4 py-2"
         >
-          Editar
+          Edit
         </Link>
       </div>
       <div className="w-full">

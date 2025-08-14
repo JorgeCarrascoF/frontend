@@ -64,8 +64,8 @@ const RegisterForm = () => {
     if (!form.domain.includes("@"))
       newErrors.domain = "Este dominio no es válido";
     if (!form.roleId) newErrors.roleId = "Este campo es requerido";
-    if (form.password.length < 6)
-      newErrors.password = "Este campo debe tener mínimo 6 caracteres";
+    if (form.password.length < 8)
+      newErrors.password = "La contraseña debe tener mínimo 8 caracteres";
     return newErrors;
   };
 
@@ -253,8 +253,10 @@ const RegisterForm = () => {
               <ClipLoader color="#36d7b7" />
             ) : (
               <div className="flex gap-4">
-                <NavButton text="Cancelar" route="/users"/>
-                <Button type="submit" variant="dark">Registrar</Button>
+                <NavButton text="Cancelar" route="/users" />
+                <Button type="submit" variant="dark">
+                  Registrar
+                </Button>
               </div>
             )}
           </div>

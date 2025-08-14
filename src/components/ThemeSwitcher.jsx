@@ -13,7 +13,7 @@ export default function ThemeSwitcher() {
       onClick={() => setDark(!dark)}
       className="p-2 border rounded-md text-sm"
     >
-      {dark ? "☀️ Modo Claro" : "🌙 Modo Oscuro"}
+      {dark ? "☀️ Light mode" : "🌙 Dark mode"}
     </button>
   );
 }
