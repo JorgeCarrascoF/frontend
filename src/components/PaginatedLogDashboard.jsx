@@ -8,7 +8,7 @@ import Icon from "@mdi/react";
 import { mdiChevronLeft } from "@mdi/js";
 import { mdiChevronRight } from "@mdi/js";
 
-const LOGS_PER_PAGE = 5;
+const LOGS_PER_PAGE = 14;
 
 const PaginatedLogDashboard = ({search}) => {
   const [page, setPage] = useState(1);

@@ -12,11 +12,14 @@ export default function CreateLogForm() {
   const mutation = useMutation({
     mutationFn: (newLog) => createLog(newLog),
     onSuccess: (data) => {
-      setMessage("Log creado correctamente");
-      navigate(`/dashboard/log/${data.id}`);
+      // console.log("Log created successfully:", data);
+      setMessage("Log created successfully");
+      setTimeout(() => {
+        navigate(`/dashboard/log/${data.log._id}`);
+      }, 1000);
     },
     onError: () => {
-      setMessage("Error al crear el log");
+      setMessage("Error creating log");
     },
   });
 
@@ -37,30 +40,24 @@ export default function CreateLogForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Log data:", log);
     mutation.mutate(log);
-    setLog({});
+    // setLog({});
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 w-full"
+      className="p-6 w-full h-full flex flex-col justify-center"
     >
       {/* Encabezado */}
-      <div className="flex justify-between items-center mb-12">
-        <h2 className="font-semibold text-lg text-gray-900">
-          Event ID #evt_005
-        </h2>
-        <span className="text-sm text-gray-500">24/01/15, 09:45</span>
-      </div>
-
       {/* Primera fila */}
-      <label className="block mb-2 text-sm font-medium text-left">Nombre</label>
+      <label className="block mb-2 text-sm font-medium text-left">Name</label>
       <div className="grid grid-cols-8 gap-4 mb-10">
         <input
           placeholder=""
           className="border col-span-4 rounded-md px-3 py-2 text-sm"
-          onChange={(e) => setLog({ ...log, project: e.target.value })}
+          onChange={(e) => setLog({ ...log, message: e.target.value })}
         />
         <select
           className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 h-12 w-55"
@@ -68,12 +65,15 @@ export default function CreateLogForm() {
         >
           <option value="">Set status</option>
           <option value="unresolved">Unresolved</option>
-          <option value="resolved">Resolved</option>
+          <option value="in review">In Review</option>
+          <option value="solved">Solved</option>
         </select>
       </div>
 
       {/* Segunda fila */}
-      <label className="block mb-2 text-sm font-medium text-left">Descripción</label>
+      <label className="block mb-2 text-sm font-medium text-left">
+        Description
+      </label>
       <div className="grid grid-cols-8 gap-4 mb-10">
         <div className="relative col-span-4">
           <textarea
@@ -81,7 +81,7 @@ export default function CreateLogForm() {
             className="border rounded-md px-3 py-2 text-sm w-full h-24 resize-none"
             maxLength={5000}
             onChange={(e) => {
-              setLog({ ...log, platform: e.target.value });
+              setLog({ ...log, description: e.target.value });
               setLabelCount(e.target.value.length);
             }}
           />
@@ -101,11 +101,13 @@ export default function CreateLogForm() {
       </div>
 
       {/* Tercera fila */}
-      <label className="block mb-2 text-sm font-medium text-left">Asignar</label>
+      <label className="block mb-2 text-sm font-medium text-left">
+        Assignee
+      </label>
       <div className="grid grid-cols-8 gap-4 mt-4 mb-15">
         <select
           className="border rounded-md col-span-2 px-3 py-2 text-sm text-gray-500"
-          onChange={(e) => setLog({ ...log, assignedTo: e.target.value })}
+          onChange={(e) => setLog({ ...log, assigned_to: e.target.value })}
         >
           <option value="">Assign to</option>
           <option value="user1">User 1</option>
@@ -124,8 +126,9 @@ export default function CreateLogForm() {
           onChange={(e) => setLog({ ...log, environment: e.target.value })}
         >
           <option value="">Set Environment</option>
-          <option value="prod">Production</option>
-          <option value="dev">Development</option>
+          <option value="production">Production</option>
+          <option value="development">Development</option>
+          <option value="testing">Testing</option>
         </select>
       </div>
 
