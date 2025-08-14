@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateLogForm() {
   const [log, setLog] = useState({});
+  const [labelCount, setLabelCount] = useState(0);
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
@@ -14,9 +15,8 @@ export default function CreateLogForm() {
       setMessage("Log creado correctamente");
       navigate(`/dashboard/log/${data.id}`);
     },
-    onError: (error) => {
+    onError: () => {
       setMessage("Error al crear el log");
-      console.error("Error:", error);
     },
   });
 
@@ -44,147 +44,113 @@ export default function CreateLogForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-md mt-4 border-2 pb-4 border-blue-300 w-fit flex flex-col items-baseline gap-4"
+      className="p-6 w-full"
     >
-      <div className="w-full bg-blue-300 p-3 px-6 mb-2 flex justify-between items-center">
-        <h2 className="font-bold">Create new log</h2>
+      {/* Encabezado */}
+      <div className="flex justify-between items-center mb-12">
+        <h2 className="font-semibold text-lg text-gray-900">
+          Event ID #evt_005
+        </h2>
+        <span className="text-sm text-gray-500">24/01/15, 09:45</span>
       </div>
 
-      {/* Proyecto + Status */}
-      <div className="flex gap-3 px-6 w-full">
-        <div className="flex flex-col gap-1 align-baseline">
-          <label className="font-semibold text-left">Proyecto:</label>
-          <input
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) => setLog({ ...log, project: e.target.value })}
-          />
-        </div>
-        <div className="flex flex-col gap-1 align-baseline">
-          <label className="font-semibold text-left">Status:</label>
-          <select
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) => setLog({ ...log, status: e.target.value })}
-          >
-            <option value="">-- Selecciona --</option>
-            <option value="unresolved">Sin resolver</option>
-            <option value="resolved">Resuelto</option>
-          </select>
-        </div>
+      {/* Primera fila */}
+      <label className="block mb-2 text-sm font-medium text-left">Nombre</label>
+      <div className="grid grid-cols-8 gap-4 mb-10">
+        <input
+          placeholder=""
+          className="border col-span-4 rounded-md px-3 py-2 text-sm"
+          onChange={(e) => setLog({ ...log, project: e.target.value })}
+        />
+        <select
+          className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 h-12 w-55"
+          onChange={(e) => setLog({ ...log, status: e.target.value })}
+        >
+          <option value="">Set status</option>
+          <option value="unresolved">Unresolved</option>
+          <option value="resolved">Resolved</option>
+        </select>
       </div>
 
-      <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
-          Detalles técnicos
-        </h3>
-      </div>
-      <div className="flex gap-3 px-6 w-full">
-        <div className="flex flex-col align-baseline">
-          <label className="font-semibold text-left">Plataforma:</label>
-          <input
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) => setLog({ ...log, platform: e.target.value })}
+      {/* Segunda fila */}
+      <label className="block mb-2 text-sm font-medium text-left">Descripción</label>
+      <div className="grid grid-cols-8 gap-4 mb-10">
+        <div className="relative col-span-4">
+          <textarea
+            placeholder=""
+            className="border rounded-md px-3 py-2 text-sm w-full h-24 resize-none"
+            maxLength={5000}
+            onChange={(e) => {
+              setLog({ ...log, platform: e.target.value });
+              setLabelCount(e.target.value.length);
+            }}
           />
+          <span className="absolute top-25 right-3 text-xs text-gray-400">
+            {labelCount}/5000
+          </span>
         </div>
-        <div className="flex flex-col align-baseline">
-          <label className="font-semibold text-left">Tipo:</label>
-          <select
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) => setLog({ ...log, type: e.target.value })}
-          >
-            <option value="">-- Selecciona --</option>
-            <option value="info">info</option>
-            <option value="warning">warning</option>
-            <option value="error">error</option>
-          </select>
-        </div>
-        <div className="flex flex-col align-baseline">
-          <label className="font-semibold text-left">Prioridad:</label>
-          <select
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) => setLog({ ...log, priority: e.target.value })}
-          >
-            <option value="">-- Selecciona --</option>
-            <option value="high">alta</option>
-            <option value="medium">media</option>
-            <option value="low">baja</option>
-          </select>
-        </div>
+        <select
+          className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 w-55 h-12"
+          onChange={(e) => setLog({ ...log, type: e.target.value })}
+        >
+          <option value="">Error type</option>
+          <option value="info">Info</option>
+          <option value="warning">Warning</option>
+          <option value="error">Error</option>
+        </select>
       </div>
 
-      <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
-          Archivo
-        </h3>
-      </div>
-      <div className="flex gap-3 px-6 w-full">
-        <div className="flex flex-col align-baseline">
-          <label className="font-semibold text-left">Archivo:</label>
-          <input
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) => setLog({ ...log, filename: e.target.value })}
-          />
-        </div>
-        <div className="flex flex-col align-baseline">
-          <label className="font-semibold text-left">Función:</label>
-          <input
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) => setLog({ ...log, function: e.target.value })}
-          />
-        </div>
-      </div>
-
-      <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
-          Estadísticas
-        </h3>
-      </div>
-      <div className="flex gap-3 px-6 w-full">
-        <div className="flex flex-col align-baseline">
-          <label className="font-semibold text-left">First seen:</label>
-          <input
-            type="date"
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) =>
-              setLog({
-                ...log,
-                firstSeen: new Date(e.target.value).toISOString(),
-              })
-            }
-          />
-        </div>
-        <div className="flex flex-col align-baseline">
-          <label className="font-semibold text-left">Last seen:</label>
-          <input
-            type="date"
-            className="text-left border-[1px] px-1 rounded-md"
-            onChange={(e) =>
-              setLog({
-                ...log,
-                lastSeen: new Date(e.target.value).toISOString(),
-              })
-            }
-          />
-        </div>
+      {/* Tercera fila */}
+      <label className="block mb-2 text-sm font-medium text-left">Asignar</label>
+      <div className="grid grid-cols-8 gap-4 mt-4 mb-15">
+        <select
+          className="border rounded-md col-span-2 px-3 py-2 text-sm text-gray-500"
+          onChange={(e) => setLog({ ...log, assignedTo: e.target.value })}
+        >
+          <option value="">Assign to</option>
+          <option value="user1">User 1</option>
+        </select>
+        <select
+          className="border rounded-md ms-8 col-span-2 px-3 py-2 text-sm text-gray-500"
+          onChange={(e) => setLog({ ...log, priority: e.target.value })}
+        >
+          <option value="">Priority</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select
+          className="border rounded-md w-55 h-12 ms-15 px-3 py-2 text-sm text-gray-500"
+          onChange={(e) => setLog({ ...log, environment: e.target.value })}
+        >
+          <option value="">Set Environment</option>
+          <option value="prod">Production</option>
+          <option value="dev">Development</option>
+        </select>
       </div>
 
-      <div className="flex justify-center w-full flex-col items-center gap-4 mt-4">
-        <div className="flex gap-4 items-center justify-evenly w-full">
-          <button
-            disabled={isButtonDisabled}
-            type="submit"
-            className="disabled:bg-gray-300 disabled:cursor-not-allowed cursor-pointer disabled:text-black bg-blue-500 text-white rounded-md px-4 py-2"
-          >
-            Crear log
-          </button>
-          <Link
-            to="/dashboard"
-            className="border-2 p-2 rounded-lg bg-blue-400 text-white hover:bg-blue-500 transition-colors"
-          >
-            Cancelar
-          </Link>
-        </div>
-        {message && <span className="text-gray-700">{message}</span>}
+      {/* Botones */}
+      <div className="flex justify-end gap-3">
+        <Link
+          to="/dashboard"
+          className="bg-gray-400 text-white px-5 py-2 rounded-md hover:bg-gray-500 transition"
+        >
+          Cancel
+        </Link>
+        <button
+          type="submit"
+          disabled={isButtonDisabled}
+          className={`px-5 py-2 rounded-md text-white transition ${
+            isButtonDisabled
+              ? "bg-gray-300 cursor-not-allowed text-black"
+              : "bg-blue-800 hover:bg-blue-900"
+          }`}
+        >
+          Save
+        </button>
       </div>
+
+      {message && <p className="text-sm text-gray-600 mt-4">{message}</p>}
     </form>
   );
 }
