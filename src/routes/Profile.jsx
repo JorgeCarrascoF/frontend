@@ -1,0 +1,63 @@
+import UserIcon from "../components/UserIcon";
+import Button from "../components/Button";
+import { useState } from "react";
+import PersonalInformation from "../components/PersonalInformation";
+
+const Profile = () => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const [changingPassword, setChangingPassword] = useState(false);
+
+  return (
+    <div className=" w-[90%]">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-2xl font-bold">
+          {userData?.username || "Profile"}
+        </h1>
+      </div>
+      <div className="flex items-center justify-between m-2.5 rounded-2xl h-[90%]">
+        <div className="border-[1px] border-gray-200 bg-white rounded-2xl h-full w-[27%] flex flex-col items-center justify-start gap-20 py-20">
+          <div className="w-full flex items-center flex-col">
+            <div className=" rounded-full w-[40%] aspect-square flex items-center justify-center">
+              <UserIcon name={userData?.fullName} />
+            </div>
+            <div className="text-center mt-2 flex flex-col items-center gap-1">
+              <p className="text-2xl font-medium">{userData?.fullName || "Default Username"}</p>
+              <p className="text-md text-gray-500">{userData?.email}</p>
+              <p className="text-md text-black">{userData?.role}</p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-5 items-center">
+            <Button active={!changingPassword} onClick={() => setChangingPassword(false)}>Personal information</Button>
+            <Button active={changingPassword} onClick={() => setChangingPassword(true)}>Change password</Button>
+          </div>
+        </div>
+        <div className="border-[1px] border-gray-200 bg-white rounded-2xl h-full w-[72%]">
+          {changingPassword ? (
+            <div className="p-5">
+              <h2 className="text-xl font-semibold mb-4">Change Password</h2>
+              <form>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">Current Password</label>
+                  <input type="password" className="w-full p-2 border border-gray-300 rounded-md" />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">New Password</label>
+                  <input type="password" className="w-full p-2 border border-gray-300 rounded-md" />
+                </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium mb-2">Confirm New Password</label>
+                  <input type="password" className="w-full p-2 border border-gray-300 rounded-md" />
+                </div>
+                <Button type="submit">Update Password</Button>
+              </form>
+            </div>
+          ) : (
+            <PersonalInformation data={userData} />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Profile;

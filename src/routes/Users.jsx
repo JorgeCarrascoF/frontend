@@ -1,5 +1,4 @@
 import UserDashboard from "../components/UserDashboard";
-import UnauthorizedPage from "./Unauthorized";
 import Icon from "@mdi/react";
 import { mdiOpenInNew } from "@mdi/js";
 import NavButton from "../components/NavButton";

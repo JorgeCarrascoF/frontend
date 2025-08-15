@@ -13,6 +13,7 @@ import AdminPrivateRoute from "./components/AdminPrivateRoute";
 import Unauthorized from "./routes/Unauthorized";
 import Layout from "./components/Layout";
 import Logs from "./routes/Logs";
+import Profile from "./routes/Profile";
 
 function App() {
   return (
@@ -68,6 +69,14 @@ function App() {
             element={
               <PrivateRoute>
                 <LogCreatePage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
               </PrivateRoute>
             }
           />
