@@ -8,7 +8,6 @@ import { useState } from "react";
 
 const LogInfo = ({ logId }) => {
   const navigate = useNavigate();
-
   const [deleteMessage, setDeleteMessage] = useState("");
 
   const { data, isLoading, isError, error } = useQuery({
@@ -17,106 +16,84 @@ const LogInfo = ({ logId }) => {
   });
 
   if (isLoading) return <ClipLoader color="#000000" size={50} />;
-  if (isError)
-    return <div className="text-red-500">Error: {error.message}</div>;
+  if (isError) return <div className="text-red-500">Error: {error.message}</div>;
 
   return (
-    <div className=" bg-white rounded-md mt-4 border-2 pb-4 border-amber-300 w-fit flex flex-col items-baseline gap-4">
-      <div className="w-full bg-amber-300 p-3 px-6 mb-2 flex justify-between items-center">
-        <h2 className="font-bold">Log #{logId}</h2>
-        <a
-          className="mx-2"
-          href={data.linkSentry}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Sentry
-        </a>
+    <div className="w-full max-w-4xl flex flex-col gap-6">
+      <div>
+        <h1 className="text-3xl font-bold">Log Detail</h1>
+        <p className="text-gray-500 text-sm">
+          View detailed information about the selected log entry
+        </p>
       </div>
-      <div className="flex justify-between px-6 w-full">
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Proyecto:</span>
-          <span className="text-left">{data.project}</span>
+
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 className="text-xl font-semibold mb-6">
+          Log Information #{logId}
+        </h2>
+
+        <div className="grid grid-cols-2 gap-y-6 gap-x-8">
+          <InfoItem label="Event ID" value={data.eventId} />
+          <InfoItem label="File" value={data.filename} />
+          <InfoItem label="Sentry Eve" value={data.linkSentry} isLink />
+          <InfoItem label="Error Type" value={data.type} />
+          <InfoItem label="Function" value={data.function} />
+          <InfoItem label="Creation Date" value={formatDate(data.created_at)} />
+          <InfoItem label="User IP" value={data.userIp} />
+          <InfoItem label="Environment" value={data.environment} badge />
+          <InfoItem label="Error Message" value={data.message} colSpan />
+          <InfoItem label="Location" value={`${data.filename} in ${data.function}`} colSpan />
         </div>
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Status:</span>
-          <span className="text-left">{data.status}</span>
+
+        <div className="mt-8 flex gap-4">
+          <DeleteLogButton
+            logId={logId}
+            onDeleteSuccess={() => {
+              setDeleteMessage("Log borrado. Volviendo al dashboard...");
+              setTimeout(() => {
+                navigate("/dashboard");
+              }, 2000);
+            }}
+            onError={() => {
+              setDeleteMessage("Error al borrar el log");
+            }}
+          />
+          <Link
+            to={`/dashboard/log/${logId}/edit`}
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg px-4 py-2"
+          >
+            Edit
+          </Link>
         </div>
-      </div>
-      <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
-          Detalles técnicos
-        </h3>
-      </div>
-      <div className="flex justify-between px-6 w-full">
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Plataforma:</span>
-          <span className="text-left">{data.platform}</span>
-        </div>
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Tipo:</span>
-          <span className="text-left">{data.type}</span>
-        </div>
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Prioridad:</span>
-          <span className="text-left">{data.priority}</span>
-        </div>
-      </div>
-      <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
-          Archivo
-        </h3>
-      </div>
-      <div className="flex justify-between px-6 w-full">
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Nombre de archivo:</span>
-          <span className="text-left">{data.filename}</span>
-        </div>
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Función:</span>
-          <span className="text-left">{data.function}</span>
-        </div>
-      </div>
-      <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
-          Estadísticas
-        </h3>
-      </div>
-      <div className="flex justify-between px-6 w-full">
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">First seen:</span>
-          <span className="text-left">{formatDate(data.firstSeen)}</span>
-        </div>
-        <div className="flex flex-col align-baseline">
-          <span className="font-semibold text-left">Last seen:</span>
-          <span className="text-left">{formatDate(data.lastSeen)}</span>
-        </div>
-      </div>
-      <div className="flex justify-between px-6 w-full">
-        <DeleteLogButton
-          logId={logId}
-          onDeleteSuccess={() => {
-            setDeleteMessage("Log borrado. Volviendo al dashboard...");
-            setTimeout(() => {
-              navigate("/dashboard");
-            }, 2000);
-          }}
-          onError={() => {
-            setDeleteMessage("Error al borrar el log");
-          }}
-        />
-        <Link
-          to={`/dashboard/log/${logId}/edit`}
-          className="bg-blue-400 border-2 hover:bg-blue-500 text-white rounded-md px-4 py-2"
-        >
-          Edit
-        </Link>
-      </div>
-      <div className="w-full">
-        {deleteMessage && <span className="text-center">{deleteMessage}</span>}
+
+        {deleteMessage && (
+          <p className="mt-4 text-sm text-gray-600">{deleteMessage}</p>
+        )}
       </div>
     </div>
   );
 };
+
+const InfoItem = ({ label, value, isLink, badge, colSpan }) => (
+  <div className={`${colSpan ? "col-span-2" : ""}`}>
+    <p className="text-gray-500 text-sm">{label}</p>
+    {isLink ? (
+      <a
+        href={value}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 hover:underline break-all"
+      >
+        {value}
+      </a>
+    ) : badge ? (
+      <span className="inline-block px-3 py-1 rounded-full text-white bg-red-500 text-xs font-semibold mt-1">
+        {value}
+      </span>
+    ) : (
+      <p className="font-medium break-all">{value}</p>
+    )}
+  </div>
+);
 
 export default LogInfo;

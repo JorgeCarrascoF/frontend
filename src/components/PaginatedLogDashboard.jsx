@@ -7,6 +7,7 @@ import DataTable from "./DataTable";
 import Icon from "@mdi/react";
 import { mdiChevronLeft } from "@mdi/js";
 import { mdiChevronRight } from "@mdi/js";
+import { useNavigate } from "react-router-dom";
 
 const LOGS_PER_PAGE = 14;
 
@@ -17,6 +18,8 @@ const PaginatedLogDashboard = ({search}) => {
   const [priorityFilter, setPriorityFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [dateFilter, setDateFilter] = useState("");
+
+  const navigate = useNavigate();
 
   let userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -48,6 +51,10 @@ const PaginatedLogDashboard = ({search}) => {
   }
 
   columns.push({ key: "created_at", label: "Date" });
+
+  const handleRowClick = (row) => {
+    navigate(`/dashboard/logs/${row.id}`);
+  };
 
 
   return (
@@ -122,7 +129,7 @@ const PaginatedLogDashboard = ({search}) => {
         ) : data.data.length === 0 ? (
           <div>No hay más logs disponibles.</div>
         ) : (
-          <DataTable columns={columns} data={data?.data ?? []} />
+          <DataTable columns={columns} data={data?.data ?? []} onRowClick={handleRowClick} />
         )}
         <div className="flex justify-center items-center gap-4 mt-4">
           <Button

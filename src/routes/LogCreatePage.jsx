@@ -2,7 +2,6 @@ import CreateLogForm from "../components/CreateLogForm";
 
 const LogCreatePage = () => {
   return (
-
     <div className=" w-[72%] h-[82%] mt-10">
       <div className="flex flex-col text-left ms-5 mb-10">
         <h1 className="mb-3 text-4xl">Crea un nuevo log</h1>

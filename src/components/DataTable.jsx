@@ -2,9 +2,9 @@ import { formatDate } from "../utils/formatDate";
 import Icon from "@mdi/react";
 import { mdiDelete } from "@mdi/js";
 
-export default function DataTable({ columns, data }) {
-
+export default function DataTable({ columns, data, onRowClick }) {
   const dateKeys = ["createdAt", "updatedAt", "created_at", "updated_at"];
+
   return (
     <div className="w-full border border-gray-200 rounded-md overflow-hidden">
       <table className="w-full text-left">
@@ -25,9 +25,13 @@ export default function DataTable({ columns, data }) {
         </thead>
         <tbody>
           {data.map((row, idx) => (
-            <tr key={idx} className="hover:bg-gray-50">
+            <tr
+              key={idx}
+              className="hover:bg-gray-50 cursor-pointer"
+              onClick={() => onRowClick && onRowClick(row)}
+            >
               {columns.map((col, i) =>
-                col.key == "delete" ? (
+                col.key === "delete" ? (
                   <td
                     key={col.key}
                     className={`truncate w-fit border-gray-200 ${
@@ -42,7 +46,8 @@ export default function DataTable({ columns, data }) {
                   >
                     <button
                       className="cursor-pointer"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         console.log("Delete user with ID:", row.id);
                       }}
                     >
