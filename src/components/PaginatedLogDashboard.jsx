@@ -53,7 +53,7 @@ const PaginatedLogDashboard = ({search}) => {
   columns.push({ key: "created_at", label: "Date" });
 
   const handleRowClick = (row) => {
-    navigate(`/dashboard/logs/${row.id}`);
+    navigate(`/dashboard/log/${row.id}`);
   };
 
 
