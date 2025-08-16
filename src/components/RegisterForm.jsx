@@ -57,15 +57,30 @@ const RegisterForm = () => {
   const validate = () => {
     const newErrors = {};
     if (!form.firstName) newErrors.firstName = "Este campo es requerido";
+    if (/\d/.test(form.firstName))
+      newErrors.firstName = "El nombre no debe contener números";
     if (!form.lastName) newErrors.lastName = "Este campo es requerido";
+    if (/\d/.test(form.lastName))
+      newErrors.lastName = "El apellido no debe contener números";
     if (form.displayName.length < 5)
-      newErrors.displayName = "Este campo debe tener mínimo 5 caracteres";
-    if (!form.username) newErrors.username = "Este campo es requerido";
+      newErrors.displayName =
+        "El nombre de usuario debe tener mínimo 5 caracteres";
+    if (!form.username) newErrors.username = "Debe indicarse un email";
     if (!form.domain.includes("@"))
-      newErrors.domain = "Este dominio no es válido";
-    if (!form.roleId) newErrors.roleId = "Este campo es requerido";
-    if (form.password.length < 8)
+      newErrors.domain = "Este dominio de correo no es válido";
+    if (!form.roleId) newErrors.roleId = "Debe indicarse un rol";
+    if (!form.password)
       newErrors.password = "La contraseña debe tener mínimo 8 caracteres";
+    if (!/[A-Z]/.test(form.password))
+      newErrors.password =
+        "La contraseña debe contener al menos una letra mayúscula";
+    if (!/[0-9]/.test(form.password))
+      newErrors.password = "La contraseña debe contener al menos un número";
+    if (!/[!@#$%^&*]/.test(form.password))
+      newErrors.password =
+        "La contraseña debe contener al menos un símbolo especial (!@#$%^&*)";
+    if (form.password.length < 8)
+      newErrors.password = "Este campo es requerido";
     return newErrors;
   };
 
@@ -102,14 +117,16 @@ const RegisterForm = () => {
         >
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-left">
-              Nombre
+              First name
             </label>
             <input
               type="text"
               name="firstName"
-              placeholder="Agrega el Nombre"
+              placeholder="Jane"
               value={form.firstName}
               onChange={handleChange}
+              minLength={2}
+              maxLength={50}
               className={`${inputBaseStyle} ${
                 errors.firstName ? "border-red-500" : "border-gray-300"
               }`}
@@ -121,14 +138,16 @@ const RegisterForm = () => {
 
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-left">
-              Apellido
+              Second name
             </label>
             <input
               type="text"
               name="lastName"
-              placeholder="Agrega el Apellido"
+              placeholder="Doe"
               value={form.lastName}
               onChange={handleChange}
+              minLength={2}
+              maxLength={50}
               className={`${inputBaseStyle} ${
                 errors.lastName ? "border-red-500" : "border-gray-300"
               }`}
@@ -140,12 +159,12 @@ const RegisterForm = () => {
 
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-left">
-              Nombre de Usuario
+              Username
             </label>
             <input
               type="text"
               name="displayName"
-              placeholder="Agrega el Nombre de Usuario"
+              placeholder="JaneDoe"
               value={form.displayName}
               onChange={handleChange}
               className={`${inputBaseStyle} ${
@@ -159,7 +178,7 @@ const RegisterForm = () => {
 
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-left">
-              Rol
+              Role
             </label>
             <select
               name="roleId"
@@ -175,13 +194,13 @@ const RegisterForm = () => {
               }`}
             >
               <option value="" selected disabled hidden>
-                Seleccionar Rol
+                Select role
               </option>
               <option key="admin" value="688abe5c6ad4e846fbdb0189">
-                Administrador
+                Admin
               </option>
               <option key="user" value="688e3fa51825b4d54f064ccc">
-                Desarrollador
+                Dev
               </option>
             </select>
             {errors.roleId && (
@@ -190,12 +209,12 @@ const RegisterForm = () => {
           </div>
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-left">
-              Usuario
+              User
             </label>
             <input
               type="text"
               name="username"
-              placeholder="Agrega el Usuario"
+              placeholder="Email username"
               value={form.username}
               onChange={handleChange}
               className={`${inputBaseStyle} ${
@@ -208,7 +227,7 @@ const RegisterForm = () => {
           </div>
           <div className="mb-5">
             <label className="block mb-2 text-sm font-medium text-left">
-              Dominio
+              Domain
             </label>
             <input
               type="text"
@@ -227,7 +246,7 @@ const RegisterForm = () => {
 
           <div className="col-span-1">
             <label className="block mb-2 text-sm font-medium text-left">
-              Contraseña
+              Password
             </label>
             <input
               type="password"
@@ -253,9 +272,9 @@ const RegisterForm = () => {
               <ClipLoader color="#36d7b7" />
             ) : (
               <div className="flex gap-4">
-                <NavButton text="Cancelar" route="/users" />
+                <NavButton text="Cancel" route="/users" />
                 <Button type="submit" variant="dark">
-                  Registrar
+                  Register
                 </Button>
               </div>
             )}
