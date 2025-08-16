@@ -4,11 +4,11 @@ import { mdiBookOpenBlankVariantOutline } from "@mdi/js";
 import { mdiFile } from "@mdi/js";
 import { mdiAccountMultipleOutline } from "@mdi/js";
 import LogoutButton from "./LogoutButton";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import { mdiAccount } from "@mdi/js";
 
-const Layout = ({ children }) => {
+const Layout = () => {
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   return (
@@ -52,7 +52,9 @@ const Layout = ({ children }) => {
           </div>
         </div>
       </nav>
-      <main className="flex py-6 justify-center  w-[80%]">{children}</main>
+      <main className="flex py-6 justify-center  w-[80%]">
+        <Outlet />
+      </main>
     </div>
   );
 };

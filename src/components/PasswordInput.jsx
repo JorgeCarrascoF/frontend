@@ -1,9 +1,7 @@
 import { useState } from "react";
-import Icon from '@mdi/react';
-import { mdiEye } from '@mdi/js';
-import { mdiEyeOff } from '@mdi/js';
-
-
+import Icon from "@mdi/react";
+import { mdiEye } from "@mdi/js";
+import { mdiEyeOff } from "@mdi/js";
 
 export default function PasswordInput({
   label,
@@ -50,7 +48,11 @@ export default function PasswordInput({
           )}
         </button>
       </div>
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && (
+        <p className="text-sm text-red-500 w-full text-left mt-1 ml-4">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

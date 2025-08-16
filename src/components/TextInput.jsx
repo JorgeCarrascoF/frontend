@@ -12,7 +12,7 @@ export default function TextInput({ label, value, onChange, name, type = "text",
           error ? 'border-red-500' : 'border-gray-300'
         }`}
       />
-      {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+      {error && <p className="text-sm text-red-500 w-full text-left mt-1 ml-4">{error}</p>}
     </div>
   );
 }

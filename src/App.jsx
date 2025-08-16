@@ -18,12 +18,12 @@ import Profile from "./routes/Profile";
 function App() {
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route path="/login" element={<Login />} />
           <Route
             path="/users/register"
             element={
@@ -80,8 +80,8 @@ function App() {
               </PrivateRoute>
             }
           />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }
