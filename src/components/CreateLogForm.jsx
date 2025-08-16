@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { createLog } from "../queries/createLog";
 import { Link, useNavigate } from "react-router-dom";
+import Button from "./Button";
 
 export default function CreateLogForm() {
   const [log, setLog] = useState({});
@@ -12,7 +13,6 @@ export default function CreateLogForm() {
   const mutation = useMutation({
     mutationFn: (newLog) => createLog(newLog),
     onSuccess: (data) => {
-      // console.log("Log created successfully:", data);
       setMessage("Log created successfully");
       setTimeout(() => {
         navigate(`/dashboard/log/${data.log._id}`);
@@ -22,6 +22,12 @@ export default function CreateLogForm() {
       setMessage("Error creating log");
     },
   });
+
+  const clearFields = () => {
+    setLog({});
+    setLabelCount(0);
+    setMessage("");
+  };
 
   const isButtonDisabled = useMemo(() => {
     const campos = [
@@ -58,10 +64,12 @@ export default function CreateLogForm() {
           placeholder=""
           className="border col-span-4 rounded-md px-3 py-2 text-sm"
           onChange={(e) => setLog({ ...log, message: e.target.value })}
+          value={log.message || ""}
         />
         <select
           className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 h-12 w-55"
           onChange={(e) => setLog({ ...log, status: e.target.value })}
+          value={log.status || ""}
         >
           <option value="">Set status</option>
           <option value="unresolved">Unresolved</option>
@@ -84,6 +92,7 @@ export default function CreateLogForm() {
               setLog({ ...log, description: e.target.value });
               setLabelCount(e.target.value.length);
             }}
+            value={log.description || ""}
           />
           <span className="absolute top-25 right-3 text-xs text-gray-400">
             {labelCount}/5000
@@ -92,6 +101,7 @@ export default function CreateLogForm() {
         <select
           className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 w-55 h-12"
           onChange={(e) => setLog({ ...log, type: e.target.value })}
+          value={log.type || ""}
         >
           <option value="">Error type</option>
           <option value="info">Info</option>
@@ -108,6 +118,7 @@ export default function CreateLogForm() {
         <select
           className="border rounded-md col-span-2 px-3 py-2 text-sm text-gray-500"
           onChange={(e) => setLog({ ...log, assigned_to: e.target.value })}
+          value={log.assigned_to || ""}
         >
           <option value="">Assign to</option>
           <option value="user1">User 1</option>
@@ -115,6 +126,7 @@ export default function CreateLogForm() {
         <select
           className="border rounded-md ms-8 col-span-2 px-3 py-2 text-sm text-gray-500"
           onChange={(e) => setLog({ ...log, priority: e.target.value })}
+          value={log.priority || ""}
         >
           <option value="">Priority</option>
           <option value="high">High</option>
@@ -123,6 +135,7 @@ export default function CreateLogForm() {
         </select>
         <select
           className="border rounded-md w-55 h-12 ms-15 px-3 py-2 text-sm text-gray-500"
+          value={log.environment || ""}
           onChange={(e) => setLog({ ...log, environment: e.target.value })}
         >
           <option value="">Set Environment</option>
@@ -133,27 +146,20 @@ export default function CreateLogForm() {
       </div>
 
       {/* Botones */}
-      <div className="flex justify-end gap-3">
-        <Link
-          to="/dashboard"
-          className="bg-gray-400 text-white px-5 py-2 rounded-md hover:bg-gray-500 transition"
-        >
-          Cancel
-        </Link>
-        <button
-          type="submit"
-          disabled={isButtonDisabled}
-          className={`px-5 py-2 rounded-md text-white transition ${
-            isButtonDisabled
-              ? "bg-gray-300 cursor-not-allowed text-black"
-              : "bg-blue-800 hover:bg-blue-900"
-          }`}
-        >
-          Save
-        </button>
+      <div className="flex justify-end gap-3 w-full mt-4">
+        <div>
+          <Button type="button" onClick={clearFields}>
+            Cancel
+          </Button>
+        </div>
+        <div>
+          <Button type="submit" disabled={isButtonDisabled}>
+            Submit
+          </Button>
+        </div>
       </div>
 
-      {message && <p className="text-sm text-gray-600 mt-4">{message}</p>}
+      {message && <p className={`text-sm ${mutation.isSuccess ? "text-green-600" : "text-red-600"} mt-4`}>{message}</p>}
     </form>
   );
 }

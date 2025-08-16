@@ -14,7 +14,6 @@ const UserDashboard = () => {
   const [page, setPage] = useState(1);
 
   let userData = JSON.parse(localStorage.getItem("userData"));
-  console.log("userData", userData);
 
   const {
     data: users,
@@ -66,21 +65,23 @@ const UserDashboard = () => {
   let totalPages = Math.ceil(users.total / USERS_PER_PAGE);
 
   return (
-    <div className="flex flex-col w-full self-start">
+    <div className="flex flex-col h-full w-full self-start">
       {users && (
         <h1 className="text-2xl font-bold text-left">{users.total} Users</h1>
       )}
       <div className="flex flex-col w-full mt-4">
         <DataTable columns={columns} data={users.data} />
       </div>
-      <div className="flex justify-center items-center gap-4 mt-4">
-        <Button
-          onClick={() => setPage((old) => Math.max(old - 1, 1))}
-          disabled={page === 1}
-        >
-          <Icon path={mdiChevronLeft} size={1} />
-          Previous page
-        </Button>
+      <div className="flex justify-center items-center mt-auto gap-4">
+        <div className="w-[175px]">
+          <Button
+            onClick={() => setPage((old) => Math.max(old - 1, 1))}
+            disabled={page === 1}
+          >
+            <Icon path={mdiChevronLeft} size={1} />
+            Previous page
+          </Button>
+        </div>
         <div className="flex gap-2">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map(
             (pageNum) => (
@@ -94,13 +95,15 @@ const UserDashboard = () => {
             )
           )}
         </div>
-        <Button
-          onClick={() => setPage((old) => old + 1)}
-          disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
-        >
-          Next page
-          <Icon path={mdiChevronRight} size={1} />
-        </Button>
+        <div className="w-[175px]">
+          <Button
+            onClick={() => setPage((old) => old + 1)}
+            disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
+          >
+            Next page
+            <Icon path={mdiChevronRight} size={1} />
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const LOGS_PER_PAGE = 14;
 
-const PaginatedLogDashboard = ({search}) => {
+const PaginatedLogDashboard = ({ search }) => {
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("");
   const [environmentFilter, setEnvironmentFilter] = useState("");
@@ -23,18 +23,27 @@ const PaginatedLogDashboard = ({search}) => {
 
   let userData = JSON.parse(localStorage.getItem("userData"));
 
-
   const { data, isLoading, error, isPreviousData } = useQuery({
-    queryKey: ["logs", page, search, typeFilter, dateFilter, statusFilter, environmentFilter, priorityFilter],
-    queryFn: () =>  getLogs({
-      type: typeFilter,
-      status: statusFilter,
-      environment: environmentFilter, 
-      priority: priorityFilter,
-      search,
+    queryKey: [
+      "logs",
       page,
-      limit: LOGS_PER_PAGE,
-    }),
+      search,
+      typeFilter,
+      dateFilter,
+      statusFilter,
+      environmentFilter,
+      priorityFilter,
+    ],
+    queryFn: () =>
+      getLogs({
+        type: typeFilter,
+        status: statusFilter,
+        environment: environmentFilter,
+        priority: priorityFilter,
+        search,
+        page,
+        limit: LOGS_PER_PAGE,
+      }),
     keepPreviousData: true,
   });
 
@@ -55,7 +64,6 @@ const PaginatedLogDashboard = ({search}) => {
   const handleRowClick = (row) => {
     navigate(`/dashboard/log/${row.id}`);
   };
-
 
   return (
     <div className="flex flex-col w-full items-center self-start">
@@ -129,39 +137,34 @@ const PaginatedLogDashboard = ({search}) => {
         ) : data.data.length === 0 ? (
           <div>No hay más logs disponibles.</div>
         ) : (
-          <DataTable columns={columns} data={data?.data ?? []} onRowClick={handleRowClick} />
+          <DataTable
+            columns={columns}
+            data={data?.data ?? []}
+            onRowClick={handleRowClick}
+          />
         )}
-        <div className="flex justify-center items-center gap-4 mt-4">
-          <Button
-            onClick={() => setPage((old) => Math.max(old - 1, 1))}
-            disabled={page === 1}
-          >
-            <Icon path={mdiChevronLeft} size={1} />
-            Previous page
-          </Button>
-          {/* <div className="flex gap-2">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-              (pageNum) => (
-                <Button
-                  key={pageNum}
-                  onClick={() => setPage(pageNum)}
-                  active={pageNum === page}
-                >
-                  {pageNum}
-                </Button>
-              )
-            )}
-          </div> */}
+        <div className="flex justify-center items-center gap-4 mt-auto pt-4">
+          <div className="w-[175px] flex">
+            <Button
+              onClick={() => setPage((old) => Math.max(old - 1, 1))}
+              disabled={page === 1}
+            >
+              <Icon path={mdiChevronLeft} size={1} />
+              Previous page
+            </Button>
+          </div>
           {page}
-          <Button
-            onClick={() => setPage((old) => old + 1)}
-            disabled={
-              isPreviousData || (data?.data?.length ?? 0) < LOGS_PER_PAGE
-            }
-          >
-            <Icon path={mdiChevronRight} size={1} />
-            Next page
-          </Button>
+          <div className="w-[175px] flex">
+            <Button
+              onClick={() => setPage((old) => old + 1)}
+              disabled={
+                isPreviousData || (data?.data?.length ?? 0) < LOGS_PER_PAGE
+              }
+            >
+              Next page
+              <Icon path={mdiChevronRight} size={1} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import Button from "./Button";
 import PasswordInput from "./PasswordInput";
+import { useMutation } from "@tanstack/react-query";
+import { changePassword } from "../queries/changePassword";
 
 const ChangePasswordForm = ({ setChangingPassword }) => {
-  let [currentPassword, setCurrentPassword] = useState("");
-  let [newPassword, setNewPassword] = useState("");
-  let [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const [validNewPassword, setValidNewPassword] = useState(false);
 
@@ -18,10 +21,29 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
     setValidNewPassword(isValid);
   }, [newPassword]);
 
+  const mutation = useMutation({
+    mutationFn: changePassword,
+    onSuccess: (data) => {
+      setMessage(data.msg);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    },
+    onError: (error) => {
+      console.log("Error changing password:", error);
+      setMessage(error.response.data);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutation.mutate({ currentPassword, newPassword });
+  };
+
   return (
     <div className="p-10 flex flex-col w-full h-[90%] items-start justify-center">
       <h2 className="text-2xl font-semibold mb-10">Change Password</h2>
-      <form className="flex flex-col gap-5 w-[60%]">
+      <form className="flex flex-col gap-5 w-[60%]" onSubmit={handleSubmit}>
         <PasswordInput
           label="Current Password"
           placeholder={"Enter current password"}
@@ -87,24 +109,44 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <div className="w-full ml-4 -mt-2 flex flex-col">
-            <span className={`text-sm w-full text-left mt-0 ${confirmPassword && (confirmPassword === newPassword ? "text-green-500" : "text-red-500")}`}>
+            <span
+              className={`text-sm w-full text-left mt-0 ${
+                confirmPassword &&
+                (confirmPassword === newPassword
+                  ? "text-green-500"
+                  : "text-red-500")
+              }`}
+            >
               Please confirm your new password.
             </span>
           </div>
         </div>
         <div className="m-auto flex mt-4 gap-4">
-          <Button variant="light" onClick={() => setChangingPassword(false)}>
-            Cancel
-          </Button>
-          <Button
-            type="button"
-            variant="dark"
-            disabled={newPassword !== confirmPassword || !validNewPassword}
-          >
-            Change password
-          </Button>
+          <div>
+            <Button variant="light" onClick={() => setChangingPassword(false)}>
+              Cancel
+            </Button>
+          </div>
+          <div>
+            <Button
+              type="submit"
+              variant="dark"
+              disabled={newPassword !== confirmPassword || !validNewPassword}
+            >
+              Change password
+            </Button>
+          </div>
         </div>
       </form>
+      {message && (
+        <div
+          className={`mt-4 text-sm ${
+            mutation.isError ? "text-red-500" : "text-green-500"
+          }`}
+        >
+          {message}
+        </div>
+      )}
     </div>
   );
 };

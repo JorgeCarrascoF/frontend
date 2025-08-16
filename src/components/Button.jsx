@@ -31,7 +31,7 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`cursor-pointer rounded-md text-center w-full items-center gap-2 py-2 px-5 disabled:opacity-50 disabled:cursor-not-allowed ${
+      className={`cursor-pointer rounded-md flex justify-center text-center w-full items-center gap-2 py-2 px-5 disabled:opacity-50 disabled:cursor-not-allowed ${
         v.bg
       } ${disabled ? "" : v.hover} ${v.base} ${active ? v.bgActive : ""} ${
         active ? v.colorActive : ""
