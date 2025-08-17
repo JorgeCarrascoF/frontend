@@ -11,11 +11,16 @@ export default function PasswordInput({
   placeholder,
   error,
 }) {
-  let [buttonType, setButtonType] = useState("password");
+  let [inputType, setInputType] = useState("password");
+  const id = `password-input-${label.replace(/\s+/g, "-").toLowerCase()}`;
+
   return (
     <div className="mb-4">
       {label && (
-        <label className="block text-md text-left font-medium mb-1">
+        <label
+          htmlFor={id}
+          className="block text-md text-left font-medium mb-1"
+        >
           {label}
         </label>
       )}
@@ -25,23 +30,26 @@ export default function PasswordInput({
         }`}
       >
         <input
-          type={buttonType}
+          id={id}
+          type={inputType}
           name={name}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          aria-invalid={!!error}
+          aria-describedby={error ? `error-${id}` : undefined}
           className={`w-full border-0 focus:ring-0 p-0 focus:border-gray-300 focus:outline-none`}
         />
         <button
           onClick={() => {
-            buttonType === "password"
-              ? setButtonType("text")
-              : setButtonType("password");
+            inputType === "password"
+              ? setInputType("text")
+              : setInputType("password");
           }}
           type="button"
           className="absolute right-2 cursor-pointer top-1/2 transform -translate-y-1/2"
         >
-          {buttonType === "password" ? (
+          {inputType === "password" ? (
             <Icon path={mdiEye} size={1} />
           ) : (
             <Icon path={mdiEyeOff} size={1} />
@@ -49,7 +57,10 @@ export default function PasswordInput({
         </button>
       </div>
       {error && (
-        <p className="text-sm text-red-500 w-full text-left mt-1 ml-4">
+        <p
+          id={`error-${id}`}
+          className="text-sm text-red-500 w-full text-left mt-1 ml-4"
+        >
           {error}
         </p>
       )}
