@@ -1,9 +1,9 @@
 const variants = {
   light: {
     base: "text-white",
-    bg: "bg-[#295ba2]",
+    bg: "bg-[#7e9cc7]",
     text: "text-white",
-    bgActive: "bg-gray-800",
+    bgActive: "bg-[#3f77c6]",
     colorActive: "text-white",
     hover: "hover:bg-[#3f77c6]",
     icon: "text-black",
@@ -20,7 +20,7 @@ const variants = {
 const Button = ({
   onClick,
   disabled,
-  active = false,
+  active = true,
   children,
   variant = "light",
   type = "button",
@@ -31,10 +31,8 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`cursor-pointer rounded-md flex justify-center text-center w-full items-center gap-2 py-2 px-5 disabled:opacity-50 disabled:cursor-not-allowed ${
-        v.bg
-      } ${disabled ? "" : v.hover} ${v.base} ${active ? v.bgActive : ""} ${
-        active ? v.colorActive : ""
+      className={`cursor-pointer rounded-md flex justify-center text-center w-full items-center gap-2 py-2 px-5 disabled:opacity-50 disabled:cursor-not-allowed  ${disabled ? "" : v.hover} ${v.base} ${active ? v.bgActive : ""} ${
+        active ? v.colorActive : v.bg
       } transition-colors duration-200`}
     >
       {children}

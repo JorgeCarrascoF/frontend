@@ -3,6 +3,7 @@ import Button from "./Button";
 import PasswordInput from "./PasswordInput";
 import { useMutation } from "@tanstack/react-query";
 import { changePassword } from "../queries/changePassword";
+import { ClipLoader } from "react-spinners";
 
 const ChangePasswordForm = ({ setChangingPassword }) => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -31,17 +32,18 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
     },
     onError: (error) => {
       console.log("Error changing password:", error);
-      setMessage(error.response.data);
+      setMessage(error.message);
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setMessage("");
     mutation.mutate({ currentPassword, newPassword });
   };
 
   return (
-    <div className="p-10 flex flex-col w-full h-[90%] items-start justify-center">
+    <div className="p-10 mt-10 flex flex-col w-full h-[90%] items-start justify-start">
       <h2 className="text-2xl font-semibold mb-10">Change Password</h2>
       <form className="flex flex-col gap-5 w-[60%]" onSubmit={handleSubmit}>
         <PasswordInput
@@ -130,7 +132,6 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
           <div>
             <Button
               type="submit"
-              variant="dark"
               disabled={newPassword !== confirmPassword || !validNewPassword}
             >
               Change password
@@ -138,14 +139,18 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
           </div>
         </div>
       </form>
-      {message && (
-        <div
-          className={`mt-4 text-sm ${
-            mutation.isError ? "text-red-500" : "text-green-500"
-          }`}
-        >
-          {message}
-        </div>
+      {mutation.isLoading ? (
+        <ClipLoader />
+      ) : (
+        message && (
+          <div
+            className={`mt-4 text-sm ${
+              mutation.isError ? "text-red-500" : "text-green-500"
+            }`}
+          >
+            {message}
+          </div>
+        )
       )}
     </div>
   );
