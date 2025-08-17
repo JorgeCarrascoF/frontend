@@ -20,7 +20,7 @@ export default function PasswordInput({
         </label>
       )}
       <div
-        className={`w-full px-3 py-2 relative ml-2 border rounded-md focus:outline-none focus:ring ${
+        className={`w-full px-3 py-2 relative border rounded-md focus:outline-none focus:ring ${
           error ? "border-red-500" : "border-gray-300"
         }`}
       >

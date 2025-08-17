@@ -39,6 +39,7 @@ const LoginForm = () => {
     },
     onError: (error) => {
       setError("Login error: " + error.response.data.message);
+      setPassword("");
     },
   });
 
