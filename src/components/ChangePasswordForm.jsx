@@ -4,6 +4,9 @@ import PasswordInput from "./PasswordInput";
 import { useMutation } from "@tanstack/react-query";
 import { changePassword } from "../queries/changePassword";
 import { ClipLoader } from "react-spinners";
+import Modal from "./Modal";
+import Icon from "@mdi/react";
+import { mdiCheckCircleOutline } from "@mdi/js";
 
 const ChangePasswordForm = ({ setChangingPassword }) => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -152,6 +155,25 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
           </div>
         )
       )}
+      <Modal
+        isOpen={mutation.isSuccess}
+        onClose={() => setChangingPassword(false)}
+      >
+        <div className="p-4 flex flex-col items-center gap-8">
+          <Icon path={mdiCheckCircleOutline} size={4} color={"green"} />
+          <h3 className="text-lg font-semibold text-[#008000]">
+            Password updated successfully
+          </h3>
+          <p className="text-sm text-gray-600 mb-5">
+            You can now log in with your new password.
+          </p>
+          <div>
+            <Button variant="light" onClick={() => setChangingPassword(false)}>
+              Go back
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
