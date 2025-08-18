@@ -36,7 +36,7 @@ const Logs = () => {
         </div>
       </div>
       <div className="flex flex-col items-center m-2.5 rounded-2xl border-[1px] border-gray-200 bg-white h-[90%] py-5 px-6">
-        <PaginatedLogDashboard search={search} />
+        <PaginatedLogDashboard search={search} setSearch={setSearch} />
       </div>
     </div>
   );

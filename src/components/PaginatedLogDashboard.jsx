@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 const LOGS_PER_PAGE = 14;
 
-const PaginatedLogDashboard = ({ search }) => {
+const PaginatedLogDashboard = ({ search, setSearch }) => {
   const [page, setPage] = useState(1);
   const [statusFilter, setStatusFilter] = useState("");
   const [environmentFilter, setEnvironmentFilter] = useState("");
@@ -41,7 +41,8 @@ const PaginatedLogDashboard = ({ search }) => {
         environment: environmentFilter,
         priority: priorityFilter,
         search: search.trim(),
-        searchId: !isNaN(search) && search.trim() !== "" ? Number(search) : null,
+        searchId:
+          !isNaN(search) && search.trim() !== "" ? Number(search) : null,
         page,
         limit: LOGS_PER_PAGE,
       }),
@@ -66,6 +67,8 @@ const PaginatedLogDashboard = ({ search }) => {
     navigate(`/dashboard/log/${row.id}`);
   };
 
+  let totalPages = data ? Math.ceil(data.total / LOGS_PER_PAGE) : 0;
+
   return (
     <div className="flex flex-col w-full items-center self-start">
       <div className="w-full">
@@ -73,9 +76,9 @@ const PaginatedLogDashboard = ({ search }) => {
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className="bg-[#f0f2f5] rounded px-2 py-2"
+            className={`${typeFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
           >
-            <option value="" selected disabled hidden>
+            <option value="" selected>
               Error type
             </option>
             <option value="error">Error</option>
@@ -85,7 +88,7 @@ const PaginatedLogDashboard = ({ search }) => {
 
           <input
             type="date"
-            className="bg-[#f0f2f5] rounded px-2 py-2"
+            className={`${dateFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
           />
@@ -93,9 +96,9 @@ const PaginatedLogDashboard = ({ search }) => {
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className="bg-[#f0f2f5] rounded px-2 py-2"
+            className={`${priorityFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
           >
-            <option value="" selected disabled hidden>
+            <option value="" selected>
               Priority
             </option>
             <option value="low">Low</option>
@@ -106,9 +109,9 @@ const PaginatedLogDashboard = ({ search }) => {
           <select
             value={environmentFilter}
             onChange={(e) => setEnvironmentFilter(e.target.value)}
-            className="bg-[#f0f2f5] rounded px-2 py-2"
+            className={`${environmentFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
           >
-            <option value="" selected disabled hidden>
+            <option value="" selected>
               Environment
             </option>
             <option value="production">Production</option>
@@ -119,15 +122,37 @@ const PaginatedLogDashboard = ({ search }) => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-[#f0f2f5] rounded px-2 py-2"
+            className={`${statusFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
           >
-            <option value="" selected disabled hidden>
+            <option value="" selected>
               Status
             </option>
-            <option value="success">Pending</option>
-            <option value="error">In Review</option>
-            <option value="warning">Resolved</option>
+            <option value="unresolved">Unresolved</option>
+            <option value="in review">In Review</option>
+            <option value="resolved">Resolved</option>
           </select>
+
+          {(search ||
+            typeFilter ||
+            dateFilter ||
+            statusFilter ||
+            environmentFilter ||
+            priorityFilter) && (
+            <div>
+              <Button
+                onClick={() => {
+                  setSearch("");
+                  setTypeFilter("");
+                  setDateFilter("");
+                  setStatusFilter("");
+                  setEnvironmentFilter("");
+                  setPriorityFilter("");
+                }}
+              >
+                Clear filters
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       <div className="w-full mt-6">
@@ -154,7 +179,13 @@ const PaginatedLogDashboard = ({ search }) => {
               Previous page
             </Button>
           </div>
-          {page}
+                <div className="flex gap-2">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+          <Button key={pageNum} onClick={() => setPage(pageNum)} active={pageNum === page}>
+            {pageNum}
+          </Button>
+        ))}
+      </div>
           <div className="w-[175px] flex">
             <Button
               onClick={() => setPage((old) => old + 1)}

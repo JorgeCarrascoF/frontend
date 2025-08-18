@@ -12,6 +12,7 @@ const USERS_PER_PAGE = 14;
 
 const UserDashboard = () => {
   const [page, setPage] = useState(1);
+  const [roleFilter, setRoleFilter] = useState("");
 
   let userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -22,8 +23,8 @@ const UserDashboard = () => {
     error,
     isPreviousData,
   } = useQuery({
-    queryKey: ["users", page],
-    queryFn: () => getUsers({ page, limit: USERS_PER_PAGE }),
+    queryKey: ["users", page, roleFilter],
+    queryFn: () => getUsers({ page, limit: USERS_PER_PAGE, role: roleFilter }),
     keepPreviousData: true,
   });
 
@@ -38,20 +39,6 @@ const UserDashboard = () => {
   if (userData.role == "superadmin")
     columns.push({ key: "delete", label: "Delete" });
 
-  if (loadingUsers) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          padding: "20px",
-        }}
-      >
-        <ClipLoader color="#36d7b7" size={50} />
-      </div>
-    );
-  }
-
   if (errorLoadingUsers) {
     return (
       <div className="flex flex-col items-center justify-center shadow-md p-4 rounded-md bg-red-100 text-red-800">
@@ -62,49 +49,74 @@ const UserDashboard = () => {
     );
   }
 
-  let totalPages = Math.ceil(users.total / USERS_PER_PAGE);
+  let totalPages = users ? Math.ceil(users.total / USERS_PER_PAGE) : 0;
 
   return (
     <div className="flex flex-col h-full w-full self-start">
-      {users && (
-        <h1 className="text-2xl font-bold text-left">{users.total} Users</h1>
-      )}
-      <div className="flex flex-col w-full mt-4">
-        <DataTable columns={columns} data={users.data} />
+      <div className="mr-auto">
+        <select
+          value={roleFilter}
+          onChange={(e) => {
+            setRoleFilter(e.target.value);
+            setPage(1);
+          }}
+          className={`${
+            roleFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
+          } rounded-lg px-2 py-2`}
+        >
+          <option value="">Role</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+          <option value="superadmin">Superadmin</option>
+        </select>
       </div>
-      <div className="flex justify-center items-center mt-auto gap-4">
-        <div className="w-[175px]">
-          <Button
-            onClick={() => setPage((old) => Math.max(old - 1, 1))}
-            disabled={page === 1}
-          >
-            <Icon path={mdiChevronLeft} size={1} />
-            Previous page
-          </Button>
+      {loadingUsers ? (
+        <div className="flex justify-center items-center">
+          <ClipLoader color="#36d7b7" size={50} />
         </div>
-        <div className="flex gap-2">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-            (pageNum) => (
+      ) : users.data.length === 0 ? (
+        <div>No hay más usuarios disponibles.</div>
+      ) : (
+        <>
+          {" "}
+          <div className="flex flex-col w-full mt-4">
+            <DataTable columns={columns} data={users.data} />
+          </div>
+          <div className="flex justify-center items-center mt-auto gap-4">
+            <div className="w-[175px]">
               <Button
-                key={pageNum}
-                onClick={() => setPage(pageNum)}
-                active={pageNum === page}
+                onClick={() => setPage((old) => Math.max(old - 1, 1))}
+                disabled={page === 1}
               >
-                {pageNum}
+                <Icon path={mdiChevronLeft} size={1} />
+                Previous page
               </Button>
-            )
-          )}
-        </div>
-        <div className="w-[175px]">
-          <Button
-            onClick={() => setPage((old) => old + 1)}
-            disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
-          >
-            Next page
-            <Icon path={mdiChevronRight} size={1} />
-          </Button>
-        </div>
-      </div>
+            </div>
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <Button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    active={pageNum === page}
+                  >
+                    {pageNum}
+                  </Button>
+                )
+              )}
+            </div>
+            <div className="w-[175px]">
+              <Button
+                onClick={() => setPage((old) => old + 1)}
+                disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
+              >
+                Next page
+                <Icon path={mdiChevronRight} size={1} />
+              </Button>
+            </div>
+          </div>{" "}
+        </>
+      )}
     </div>
   );
 };

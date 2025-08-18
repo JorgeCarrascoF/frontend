@@ -1,6 +1,6 @@
 import { api } from "../api";
 
-export const getUsers = async ({page, limit}) => {
+export const getUsers = async ({page, limit, role}) => {
   const token = localStorage.getItem("token");
   const response = await api.get("/users", {
     headers: {
@@ -8,7 +8,8 @@ export const getUsers = async ({page, limit}) => {
     },
     params: {
       page,
-      limit
+      limit,
+      role
     }
   });
   return response.data;
