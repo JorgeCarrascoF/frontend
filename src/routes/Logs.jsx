@@ -17,7 +17,7 @@ const Logs = () => {
             <input
               type="text"
               placeholder="Search..."
-              defaultValue={search}
+              value={search}
               onChange={(e) => setSearch(e.target.value)}
               className=" pl-10 pr-2 outline-none w-full h-full"
             />

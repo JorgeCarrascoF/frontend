@@ -9,7 +9,15 @@ export const getLogs = async ({ type, status, environment, platform, priority, s
   if (platform) params.append("platform", platform);
   if (environment) params.append("environment", environment);
   if (priority) params.append("priority", priority);
-  if (search?.trim()) params.append("search", search);
+  if (search?.trim()) {
+    if (!isNaN(search)) {
+      // si search es numérico, lo mandamos como id
+      params.append("id", Number(search));
+    } else {
+      // si no, lo mandamos como búsqueda de texto
+      params.append("search", search);
+    }
+  }
   if (page) params.append("page", page);
   if (limit) params.append("limit", limit);
 
