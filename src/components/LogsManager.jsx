@@ -96,8 +96,8 @@ export default function LogsManager() {
           ))}
         </tbody>
       </table>
-      {mutation.isLoading && <p>Guardando cambios...</p>}
-      {mutation.isError && <p>Error al guardar cambios.</p>}
+      {mutation.isLoading && <p>Saving changes...</p>}
+      {mutation.isError && <p>Error saving changes.</p>}
     </div>
   );
 }

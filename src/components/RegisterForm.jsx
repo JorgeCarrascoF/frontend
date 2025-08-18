@@ -57,31 +57,31 @@ const RegisterForm = () => {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.firstName) newErrors.firstName = "Este campo es requerido";
+    if (!form.firstName) newErrors.firstName = "First name is required";
     if (/\d/.test(form.firstName))
-      newErrors.firstName = "El nombre no debe contener números";
-    if (!form.lastName) newErrors.lastName = "Este campo es requerido";
+      newErrors.firstName = "First name must not contain numbers";
+    if (!form.lastName) newErrors.lastName = "Last name is required";
     if (/\d/.test(form.lastName))
-      newErrors.lastName = "El apellido no debe contener números";
+      newErrors.lastName = "Last name must not contain numbers";
     if (form.displayName.length < 5)
       newErrors.displayName =
-        "El nombre de usuario debe tener mínimo 5 caracteres";
-    if (!form.username) newErrors.username = "Debe indicarse un email";
+        "Display name must be at least 5 characters long";
+    if (!form.username) newErrors.username = "Email is required";
     if (!form.domain.includes("@"))
-      newErrors.domain = "Este dominio de correo no es válido";
-    if (!form.roleId) newErrors.roleId = "Debe indicarse un rol";
+      newErrors.domain = "Invalid email domain";
+    if (!form.roleId) newErrors.roleId = "Role is required";
     if (!form.password)
-      newErrors.password = "La contraseña debe tener mínimo 8 caracteres";
+      newErrors.password = "Password must be at least 8 characters long";
     if (!/[A-Z]/.test(form.password))
       newErrors.password =
-        "La contraseña debe contener al menos una letra mayúscula";
+        "Password must contain at least one uppercase letter";
     if (!/[0-9]/.test(form.password))
-      newErrors.password = "La contraseña debe contener al menos un número";
+      newErrors.password = "Password must contain at least one number";
     if (!/[!@#$%^&*]/.test(form.password))
       newErrors.password =
-        "La contraseña debe contener al menos un símbolo especial (!@#$%^&*)";
+        "Password must contain at least one special symbol (!@#$%^&*)";
     if (form.password.length < 8)
-      newErrors.password = "Este campo es requerido";
+      newErrors.password = "Password must be at least 8 characters long";
     return newErrors;
   };
 

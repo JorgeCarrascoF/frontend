@@ -75,7 +75,7 @@ const UserDashboard = () => {
           <ClipLoader color="#36d7b7" size={50} />
         </div>
       ) : users.data.length === 0 ? (
-        <div>No hay más usuarios disponibles.</div>
+        <div>No more users available.</div>
       ) : (
         <>
           {" "}

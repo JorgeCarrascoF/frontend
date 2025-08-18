@@ -87,8 +87,8 @@ export default function EditLogForm({ logId }) {
             defaultValue={data.status}
             onChange={(e) => setLog({ ...log, status: e.target.value })}
           >
-            <option value="unresolved">Sin resolver</option>
-            <option value="resolved">Resuelto</option>
+            <option value="unresolved">Unresolved</option>
+            <option value="resolved">Resolved</option>
           </select>
         </div>
       </div>
