@@ -3,6 +3,9 @@ import Button from "./Button";
 import { useMutation } from "@tanstack/react-query";
 import { changeEmail } from "../queries/changeEmail";
 import TextInput from "./TextInput";
+import Modal from "./Modal";
+import Icon from "@mdi/react";
+import { mdiCheckCircleOutline } from "@mdi/js";
 
 const ChangeEmailForm = ({ setChangingEmail }) => {
   const [newEmail, setNewEmail] = useState("");
@@ -113,6 +116,25 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
           {message}
         </div>
       )}
+      <Modal
+        isOpen={mutation.isSuccess}
+        onClose={() => setChangingEmail(false)}
+      >
+        <div className="p-4 flex flex-col items-center gap-8">
+          <Icon path={mdiCheckCircleOutline} size={4} color={"green"} />
+          <h3 className="text-lg font-semibold text-[#008000]">
+            Email updated successfully
+          </h3>
+          <p className="text-sm text-gray-600 mb-5">
+            You can now log in using your new email address.
+          </p>
+          <div>
+            <Button variant="light" onClick={() => setChangingEmail(false)}>
+              Go back
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
