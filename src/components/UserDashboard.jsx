@@ -52,7 +52,7 @@ const UserDashboard = () => {
   let totalPages = users ? Math.ceil(users.total / USERS_PER_PAGE) : 0;
 
   return (
-    <div className="flex flex-col h-full w-full self-start">
+    <div className="flex flex-col h-full w-full self-start ">
       <div className="mr-auto">
         <select
           value={roleFilter}

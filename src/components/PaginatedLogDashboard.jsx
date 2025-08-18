@@ -70,13 +70,15 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
   let totalPages = data ? Math.ceil(data.total / LOGS_PER_PAGE) : 0;
 
   return (
-    <div className="flex flex-col w-full items-center self-start">
+    <div className="flex flex-col h-full w-full self-start">
       <div className="w-full">
         <div className="flex flex-wrap items-center gap-4">
           <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
-            className={`${typeFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
+            className={`${
+              typeFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
+            } rounded-lg px-2 py-2`}
           >
             <option value="" selected>
               Error type
@@ -88,7 +90,9 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
 
           <input
             type="date"
-            className={`${dateFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
+            className={`${
+              dateFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
+            } rounded-lg px-2 py-2`}
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
           />
@@ -96,7 +100,9 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
           <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
-            className={`${priorityFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
+            className={`${
+              priorityFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
+            } rounded-lg px-2 py-2`}
           >
             <option value="" selected>
               Priority
@@ -109,7 +115,9 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
           <select
             value={environmentFilter}
             onChange={(e) => setEnvironmentFilter(e.target.value)}
-            className={`${environmentFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
+            className={`${
+              environmentFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
+            } rounded-lg px-2 py-2`}
           >
             <option value="" selected>
               Environment
@@ -122,7 +130,9 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className={`${statusFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"} rounded-lg px-2 py-2`}
+            className={`${
+              statusFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
+            } rounded-lg px-2 py-2`}
           >
             <option value="" selected>
               Status
@@ -155,50 +165,61 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
           )}
         </div>
       </div>
-      <div className="w-full mt-6">
-        {isLoading ? (
+
+      {isLoading ? (
+        <div className="flex items-center justify-center mt-4">
           <ClipLoader color="#36d7b7" size={50} />
-        ) : error ? (
-          <div>Error: {error.message}</div>
-        ) : data.data.length === 0 ? (
-          <div>No hay más logs disponibles.</div>
-        ) : (
-          <DataTable
-            columns={columns}
-            data={data?.data ?? []}
-            onRowClick={handleRowClick}
-          />
-        )}
-        <div className="flex justify-center items-center gap-4 mt-auto pt-4">
-          <div className="w-[175px] flex">
-            <Button
-              onClick={() => setPage((old) => Math.max(old - 1, 1))}
-              disabled={page === 1}
-            >
-              <Icon path={mdiChevronLeft} size={1} />
-              Previous page
-            </Button>
-          </div>
-                <div className="flex gap-2">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-          <Button key={pageNum} onClick={() => setPage(pageNum)} active={pageNum === page}>
-            {pageNum}
-          </Button>
-        ))}
-      </div>
-          <div className="w-[175px] flex">
-            <Button
-              onClick={() => setPage((old) => old + 1)}
-              disabled={
-                isPreviousData || (data?.data?.length ?? 0) < LOGS_PER_PAGE
-              }
-            >
-              Next page
-              <Icon path={mdiChevronRight} size={1} />
-            </Button>
-          </div>
         </div>
-      </div>
+      ) : error ? (
+        <div>Error: {error.message}</div>
+      ) : data.data.length === 0 ? (
+        <div>No hay más logs disponibles.</div>
+      ) : (
+        <>
+          <div className="mt-4">
+            <DataTable
+              columns={columns}
+              data={data?.data ?? []}
+              onRowClick={handleRowClick}
+            />
+          </div>
+          <div className="flex justify-center items-center gap-4 mt-auto pt-4">
+            <div className="w-[175px] flex">
+              <Button
+                onClick={() => setPage((old) => Math.max(old - 1, 1))}
+                disabled={page === 1}
+              >
+                <Icon path={mdiChevronLeft} size={1} />
+                Previous page
+              </Button>
+            </div>
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <Button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    active={pageNum === page}
+                  >
+                    {pageNum}
+                  </Button>
+                )
+              )}
+            </div>
+            <div className="w-[175px] flex">
+              <Button
+                onClick={() => setPage((old) => old + 1)}
+                disabled={
+                  isPreviousData || (data?.data?.length ?? 0) < LOGS_PER_PAGE
+                }
+              >
+                Next page
+                <Icon path={mdiChevronRight} size={1} />
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

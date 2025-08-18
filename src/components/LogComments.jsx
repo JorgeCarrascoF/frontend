@@ -1,0 +1,48 @@
+import { useState } from "react";
+import Icon from "@mdi/react";
+import { mdiChevronDown } from "@mdi/js";
+import UserComment from "./UserComment";
+import Button from "./Button";
+import { mdiOpenInNew } from "@mdi/js";
+import CommentInput from "./CommentInput";
+
+const LogComments = ({ logId }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="w-full m-2 border-[1px] border-gray-200 bg-white rounded-2xl ">
+      <button
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className="w-full p-4 px-6 cursor-pointer flex justify-between items-center"
+      >
+        <h2 className="text-xl text-left font-semibold ml-2">
+          Notes and comments
+        </h2>
+        <Icon
+          path={mdiChevronDown}
+          size={1.5}
+          className={`ml-2 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      {isOpen && (
+        <div className="border-t-[1px] mx-4 border-gray-200">
+            <CommentInput />
+          <div className="text-left my-5 ml-3 text-gray-500">
+            <UserComment comment="The system has detected unusual activity. Please check the logs." />
+            <UserComment comment="The system has detected unusual activity. Please check the logs." />
+            <UserComment comment="The system has detected unusual activity. Please check the logs." />
+          </div>
+          <div className="flex w-fit place-self-end my-4 mx-1">
+            <Button onClick={() => {}}>
+              <Icon path={mdiOpenInNew} size={1} />
+              See all comments
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LogComments;

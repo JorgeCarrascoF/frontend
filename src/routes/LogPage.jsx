@@ -1,15 +1,25 @@
 import { useParams } from "react-router-dom";
 import LogInfo from "../components/LogInfo";
+import NavButton from "../components/NavButton";
+import Icon from "@mdi/react";
+import { mdiOpenInNew } from "@mdi/js";
 
 const LogPage = () => {
   const { id: logId } = useParams();
   return (
-    <div className=" w-[72%] h-[82%] mt-10">
-      <div className="flex flex-col text-left ms-5 mb-10">
-        <h1 className="mb-3 text-4xl">Detalles del log</h1>
-        <h1 className="ms-1 text-m text-gray-500">Analiza el log seleccionado de forma detallada.</h1>
+    <div className="w-[90%]">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-2xl font-bold">Log detail</h1>
+        <div className="flex">
+          <NavButton
+            text="See all logs"
+            route="/dashboard"
+            variant="dark"
+            icon={<Icon path={mdiOpenInNew} size={1} />}
+          />
+        </div>
       </div>
-      <div className="flex flex-col items-center m-2.5 rounded-2xl border-[1px] border-gray-200 bg-white h-[90%] py-3 px-6">
+      <div className="flex flex-col items-center m-2.5">
         <LogInfo logId={logId} />
       </div>
     </div>
