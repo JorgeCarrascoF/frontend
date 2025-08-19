@@ -6,6 +6,8 @@ import { mdiOpenInNew } from "@mdi/js";
 
 const LogPage = () => {
   const { id: logId } = useParams();
+
+
   return (
     <div className="w-[90%]">
       <div className="flex items-center justify-between mb-8">

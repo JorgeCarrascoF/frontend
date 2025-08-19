@@ -5,9 +5,52 @@ import UserComment from "./UserComment";
 import Button from "./Button";
 import { mdiOpenInNew } from "@mdi/js";
 import CommentInput from "./CommentInput";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createComment } from "../queries/createComment";
+import { getComments } from "../queries/getComments";
+import { ClipLoader } from "react-spinners";
 
 const LogComments = ({ logId }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [comment, setComment] = useState("");
+
+  const queryClient = useQueryClient();
+
+  const {
+    data: comments,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["comments", logId],
+    queryFn: () => getComments(logId),
+    cacheTime: 0, // elimina datos en caché inmediatamente al desmontar
+    staleTime: 0, // siempre se considera desactualizado
+    refetchOnMount: true, // vuelve a pedir al montar
+    refetchOnWindowFocus: true, // vuelve a pedir al volver a la pestaña
+  });
+
+  const mutation = useMutation({
+    mutationFn: ({ logId, comment }) => {
+      createComment(logId, comment);
+    },
+    onSuccess: () => {
+      setComment("");
+      queryClient.invalidateQueries(["comments", logId]);
+    },
+    onError: (error) => {
+      console.error("Error al crear el comentario", error);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (comment.trim() === "") return;
+
+    mutation.mutate({ logId, comment });
+  };
+
+  console.log(comments);
+
   return (
     <div className="w-full m-2 border-[1px] border-gray-200 bg-white rounded-2xl ">
       <button
@@ -27,11 +70,26 @@ const LogComments = ({ logId }) => {
       </button>
       {isOpen && (
         <div className="border-t-[1px] mx-4 border-gray-200">
-            <CommentInput />
+          <form>
+            <CommentInput
+              value={comment}
+              onChange={setComment}
+              onSubmit={handleSubmit}
+              disable={mutation.isLoading}
+              finished={mutation.isSuccess}
+            />
+          </form>
           <div className="text-left my-5 ml-3 text-gray-500">
-            <UserComment comment="The system has detected unusual activity. Please check the logs." />
-            <UserComment comment="The system has detected unusual activity. Please check the logs." />
-            <UserComment comment="The system has detected unusual activity. Please check the logs." />
+            {isLoading ? (
+              <div className="w-full flex items-center justify-center">
+                <ClipLoader color="#000000" size={30} />
+              </div>
+            ) : (
+              comments?.map((comment) => {
+                console.log("Comment:", comment);
+                return <UserComment key={comment.id} comment={comment} />;
+              })
+            )}
           </div>
           <div className="flex w-fit place-self-end my-4 mx-1">
             <Button onClick={() => {}}>

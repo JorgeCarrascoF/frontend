@@ -15,7 +15,6 @@ const LogInfo = ({ logId }) => {
     queryFn: () => getLogById(logId),
   });
 
-  console.log(data);
 
   if (isLoading) return <ClipLoader color="#000000" size={50} />;
   if (isError)
