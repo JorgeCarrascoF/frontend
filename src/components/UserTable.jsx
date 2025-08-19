@@ -34,7 +34,7 @@ const UserTable = ({ data, onDelete, onRowClick }) => {
           {data.map((row, idx) => (
             <tr
               key={idx}
-              className="hover:bg-gray-50 cursor-pointer border-b border-b-gray-200"
+              className="hover:bg-gray-50 cursor-pointer border-t border-b-gray-200"
               onClick={() => onRowClick && onRowClick(row)}
             >
               {/* Username */}

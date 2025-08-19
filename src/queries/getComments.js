@@ -9,7 +9,6 @@ export const getComments = async (logId) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("Comments fetched:", data);
     return data;
   } catch (error) {
     console.error("Error fetching comments:", error);

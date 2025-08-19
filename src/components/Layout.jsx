@@ -33,7 +33,7 @@ const Layout = () => {
               route={"/docs"}
               icon={<Icon path={mdiBookOpenBlankVariantOutline} size={1} />}
             />
-            {(userData.role == "admin" || userData.role == "superadmin") && (
+            {(userData?.role == "admin" || userData?.role == "superadmin") && (
               <NavButton
                 text={"User Management"}
                 route={"/users"}

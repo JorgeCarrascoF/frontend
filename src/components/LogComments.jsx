@@ -50,7 +50,6 @@ const LogComments = ({ logId }) => {
               </div>
             ) : (
               comments?.map((comment) => {
-                console.log("Comment:", comment);
                 return <UserComment key={comment.id} comment={comment} />;
               })
             )}

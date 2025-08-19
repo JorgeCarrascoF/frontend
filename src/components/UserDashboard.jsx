@@ -9,7 +9,7 @@ import { mdiChevronRight } from "@mdi/js";
 import UserTable from "./UserTable.jsx";
 import { useNavigate } from "react-router-dom";
 
-const USERS_PER_PAGE = 14;
+const USERS_PER_PAGE = 13;
 
 const UserDashboard = () => {
   const [page, setPage] = useState(1);
@@ -51,6 +51,7 @@ const UserDashboard = () => {
     );
   }
 
+  console.log(users);
   let totalPages = users ? Math.ceil(users.total / USERS_PER_PAGE) : 0;
 
   const handleRowClick = (row) => {
@@ -86,9 +87,14 @@ const UserDashboard = () => {
         <>
           {" "}
           <div className="flex flex-col w-full mt-4">
-            <UserTable columns={columns} data={users.data} onDelete={(user) => {
-              console.log("Delete user:", user)
-            }} onRowClick={handleRowClick} />
+            <UserTable
+              columns={columns}
+              data={users.data}
+              onDelete={(user) => {
+                console.log("Delete user:", user);
+              }}
+              onRowClick={handleRowClick}
+            />
           </div>
           <div className="flex justify-center items-center mt-auto gap-4">
             <div className="w-[175px]">
