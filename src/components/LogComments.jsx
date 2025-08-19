@@ -23,10 +23,6 @@ const LogComments = ({ logId }) => {
   } = useQuery({
     queryKey: ["comments", logId],
     queryFn: () => getComments(logId),
-    cacheTime: 0, // elimina datos en caché inmediatamente al desmontar
-    staleTime: 0, // siempre se considera desactualizado
-    refetchOnMount: true, // vuelve a pedir al montar
-    refetchOnWindowFocus: true, // vuelve a pedir al volver a la pestaña
   });
 
   const mutation = useMutation({
