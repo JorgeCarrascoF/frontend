@@ -14,6 +14,7 @@ import Unauthorized from "./routes/Unauthorized";
 import Layout from "./components/Layout";
 import Logs from "./routes/Logs";
 import Profile from "./routes/Profile";
+import UserDetail from "./routes/UserDetail";
 
 function App() {
   return (
@@ -41,11 +42,19 @@ function App() {
             }
           />
           <Route
-            path="/dashboard"
+            path="/users/:id"
             element={
               <PrivateRoute>
-                <Logs />
+                <UserDetail />
               </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <AdminPrivateRoute>
+                <Logs />
+              </AdminPrivateRoute>
             }
           />
           <Route

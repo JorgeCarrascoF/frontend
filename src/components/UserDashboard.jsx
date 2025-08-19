@@ -1,18 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../queries/getUsers";
 import { ClipLoader } from "react-spinners";
-import DataTable from "./DataTable";
 import { useState } from "react";
 import Button from "./Button";
 import Icon from "@mdi/react";
 import { mdiChevronLeft } from "@mdi/js";
 import { mdiChevronRight } from "@mdi/js";
+import UserTable from "./UserTable.jsx";
+import { useNavigate } from "react-router-dom";
 
 const USERS_PER_PAGE = 14;
 
 const UserDashboard = () => {
   const [page, setPage] = useState(1);
   const [roleFilter, setRoleFilter] = useState("");
+  const navigate = useNavigate();
 
   let userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -51,8 +53,12 @@ const UserDashboard = () => {
 
   let totalPages = users ? Math.ceil(users.total / USERS_PER_PAGE) : 0;
 
+  const handleRowClick = (row) => {
+    navigate(`/users/${row.id}`);
+  };
+
   return (
-    <div className="flex flex-col h-full w-full self-start ">
+    <div className="flex flex-col h-full w-full self-start mt-2">
       <div className="mr-auto">
         <select
           value={roleFilter}
@@ -62,7 +68,7 @@ const UserDashboard = () => {
           }}
           className={`${
             roleFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
-          } rounded-lg px-2 py-2`}
+          } rounded-lg px-2 py-2 ms-4`}
         >
           <option value="">Role</option>
           <option value="user">User</option>
@@ -80,7 +86,9 @@ const UserDashboard = () => {
         <>
           {" "}
           <div className="flex flex-col w-full mt-4">
-            <DataTable columns={columns} data={users.data} />
+            <UserTable columns={columns} data={users.data} onDelete={(user) => {
+              console.log("Delete user:", user)
+            }} onRowClick={handleRowClick} />
           </div>
           <div className="flex justify-center items-center mt-auto gap-4">
             <div className="w-[175px]">

@@ -12,7 +12,7 @@ const AdminPrivateRoute = ({ children }) => {
     const decoded = jwtDecode(token);
     const userRole = decoded.role;
 
-    if (userRole !== "admin") {
+    if (userRole !== "admin" && userRole !== "superadmin") {
       return <Navigate to="/unauthorized" replace />;
     }
   } catch (error) {
