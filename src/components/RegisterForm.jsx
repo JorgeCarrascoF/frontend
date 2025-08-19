@@ -64,11 +64,9 @@ const RegisterForm = () => {
     if (/\d/.test(form.lastName))
       newErrors.lastName = "Last name must not contain numbers";
     if (form.displayName.length < 5)
-      newErrors.displayName =
-        "Display name must be at least 5 characters long";
+      newErrors.displayName = "Display name must be at least 5 characters long";
     if (!form.username) newErrors.username = "Email is required";
-    if (!form.domain.includes("@"))
-      newErrors.domain = "Invalid email domain";
+    if (!form.domain.includes("@")) newErrors.domain = "Invalid email domain";
     if (!form.roleId) newErrors.roleId = "Role is required";
     if (!form.password)
       newErrors.password = "Password must be at least 8 characters long";

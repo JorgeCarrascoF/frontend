@@ -6,7 +6,7 @@ const UserIcon = ({ name = "Default User" }) => {
   const bgColor = getColorForName(name);
   return (
     <div
-      className={`rounded-full h-full w-full border-[1px] flex items-center justify-center`}
+      className={`rounded-full h-full w-full flex items-center justify-center`}
       style={{ fontSize: "80%", backgroundColor: bgColor }}
 
     >
