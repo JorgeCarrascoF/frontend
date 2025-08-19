@@ -8,6 +8,7 @@ import { mdiChevronLeft } from "@mdi/js";
 import { mdiChevronRight } from "@mdi/js";
 import UserTable from "./UserTable.jsx";
 import { useNavigate } from "react-router-dom";
+import SelectInput from "./SelectInput.jsx";
 
 const USERS_PER_PAGE = 13;
 
@@ -61,21 +62,19 @@ const UserDashboard = () => {
   return (
     <div className="flex flex-col h-full w-full self-start mt-2">
       <div className="mr-auto">
-        <select
+        <SelectInput
           value={roleFilter}
           onChange={(e) => {
             setRoleFilter(e.target.value);
             setPage(1);
           }}
-          className={`${
-            roleFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
-          } rounded-lg px-2 py-2 ms-4`}
-        >
-          <option value="">Role</option>
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-          <option value="superadmin">Superadmin</option>
-        </select>
+          placeholder="Role"
+          options={[
+            { value: "user", label: "User" },
+            { value: "admin", label: "Admin" },
+            { value: "superadmin", label: "Superadmin" },
+          ]}
+        />
       </div>
       {loadingUsers ? (
         <div className="flex justify-center items-center">

@@ -27,15 +27,21 @@ const Chip = ({ type, value, showPoint }) => {
   const style = (stylesMap[type]?.[safeValue] || stylesMap.assignee) ?? {};
   return (
     <div
-      className={`text-center w-[122px]  rounded-lg py-1 ${
-        style.bg
-      } ${style.text} ${style.border || ""} ${style.border && "border"}`}
+      className={`text-center w-[107px]  rounded-lg py-1 ${style.bg} ${
+        style.text
+      } ${style.border || ""} ${style.border && "border"}`}
     >
-      <div className="flex items-center justify-center gap-2 ">
+      <div
+        className={`flex items-center ${
+          showPoint ? "justify-start px-5" : "justify-center"
+        } gap-2 `}
+      >
         {showPoint && style.point && (
           <div className={`w-2 h-2 rounded-full ${style.point}`}></div>
         )}
-        <span className="max-w-[12ch] truncate overflow-hidden">{capitalizeWords(value)}</span>
+        <span className="max-w-[12ch] truncate overflow-hidden">
+          {capitalizeWords(value)}
+        </span>
       </div>
     </div>
   );

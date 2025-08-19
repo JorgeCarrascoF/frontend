@@ -9,6 +9,8 @@ import { mdiChevronLeft } from "@mdi/js";
 import { mdiChevronRight } from "@mdi/js";
 import { useNavigate } from "react-router-dom";
 import LogTable from "./LogTable";
+import SelectInput from "./SelectInput";
+import DateInput from "./DateInput";
 
 const LOGS_PER_PAGE = 14;
 
@@ -74,7 +76,51 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
     <div className="flex flex-col h-full w-full self-start">
       <div className="w-full">
         <div className="flex flex-wrap items-center gap-4">
-          <select
+          <SelectInput
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            placeholder="Error type"
+            options={[
+              { value: "error", label: "Error" },
+              { value: "warning", label: "Warning" },
+              { value: "info", label: "Info" },
+            ]}
+          />
+
+          <SelectInput
+            value={priorityFilter}
+            onChange={(e) => setPriorityFilter(e.target.value)}
+            placeholder="Error priority"
+            options={[
+              { value: "low", label: "Low" },
+              { value: "medium", label: "Medium" },
+              { value: "high", label: "High" },
+            ]}
+          />
+
+          <SelectInput
+            value={environmentFilter}
+            onChange={(e) => setEnvironmentFilter(e.target.value)}
+            placeholder="Environment"
+            options={[
+              { value: "production", label: "Production" },
+              { value: "testing", label: "Testing" },
+              { value: "development", label: "Development" },
+            ]}
+          />
+
+          <SelectInput
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            placeholder="Status"
+            options={[
+              { value: "unresolved", label: "Unresolved" },
+              { value: "in review", label: "In Review" },
+              { value: "resolved", label: "Resolved" },
+            ]}
+          />
+
+          {/* <select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
             className={`${
@@ -87,18 +133,24 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             <option value="error">Error</option>
             <option value="warning">Warning</option>
             <option value="info">Info</option>
-          </select>
+          </select> */}
 
-          <input
+          <DateInput
+            value={dateFilter}
+            onChange={setDateFilter}
+            placeholder="Date"
+          />
+
+          {/* <input
             type="date"
             className={`${
               dateFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
             } rounded-lg px-2 py-2`}
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
-          />
+          /> */}
 
-          <select
+          {/* <select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
             className={`${
@@ -111,9 +163,9 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
-          </select>
+          </select> */}
 
-          <select
+          {/* <select
             value={environmentFilter}
             onChange={(e) => setEnvironmentFilter(e.target.value)}
             className={`${
@@ -126,9 +178,9 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             <option value="production">Production</option>
             <option value="staging">Staging</option>
             <option value="development">Development</option>
-          </select>
+          </select> */}
 
-          <select
+          {/* <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className={`${
@@ -141,7 +193,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             <option value="unresolved">Unresolved</option>
             <option value="in review">In Review</option>
             <option value="resolved">Resolved</option>
-          </select>
+          </select> */}
 
           {(search ||
             typeFilter ||
