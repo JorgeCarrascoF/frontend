@@ -2,21 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { getLogById } from "../queries/getLogById";
 import { ClipLoader } from "react-spinners";
 import { formatDate } from "../utils/formatDate";
-import DeleteLogButton from "./DeleteLogButton";
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import LogDescription from "./LogDescription";
 import LogComments from "./LogComments";
 import LogAISuggestion from "./LogAISuggestion";
+import Chip from "./Chip";
 
 const LogInfo = ({ logId }) => {
-
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["log", logId],
     queryFn: () => getLogById(logId),
   });
 
-  console.log(data);
 
   if (isLoading) return <ClipLoader color="#000000" size={50} />;
   if (isError)
@@ -29,7 +25,9 @@ const LogInfo = ({ logId }) => {
 
         <div className="flex flex-col items-start">
           <div className="mb-4 ml-4">
-            <h2 className="text-xl font-semibold mb-1 text-left">Error message</h2>
+            <h2 className="text-xl font-semibold mb-1 text-left">
+              Error message
+            </h2>
             <p className="text-left ml-2 text-gray-500">{data.message}</p>
           </div>
           <div className="w-[100%] p-0 grid grid-cols-3 gap-8">
@@ -40,9 +38,9 @@ const LogInfo = ({ logId }) => {
             <InfoItem label="Last seen" value={formatDate(data.last_seen_at)} />
             <InfoItem label="Error Type" value={"placeholder"} />
             <InfoItem label="Priority" value={data.priority} badge />
-            <InfoItem label="Environment" value={data.environment} badge />
+            <InfoItem label="Environment" value={data.environment} />
             <InfoItem label="Location" value={"placeholder"} />
-            <InfoItem label="Assigned to" value={data.assigned_to} />
+            <InfoItem label="Assigned to" value={data.assigned_to} badge />
             <InfoItem label="Status" value={data.status} badge />
           </div>
         </div>
@@ -62,9 +60,7 @@ const InfoItem = ({ label, value, badge, colSpan }) => (
   >
     <span className="text-lg font-semibold mb-1">{label}</span>
     {badge ? (
-      <span className="ml-2 inline-block px-3 py-1 rounded-full text-white bg-gray-400 text-xs mt-1">
-        {value}
-      </span>
+      <Chip type={label.toLowerCase().replace(" ", "_")} value={value} />
     ) : (
       <p className="ml-2 break-all">{value}</p>
     )}

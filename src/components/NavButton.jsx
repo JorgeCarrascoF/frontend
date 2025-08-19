@@ -10,7 +10,7 @@ import { Link, useLocation } from "react-router-dom";
   },
   dark: {
     base: "text-white",
-    bg: "bg-black",
+    bg: "bg-[#295ba2]",
     bgActive: "bg-black",
     hover: "hover:bg-gray-800",
     icon: "text-white",

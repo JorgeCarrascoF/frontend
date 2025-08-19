@@ -65,6 +65,8 @@ export default function CreateLogForm() {
           className="border col-span-4 rounded-md px-3 py-2 text-sm"
           onChange={(e) => setLog({ ...log, message: e.target.value })}
           value={log.message || ""}
+          maxLength={100}
+          minLength={5}
         />
         <select
           className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 h-12 w-55"

@@ -2,12 +2,27 @@ import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiChevronDown } from "@mdi/js";
 import UserComment from "./UserComment";
-import Button from "./Button";
 import { mdiOpenInNew } from "@mdi/js";
 import CommentInput from "./CommentInput";
+import { useQuery } from "@tanstack/react-query";
+import { getComments } from "../queries/getComments";
+import { ClipLoader } from "react-spinners";
+import NavButton from "./NavButton";
 
 const LogComments = ({ logId }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    data: comments,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["comments", logId],
+    queryFn: () => getComments(logId),
+  });
+
+  console.log(comments);
+
   return (
     <div className="w-full m-2 border-[1px] border-gray-200 bg-white rounded-2xl ">
       <button
@@ -27,17 +42,26 @@ const LogComments = ({ logId }) => {
       </button>
       {isOpen && (
         <div className="border-t-[1px] mx-4 border-gray-200">
-            <CommentInput />
+          <CommentInput logId={logId} />
           <div className="text-left my-5 ml-3 text-gray-500">
-            <UserComment comment="The system has detected unusual activity. Please check the logs." />
-            <UserComment comment="The system has detected unusual activity. Please check the logs." />
-            <UserComment comment="The system has detected unusual activity. Please check the logs." />
+            {isLoading ? (
+              <div className="w-full flex items-center justify-center">
+                <ClipLoader color="#000000" size={30} />
+              </div>
+            ) : (
+              comments?.map((comment) => {
+                console.log("Comment:", comment);
+                return <UserComment key={comment.id} comment={comment} />;
+              })
+            )}
           </div>
           <div className="flex w-fit place-self-end my-4 mx-1">
-            <Button onClick={() => {}}>
-              <Icon path={mdiOpenInNew} size={1} />
-              See all comments
-            </Button>
+            <NavButton
+              text={"See all comments"}
+              route={`/dashboard/log/${logId}/comments`}
+              icon={<Icon path={mdiOpenInNew} size={1} />}
+              variant="dark"
+            />
           </div>
         </div>
       )}

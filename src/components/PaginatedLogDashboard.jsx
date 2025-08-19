@@ -8,6 +8,7 @@ import Icon from "@mdi/react";
 import { mdiChevronLeft } from "@mdi/js";
 import { mdiChevronRight } from "@mdi/js";
 import { useNavigate } from "react-router-dom";
+import LogTable from "./LogTable";
 
 const LOGS_PER_PAGE = 14;
 
@@ -177,7 +178,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
       ) : (
         <>
           <div className="mt-4">
-            <DataTable
+            <LogTable
               columns={columns}
               data={data?.data ?? []}
               onRowClick={handleRowClick}

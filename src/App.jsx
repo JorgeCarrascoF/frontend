@@ -10,6 +10,7 @@ import LogPage from "./routes/LogPage";
 import LogEditPage from "./routes/LogEditPage";
 import LogCreatePage from "./routes/LogCreatePage";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
+import LogCommentsPage from "./routes/LogCommentsPage";
 import Unauthorized from "./routes/Unauthorized";
 import Layout from "./components/Layout";
 import Logs from "./routes/Logs";
@@ -62,6 +63,14 @@ function App() {
             element={
               <PrivateRoute>
                 <LogPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dashboard/log/:id/comments"
+            element={
+              <PrivateRoute>
+                <LogCommentsPage />
               </PrivateRoute>
             }
           />
