@@ -10,6 +10,7 @@ import { mdiAccount } from "@mdi/js";
 
 const Layout = () => {
   const { isLoggedIn } = useAuth();
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
   return (
     <div className="flex h-screen bg-[#fafafa]">
@@ -32,11 +33,13 @@ const Layout = () => {
               route={"/docs"}
               icon={<Icon path={mdiBookOpenBlankVariantOutline} size={1} />}
             />
-            <NavButton
-              text={"User Management"}
-              route={"/users"}
-              icon={<Icon path={mdiAccountMultipleOutline} size={1} />}
-            />
+            {(userData.role == "admin" || userData.role == "superadmin") && (
+              <NavButton
+                text={"User Management"}
+                route={"/users"}
+                icon={<Icon path={mdiAccountMultipleOutline} size={1} />}
+              />
+            )}
             {isLoggedIn && (
               <NavButton
                 text={"Profile"}

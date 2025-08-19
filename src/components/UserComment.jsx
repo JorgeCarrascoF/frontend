@@ -16,7 +16,7 @@ const UserComment = ({ comment }) => {
             {formatDate(comment.create_at) || "Unknown Date"}
           </span>
         </div>
-        <p className="text-gray-700">{comment.text || "No comment text available"}</p>
+        <p className="text-gray-700 text-left">{comment.text || "No comment text available"}</p>
       </div>
     </div>
   );

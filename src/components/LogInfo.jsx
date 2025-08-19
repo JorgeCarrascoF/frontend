@@ -2,8 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getLogById } from "../queries/getLogById";
 import { ClipLoader } from "react-spinners";
 import { formatDate } from "../utils/formatDate";
-import DeleteLogButton from "./DeleteLogButton";
-import { Link } from "react-router-dom";
 import LogDescription from "./LogDescription";
 import LogComments from "./LogComments";
 import LogAISuggestion from "./LogAISuggestion";
