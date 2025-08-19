@@ -28,11 +28,11 @@ const Layout = () => {
               route={"/dashboard"}
               icon={<Icon path={mdiFile} size={1} />}
             />
-            <NavButton
+            {/* <NavButton
               text={"Documentation"}
               route={"/docs"}
               icon={<Icon path={mdiBookOpenBlankVariantOutline} size={1} />}
-            />
+            /> */}
             {(userData?.role == "admin" || userData?.role == "superadmin") && (
               <NavButton
                 text={"User Management"}

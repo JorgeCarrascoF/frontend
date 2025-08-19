@@ -58,7 +58,7 @@ export default function CreateLogForm() {
     >
       {/* Encabezado */}
       {/* Primera fila */}
-      <label className="block mb-2 text-sm font-medium text-left">Name</label>
+      <label className="block mb-2 text-sm font-medium text-left">Message</label>
       <div className="grid grid-cols-8 gap-4 mb-10">
         <input
           placeholder=""
