@@ -1,23 +1,28 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../queries/getUsers";
 import { ClipLoader } from "react-spinners";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./Button";
 import Icon from "@mdi/react";
-import { mdiChevronLeft } from "@mdi/js";
-import { mdiChevronRight } from "@mdi/js";
+import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 import UserTable from "./UserTable.jsx";
 import { useNavigate } from "react-router-dom";
 import SelectInput from "./SelectInput.jsx";
+import { jwtDecode } from "jwt-decode";
 
 const USERS_PER_PAGE = 13;
 
 const UserDashboard = () => {
   const [page, setPage] = useState(1);
   const [roleFilter, setRoleFilter] = useState("");
+  const [visibleUsers, setVisibleUsers] = useState([]);
   const navigate = useNavigate();
 
   let userData = JSON.parse(localStorage.getItem("userData"));
+  const token = localStorage.getItem("token");
+
+  const decoded = jwtDecode(token);
+  const userRole = decoded.role;
 
   const {
     data: users,
@@ -31,6 +36,12 @@ const UserDashboard = () => {
     keepPreviousData: true,
   });
 
+  useEffect(() => {
+    if (users?.data) {
+      setVisibleUsers(users.data);
+    }
+  }, [users]);
+
   const columns = [
     { key: "username", label: "Username" },
     { key: "email", label: "Email" },
@@ -39,8 +50,9 @@ const UserDashboard = () => {
     { key: "active", label: "Status" },
   ];
 
-  if (userData.role == "superadmin")
+  if (userData.role === "superadmin") {
     columns.push({ key: "delete", label: "Delete" });
+  }
 
   if (errorLoadingUsers) {
     return (
@@ -52,11 +64,14 @@ const UserDashboard = () => {
     );
   }
 
-  console.log(users);
   let totalPages = users ? Math.ceil(users.total / USERS_PER_PAGE) : 0;
 
   const handleRowClick = (row) => {
     navigate(`/users/${row.id}`);
+  };
+
+  const handleFakeDelete = (user) => {
+    setVisibleUsers((prev) => prev.filter((u) => u.id !== user.id));
   };
 
   return (
@@ -80,19 +95,17 @@ const UserDashboard = () => {
         <div className="flex justify-center items-center">
           <ClipLoader color="#36d7b7" size={50} />
         </div>
-      ) : users.data.length === 0 ? (
+      ) : visibleUsers.length === 0 ? (
         <div>No more users available.</div>
       ) : (
         <>
-          {" "}
           <div className="flex flex-col w-full mt-4">
             <UserTable
               columns={columns}
-              data={users.data}
-              onDelete={(user) => {
-                console.log("Delete user:", user);
-              }}
+              data={visibleUsers}
+              onDelete={handleFakeDelete}
               onRowClick={handleRowClick}
+              currentUser={userRole}
             />
           </div>
           <div className="flex justify-center items-center mt-auto gap-4">
@@ -127,7 +140,7 @@ const UserDashboard = () => {
                 <Icon path={mdiChevronRight} size={1} />
               </Button>
             </div>
-          </div>{" "}
+          </div>
         </>
       )}
     </div>
