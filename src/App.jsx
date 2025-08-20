@@ -52,17 +52,17 @@ function App() {
           <Route
             path="/users/:id"
             element={
-              <PrivateRoute>
+              <AdminPrivateRoute>
                 <UserDetail />
-              </PrivateRoute>
+              </AdminPrivateRoute>
             }
           />
           <Route
             path="/dashboard"
             element={
-              <AdminPrivateRoute>
+              <PrivateRoute>
                 <Logs />
-              </AdminPrivateRoute>
+              </PrivateRoute>
             }
           />
           <Route
