@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query"; 
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { api } from "../api";
@@ -33,19 +33,26 @@ const LoginForm = () => {
     onSuccess: (data) => {
       setSuccess("Login successful!");
       login(data.token, data.user.id, data.user);
+
       if (remember) {
         saveCredentials(email, password);
       } else {
         localStorage.removeItem("credentials");
       }
+
       setEmail("");
       setPassword("");
+
       setTimeout(() => {
-        navigate("/");
+        if (data.user.firstLogin) {
+          navigate("/change-password-first"); 
+        } else {
+          navigate("/");
+        }
       }, 1000);
     },
     onError: (error) => {
-      setError("Login error: " + error.response.data.message);
+      setError("Login error: " + error.response?.data?.message);
       setPassword("");
     },
   });
@@ -81,7 +88,6 @@ const LoginForm = () => {
       error = true;
     }
 
-    // fetch a la DB
     if (!error) {
       mutation.mutate({ email, password });
     }
