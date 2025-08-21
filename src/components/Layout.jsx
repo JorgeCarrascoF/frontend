@@ -14,7 +14,7 @@ const Layout = () => {
   const navigate = useNavigate();
   return (
     <div className="flex h-screen bg-[#fafafa]">
-      <nav className="w-[20%] text-white p-4 py-8 flex flex-col justify-between">
+      <nav className="w-[20%] h-full text-white p-4 py-8 flex flex-col fixed left-0 z-50 justify-between">
         <div className="mx-8 flex flex-col items-center">
           <span
             className="font-semibold self-start text-left text-black text-2xl cursor-pointer"
@@ -55,7 +55,7 @@ const Layout = () => {
           </div>
         </div>
       </nav>
-      <main className="flex py-6 justify-center  w-[80%]">
+      <main className="flex py-6 justify-center ml-auto  w-[80%]">
         <Outlet />
       </main>
     </div>
