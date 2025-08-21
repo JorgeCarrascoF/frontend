@@ -53,10 +53,10 @@ const AllLogComments = ({ logId }) => {
           <div className="w-full mt-20 flex items-center justify-center">
             <ClipLoader color="#000000" size={50} />
           </div>
-        ) : comments.size < 1 ? (
-          "There are no comments for this log."
+        ) : comments.data.length < 1 ? (
+          <span className="text-left">There are no comments for this log.</span>
         ) : (
-          comments?.map((comment) => (
+          comments?.data.map((comment) => (
             <UserComment key={comment.id} comment={comment} />
           ))
         )}

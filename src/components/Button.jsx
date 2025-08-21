@@ -1,12 +1,11 @@
 const variants = {
-  light: {
+  base: {
     base: "text-white",
     bg: "bg-[#7e9cc7]",
-    text: "text-white",
-    bgActive: "bg-[#3f77c6]",
-    colorActive: "text-white",
+    bgActive: "bg-[#295ba2]",
     hover: "hover:bg-[#3f77c6]",
     icon: "text-black",
+    border: "",
   },
   dark: {
     base: "text-white",
@@ -14,7 +13,30 @@ const variants = {
     bgActive: "bg-black",
     hover: "hover:bg-gray-800",
     icon: "text-white",
+    border: "",
   },
+  light: {
+    base: "text-black",
+    bg: "bg-white",
+    bgActive: "bg-[#e3ebf6]",
+    hover: "hover:bg-[#e3ebf6]",
+    icon: "text-black",
+    border: "",
+  },
+  gray: {
+    base: "text-black",
+    bg: "bg-gray-300",
+    bgActive: "bg-[#fafafa]",
+    hover: "hover:bg-gray-300",
+    icon: "text-black",
+    border: "border border-[#DBDBDB]",
+  },
+};
+
+const justifyMap = {
+  left: "justify-left",
+  center: "justify-center",
+  right: "justify-right",
 };
 
 const Button = ({
@@ -22,8 +44,9 @@ const Button = ({
   disabled,
   active = true,
   children,
-  variant = "light",
+  variant = "base",
   type = "button",
+  align = "center",
 }) => {
   const v = variants[variant];
   return (
@@ -31,7 +54,11 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`cursor-pointer rounded-md flex justify-center text-center w-full items-center gap-2 py-2 px-5 disabled:opacity-50 disabled:cursor-not-allowed  ${disabled ? "" : v.hover} ${v.base} ${active ? v.bgActive : ""} ${
+      className={`cursor-pointer rounded-md flex ${
+        justifyMap[align]
+      } w-full items-center gap-2 py-2 px-5 ${v.border} disabled:opacity-50 disabled:cursor-not-allowed  ${
+        disabled ? "" : v.hover
+      } ${v.base} ${active ? v.bgActive : ""} ${
         active ? v.colorActive : v.bg
       } transition-colors duration-200`}
     >

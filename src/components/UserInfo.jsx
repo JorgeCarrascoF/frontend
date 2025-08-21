@@ -1,15 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
 import UserIcon from "./UserIcon";
-import Button from "./Button";
 import { getUserById } from "../queries/getUserById";
 import NavButton from "./NavButton";
 import Icon from "@mdi/react";
 import { mdiOpenInNew } from "@mdi/js";
 import { useState } from "react";
+import Modal from "./Modal";
+import Button from "./Button";
+import { changeUserStatus } from "../queries/changeUserStatus";
 
 const UserInfo = ({ userId }) => {
   const [activeTab, setActiveTab] = useState("info");
+  const [newStatus, setNewStatus] = useState(null);
+  const [changingUserStatus, setChangingUserStatus] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const {
     data: userData,
@@ -21,21 +27,40 @@ const UserInfo = ({ userId }) => {
     queryFn: () => getUserById(userId),
   });
 
-  if (isLoading) return <ClipLoader color="#000000" size={50} />;
+  const mutation = useMutation({
+    mutationFn: (isActive) => changeUserStatus(userId, isActive),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["user", userId]);
+      setChangingUserStatus(false);
+      setNewStatus("");
+      setActiveTab("info");
+    },
+    onError: (error) => {
+      console.error("Error changing user status:", error);
+    },
+  });
+
+  if (isLoading)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <ClipLoader color="#000000" size={50} />
+      </div>
+    );
   if (isError)
     return <div className="text-red-500">Error: {error.message}</div>;
 
+  console.log(userData);
   return (
     <div className="w-full h-full">
       <div className="flex items-center justify-between mt-6 mb-8">
         <h1 className="text-2xl font-bold ms-6">Profile</h1>
         <div className="me-6">
           <NavButton
-          text="User list"
-          route="/users"
-          variant="dark"
-          icon={<Icon path={mdiOpenInNew} size={1} />}
-        />
+            text="User list"
+            route="/users"
+            variant="dark"
+            icon={<Icon path={mdiOpenInNew} size={1} />}
+          />
         </div>
       </div>
 
@@ -54,8 +79,24 @@ const UserInfo = ({ userId }) => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 mt-12 w-full px-3">
-            <button
+          <div className="flex flex-col gap-4 mt-12 w-[70%] px-3">
+            <Button
+              variant="light"
+              align="left"
+              active={activeTab === "info"}
+              onClick={() => setActiveTab("info")}
+            >
+              Account information
+            </Button>
+            <Button
+              variant="light"
+              align="left"
+              active={activeTab === "status"}
+              onClick={() => setActiveTab("status")}
+            >
+              Change status
+            </Button>
+            {/* <button
               onClick={() => setActiveTab("info")}
               className={`text-left px-3 py-2 rounded-md w-[90%] mx-auto ${
                 activeTab === "info"
@@ -74,7 +115,7 @@ const UserInfo = ({ userId }) => {
               }`}
             >
               Change status
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -135,9 +176,11 @@ const UserInfo = ({ userId }) => {
                   </label>
                   <input
                     type="text"
-                    value={userData?.status || "Active"}
+                    value={userData?.isActive ? "Active" : "Inactive"}
                     disabled
-                    className="w-full border border-green-400 rounded-md px-3 py-2 bg-green-50 text-green-600 h-[80%]"
+                    className={`w-full border ${
+                      userData?.isActive ? "border-green-400" : "border-red-500"
+                    } rounded-md px-3 py-2 h-[80%]`}
                   />
                 </div>
               </div>
@@ -145,48 +188,110 @@ const UserInfo = ({ userId }) => {
           )}
 
           {activeTab === "status" && (
-            <div className="mt-3 ms-2">
-              <h2 className="flex justify-start text-xl font-semibold ms-6 mb-6 mt-7">
-                Account Information
-              </h2>
-              <div className="grid grid-cols-1 gap-6 w-1/2 ms-6 mt-14">
-                <div>
-                  <label className="flex justify-start block text-md text-gray-600 mb-2">
-                    Current Status
-                  </label>
-                  <input
-                    type="text"
-                    value={userData?.status || "Active"}
-                    disabled
-                    className="w-full border border-green-400 rounded-md px-3 py-2 bg-green-50 text-green-600 h-[90%]"
-                  />
+            <div className="mt-3 ms-2 h-full flex flex-col justify-between">
+              <div>
+                <h2 className="flex justify-start text-xl font-semibold ms-6 mb-6 mt-7">
+                  Account Information
+                </h2>
+                <div className="grid grid-cols-1 gap-6 w-1/2 ms-6 mt-14">
+                  <div>
+                    <label className="flex justify-start text-md text-gray-600 mb-2">
+                      Current Status
+                    </label>
+                    <input
+                      type="text"
+                      value={userData?.isActive ? "Active" : "Inactive"}
+                      disabled
+                      className={`w-full border ${
+                        userData?.isActive
+                          ? "border-green-400"
+                          : "border-red-500"
+                      } rounded-md px-3 py-2  h-[90%]`}
+                    />
+                  </div>
+
+                  <div className="mt-21">
+                    <label className="flex justify-start text-md text-gray-600 mb-2">
+                      New Status
+                    </label>
+                    <select
+                      value={newStatus}
+                      onChange={(e) => setNewStatus(e.target.value == "true")}
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-700 h-[90%]"
+                    >
+                      <option value={true}>Active</option>
+                      <option value={false}>Inactive</option>
+                    </select>
+                  </div>
                 </div>
-                <div className="mt-21">
-                  <label className="flex justify-start block text-md text-gray-600 mb-2">
-                    New Status
-                  </label>
-                  <select className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-700 h-[90%]">
-                    <option>Select status</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                    <option value="Suspended">Suspended</option>
-                  </select>
-                </div>
+              </div>
+              <div className="flex w-[30%] gap-4 mt-auto ml-auto mr-5">
+                <Button
+                  variant="gray"
+                  disabled={newStatus === null}
+                  onClick={() => setNewStatus(userData.isActive)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  disabled={
+                    newStatus === userData.isActive || newStatus === null
+                  }
+                  onClick={() => setChangingUserStatus(true)}
+                >
+                  Save
+                </Button>
               </div>
             </div>
           )}
         </div>
       </div>
-      {activeTab === "status" && (
-        <div className="flex justify-end gap-4 mt-6 me-5">
-          <button className="px-6 py-2 rounded-md bg-gray-400 hover:bg-gray-600 text-white w-[11%] cursor-pointer">
-            Cancel
-          </button>
-          <button className="px-6 py-2 rounded-md ms-3 bg-[#295ba2] hover:bg-gray-800 text-white w-[11%] cursor-pointer">
-            Save
-          </button>
+      <Modal
+        onClose={() => setChangingUserStatus(false)}
+        isOpen={changingUserStatus}
+        title={`Are you sure you want to change this user's status to "${newStatus}"?`}
+      >
+        <p>
+          {newStatus == "Inactive"
+            ? "Inactive users will no longer be able to access the system"
+            : "Active users will be able to access the system"}
+        </p>
+
+        <div className="flex mt-12 w-[70%] justify-evenly">
+          <div className="w-[40%]">
+            <Button
+              variant="gray"
+              onClick={() => {
+                setChangingUserStatus(false);
+                setNewStatus("");
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+          <div className="w-[40%]">
+            <Button
+              variant="light"
+              onClick={() => {
+                mutation.mutate(newStatus);
+              }}
+            >
+              Confirm
+            </Button>
+          </div>
         </div>
-      )}
+        {mutation.isLoading ? (
+          <div className="flex justify-center items-center mt-8">
+            <ClipLoader color="#000000" size={50} />
+          </div>
+        ) : mutation.isError ? (
+          <div className="text-red-500 m-8">
+            {mutation.error.response.data.msg}
+          </div>
+        ) : (
+          ""
+        )}
+      </Modal>
     </div>
   );
 };

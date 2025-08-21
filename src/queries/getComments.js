@@ -1,10 +1,9 @@
 import { api } from "../api";
 
 export const getComments = async (logId) => {
-  console.log("Fetching comments for logId:", logId);
   const token = localStorage.getItem("token");
   try {
-    const { data } = await api.get(`/comments`, {
+    const { data } = await api.get(`/comments/log/${logId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

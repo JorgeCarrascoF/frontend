@@ -49,9 +49,15 @@ const LogComments = ({ logId }) => {
                 <ClipLoader color="#000000" size={30} />
               </div>
             ) : (
-              comments?.map((comment) => {
-                return <UserComment key={comment.id} comment={comment} />;
-              })
+              <>
+                {comments?.data.length > 0 ? (
+                  comments?.data.map((comment) => {
+                    return <UserComment key={comment.id} comment={comment} />;
+                  })
+                ) : (
+                  <div>No comments available.</div>
+                )}
+              </>
             )}
           </div>
           <div className="flex w-fit place-self-end my-4 mx-1">
