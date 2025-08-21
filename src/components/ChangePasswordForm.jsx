@@ -7,12 +7,14 @@ import { ClipLoader } from "react-spinners";
 import Modal from "./Modal";
 import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
+import { useNavigate } from "react-router-dom";
 
 const ChangePasswordForm = ({ setChangingPassword }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const [validNewPassword, setValidNewPassword] = useState(false);
 
@@ -32,6 +34,10 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+
+      if (!setChangingPassword) {
+        setTimeout(() => navigate("/"), 1500);
+      }
     },
     onError: (error) => {
       console.log("Error changing password:", error);
@@ -127,19 +133,17 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
           </div>
         </div>
         <div className="m-auto flex mt-4 gap-4">
-          <div>
+          {setChangingPassword && (
             <Button variant="light" onClick={() => setChangingPassword(false)}>
               Cancel
             </Button>
-          </div>
-          <div>
-            <Button
-              type="submit"
-              disabled={newPassword !== confirmPassword || !validNewPassword}
-            >
-              Change password
-            </Button>
-          </div>
+          )}
+          <Button
+            type="submit"
+            disabled={newPassword !== confirmPassword || !validNewPassword}
+          >
+            Change password
+          </Button>
         </div>
       </form>
       {mutation.isLoading ? (
@@ -157,7 +161,9 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
       )}
       <Modal
         isOpen={mutation.isSuccess}
-        onClose={() => setChangingPassword(false)}
+        onClose={() =>
+          setChangingPassword ? setChangingPassword(false) : navigate("/")
+        }
       >
         <div className="p-4 flex flex-col items-center gap-8">
           <Icon path={mdiCheckCircleOutline} size={4} color={"green"} />
@@ -168,7 +174,12 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
             You can now log in with your new password.
           </p>
           <div>
-            <Button variant="light" onClick={() => setChangingPassword(false)}>
+            <Button
+              variant="light"
+              onClick={() =>
+                setChangingPassword ? setChangingPassword(false) : navigate("/")
+              }
+            >
               Go back
             </Button>
           </div>

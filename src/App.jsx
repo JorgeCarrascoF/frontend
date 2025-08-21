@@ -16,12 +16,14 @@ import Layout from "./components/Layout";
 import Logs from "./routes/Logs";
 import Profile from "./routes/Profile";
 import UserDetail from "./routes/UserDetail";
+import ChangePasswordOnFirstLogin from "./routes/ChangePasswordOnFirstLogin";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/change-password-first" element={<ChangePasswordOnFirstLogin />} />
         <Route element={<Layout />}>
           <Route
             path="/"
