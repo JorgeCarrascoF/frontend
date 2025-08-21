@@ -1,7 +1,12 @@
 import { api } from "../api";
 
-export const getUsers = async ({page, limit, role}) => {
+export const getUsers = async ({ page, limit, role, active, search }) => {
   const token = localStorage.getItem("token");
+
+  let isActive;
+  if (active === "active") isActive = "true";
+  if (active === "inactive") isActive = "false";
+
   const response = await api.get("/users", {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -9,8 +14,10 @@ export const getUsers = async ({page, limit, role}) => {
     params: {
       page,
       limit,
-      role
-    }
+      role,
+      search,
+      ...(isActive !== undefined && { isActive }),
+    },
   });
   return response.data;
 };

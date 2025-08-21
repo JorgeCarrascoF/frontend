@@ -1,7 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
+import { getUsers } from "../queries/getUsers";
 import { formatDate } from "../utils/formatDate";
 import Chip from "./Chip";
+import { maxLimitInteger } from "../utils/maxLimitInteger";
 
 const LogRow = ({ log, onRowClick }) => {
+  const {
+    data: users,
+    isLoading: isLoadingUsers,
+    isError: isErrorUsers,
+    error: usersError,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => getUsers({ page: 1, limit: maxLimitInteger }),
+  });
+
+  const userOptions =
+    users?.data?.map((u) => ({
+      value: u.id,
+      label: u.username,
+    })) || [];
   return (
     <tr
       className="cursor-pointer h-[42px] border-t text-left border-gray-200 text-sm hover:bg-gray-50
@@ -9,7 +27,9 @@ const LogRow = ({ log, onRowClick }) => {
       onClick={() => onRowClick(log)}
     >
       <td>{log.id}</td>
-      <td>{log.environment}</td>
+      <td>
+        <Chip type="environment" value={log.environment || "Unknown"} />
+      </td>
       <td className={`truncate max-w-[200px]`}>
         {" "}
         <div className="truncate overflow-hidden">{log.message}</div>
@@ -21,7 +41,14 @@ const LogRow = ({ log, onRowClick }) => {
         <Chip type="status" value={log.status || "Unresolved"} />
       </td>
       <td>
-        <Chip type="assignee" value={log.assigned_to || "Jane Doe"} />
+        <Chip
+          type="assignee"
+          value={
+            userOptions.find((u) => u.value === log.assigned_to)?.label ||
+            log.assigned_to ||
+            "Jane Doe"
+          }
+        />
       </td>
       <td>{formatDate(log.created_at)}</td>
     </tr>

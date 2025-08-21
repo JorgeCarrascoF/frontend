@@ -15,13 +15,11 @@ const LogComments = ({ logId }) => {
   const {
     data: comments,
     isLoading,
-    isError,
   } = useQuery({
     queryKey: ["comments", logId],
     queryFn: () => getComments(logId),
   });
 
-  console.log(comments);
 
   return (
     <div className="w-full m-2 border-[1px] border-gray-200 bg-white rounded-2xl ">
@@ -55,7 +53,7 @@ const LogComments = ({ logId }) => {
                     return <UserComment key={comment.id} comment={comment} />;
                   })
                 ) : (
-                  <div>No comments available.</div>
+                  <div>There are no comments for this log.</div>
                 )}
               </>
             )}

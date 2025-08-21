@@ -13,21 +13,38 @@ const stylesMap = {
   status: {
     unresolved: { text: "text-[#274673]", bg: "bg-[#E3EBF6]" },
     "in review": { text: "text-[#274673]", bg: "bg-[#EDEDED]" },
-    resolved: { text: "text-[#E3EBF6]", bg: "bg-[#295BA2]" },
+    solved: { text: "text-[#E3EBF6]", bg: "bg-[#295BA2]" },
   },
   assignee: {
     text: "text-[#274673]",
     bg: "bg-[#FAFAFA]",
     border: "border-[#DBDBDB]",
   },
-};
+  environment: {
+    text: "text-[#737373]",
+    bg: "bg-[#FAFAFA]",
+    border: "border-[#DBDBDB]",
+  },
+  userStatus:{
+    active: {
+      bg: "bg-[#295BA2]",
+      text: "text-white",
+    },
+    inactive: {
+      bg: "bg-[#EDEDED]",
+      text: "text-[#274673]",
+      border: ""
+    }
+
+  }
+}
 
 const Chip = ({ type, value, showPoint }) => {
   const safeValue = (value || "").toLowerCase();
-  const style = (stylesMap[type]?.[safeValue] || stylesMap.assignee) ?? {};
+  const style = (stylesMap[type]?.[safeValue] || stylesMap[type] || stylesMap.assignee) ?? {};
   return (
     <div
-      className={`text-center w-[107px]  rounded-lg py-1 ${style.bg} ${
+      className={`text-center ${type == "assignee" ? "w-[130px]" : "w-[107px]"} rounded-lg py-1 ${style.bg} ${
         style.text
       } ${style.border || ""} ${style.border && "border"}`}
     >
@@ -39,7 +56,7 @@ const Chip = ({ type, value, showPoint }) => {
         {showPoint && style.point && (
           <div className={`w-2 h-2 rounded-full ${style.point}`}></div>
         )}
-        <span className="max-w-[12ch] truncate overflow-hidden">
+        <span className={`${type == "assignee" ? "max-w-[13ch]" : "max-w-[12ch]"} max-w-[12ch] truncate overflow-hidden`}>
           {capitalizeWords(value)}
         </span>
       </div>

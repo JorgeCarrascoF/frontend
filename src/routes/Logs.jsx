@@ -19,7 +19,7 @@ const Logs = () => {
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className=" pl-10 pr-2 outline-none w-full h-full"
+              className=" pl-10 pr-2 outline-none h-full w-[200px] focus:w-[500px] transition-all"
             />
             <Icon
               path={mdiMagnify}

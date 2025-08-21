@@ -49,7 +49,6 @@ const UserInfo = ({ userId }) => {
   if (isError)
     return <div className="text-red-500">Error: {error.message}</div>;
 
-  console.log(userData);
   return (
     <div className="w-full h-full">
       <div className="flex items-center justify-between mt-6 mb-8">
@@ -215,12 +214,18 @@ const UserInfo = ({ userId }) => {
                       New Status
                     </label>
                     <select
-                      value={newStatus}
-                      onChange={(e) => setNewStatus(e.target.value == "true")}
+                      value={
+                        newStatus === null
+                          ? userData.isActive
+                            ? "true"
+                            : "false"
+                          : newStatus.toString()
+                      }
+                      onChange={(e) => setNewStatus(e.target.value === "true")}
                       className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-700 h-[90%]"
                     >
-                      <option value={true}>Active</option>
-                      <option value={false}>Inactive</option>
+                      <option value="true">Active</option>
+                      <option value="false">Inactive</option>
                     </select>
                   </div>
                 </div>
@@ -228,7 +233,9 @@ const UserInfo = ({ userId }) => {
               <div className="flex w-[30%] gap-4 mt-auto ml-auto mr-5">
                 <Button
                   variant="gray"
-                  disabled={newStatus === null}
+                  disabled={
+                    newStatus === null || newStatus === userData.isActive
+                  }
                   onClick={() => setNewStatus(userData.isActive)}
                 >
                   Cancel
@@ -249,12 +256,14 @@ const UserInfo = ({ userId }) => {
       <Modal
         onClose={() => setChangingUserStatus(false)}
         isOpen={changingUserStatus}
-        title={`Are you sure you want to change this user's status to "${newStatus}"?`}
+        title={`Are you sure you want to change this user's status to "${
+          newStatus ? "Active" : "Inactive"
+        }"?`}
       >
         <p>
-          {newStatus == "Inactive"
-            ? "Inactive users will no longer be able to access the system"
-            : "Active users will be able to access the system"}
+          {newStatus
+            ? "Active users will be able to access the system"
+            : "Inactive users will no longer be able to access the system"}
         </p>
 
         <div className="flex mt-12 w-[70%] justify-evenly">

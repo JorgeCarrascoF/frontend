@@ -1,23 +1,42 @@
 import UserDashboard from "../components/UserDashboard";
 import Icon from "@mdi/react";
 import { mdiOpenInNew } from "@mdi/js";
+import { mdiMagnify } from "@mdi/js";
 import NavButton from "../components/NavButton";
-
+import { useState } from "react";
 
 const Users = () => {
+  const [search, setSearch] = useState("");
+
   return (
     <div className=" w-[90%] h-[101%]">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold">Users</h1>
-        <NavButton
-          text="Create user"
-          route="/users/register"
-          variant="dark"
-          icon={<Icon path={mdiOpenInNew} size={1} />}
-        />
+        <div className="flex">
+          <div className="mr-6 relative bg-[#f0f2f5] rounded-lg">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className=" pl-10 pr-2 outline-none h-full w-[200px] focus:w-[500px] transition-all"
+            />
+            <Icon
+              path={mdiMagnify}
+              size={1}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+            />
+          </div>
+          <NavButton
+            text="Create user"
+            route="/users/register"
+            variant="dark"
+            icon={<Icon path={mdiOpenInNew} size={1} />}
+          />
+        </div>
       </div>
       <div className="flex flex-col items-center m-2.5 rounded-2xl border-[1px] border-gray-200 bg-white h-[90%] py-5 px-6">
-        <UserDashboard />
+        <UserDashboard search={search} setSearch={setSearch} />
       </div>
     </div>
   );

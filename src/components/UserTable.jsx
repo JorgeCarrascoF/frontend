@@ -1,7 +1,29 @@
 import { mdiDelete } from "@mdi/js";
 import Icon from "@mdi/react";
+import Chip from "./Chip";
+import Modal from "./Modal";
+import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { changeUserStatus } from "../queries/changeUserStatus";
+import Button from "./Button";
 
 const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
+  const [changingUserStatus, setChangingUserStatus] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (isActive) => changeUserStatus(selectedUser, isActive),
+    onSuccess: () => {
+      setChangingUserStatus(false);
+      queryClient.invalidateQueries(["user", selectedUser]);
+    },
+    onError: (error) => {
+      console.error("Error changing user status:", error);
+    },
+  });
+
+  console.log(data);
   return (
     <div className="overflow-x-auto rounded-lg border border-gray-100 shadow-sm max-w-7xl mx-auto mb-4">
       <table className="w-full table-fixed border-collapse text-sm">
@@ -10,16 +32,16 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
             <th className="w-[180px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Username
             </th>
-            <th className="w-[250px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
-              Email
-            </th>
             <th className="w-[100px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Role
+            </th>
+            <th className="w-[250px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
+              Email
             </th>
             <th className="w-[120px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Date
             </th>
-            <th className="w-[120px] px-4 py-2 text-center font-medium text-gray-600 border-b border-b-gray-200">
+            <th className="w-[120px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Status
             </th>
 
@@ -45,17 +67,17 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
               </td>
 
               <td
-                className="w-[250px] px-4 py-2 text-left text-gray-800 truncate whitespace-nowrap overflow-hidden"
-                onClick={() => onRowClick && onRowClick(row)}
-              >
-                {row.email}
-              </td>
-
-              <td
                 className="w-[100px] px-4 py-2 text-left text-gray-800 capitalize"
                 onClick={() => onRowClick && onRowClick(row)}
               >
                 {row.role}
+              </td>
+
+              <td
+                className="w-[250px] px-4 py-2 text-left text-gray-800 truncate whitespace-nowrap overflow-hidden"
+                onClick={() => onRowClick && onRowClick(row)}
+              >
+                {row.email || "No email provided"}
               </td>
 
               <td
@@ -64,29 +86,28 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
               >
                 {row.createdAt
                   ? new Date(row.createdAt).toLocaleDateString()
-                  : "-"}
+                  : "No date"}
               </td>
 
               <td
                 className="w-[120px] px-4 py-2 text-center"
                 onClick={() => onRowClick && onRowClick(row)}
               >
-                <span
-                  className={`px-3 py-1 rounded-md text-xs font-medium ${
-                    row.active
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-200 text-gray-600"
-                  }`}
-                >
-                  {row.active ? "Active" : "Inactive"}
-                </span>
+                <Chip
+                  type={"userStatus"}
+                  value={row.isActive ? "Active" : "Inactive"}
+                />
               </td>
 
               {currentUser === "superadmin" && (
                 <td className="w-[80px] px-4 py-2 text-center">
                   <button
-                    onClick={() => onDelete?.(row)}
-                    className="text-gray-600 hover:text-red-600"
+                    onClick={() => {
+                      setSelectedUser(row.id);
+                      setChangingUserStatus(true);
+                    }}
+                    disabled={!row.isActive}
+                    className="text-gray-600 disabled:cursor-not-allowed hover:text-red-600"
                   >
                     <Icon path={mdiDelete} size={0.9} />
                   </button>
@@ -96,6 +117,47 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
           ))}
         </tbody>
       </table>
+      <Modal
+        onClose={() => setChangingUserStatus(false)}
+        isOpen={changingUserStatus}
+        title={`Are you sure you want to change this user's status to Inactive?`}
+      >
+        <p>Inactive users will no longer be able to access the system</p>
+
+        <div className="flex mt-12 w-[70%] justify-evenly">
+          <div className="w-[40%]">
+            <Button
+              variant="gray"
+              onClick={() => {
+                setChangingUserStatus(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+          <div className="w-[40%]">
+            <Button
+              variant="light"
+              onClick={() => {
+                mutation.mutate(false);
+              }}
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
+        {mutation.isLoading ? (
+          <div className="flex justify-center items-center mt-8">
+            <ClipLoader color="#000000" size={50} />
+          </div>
+        ) : mutation.isError ? (
+          <div className="text-red-500 m-8">
+            {mutation.error.response.data.msg}
+          </div>
+        ) : (
+          ""
+        )}
+      </Modal>
     </div>
   );
 };

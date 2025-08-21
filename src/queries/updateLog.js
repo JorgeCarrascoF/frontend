@@ -2,6 +2,7 @@ import { api } from "../api";
 
 export async function updateLog(id, updatedFields) {
   const token = localStorage.getItem("token");
+  console.log("Updating log with ID:", id, "Fields:", updatedFields);
   try {
     const response = await api.patch(`/logs/${id}`, updatedFields, {
       headers: {

@@ -6,20 +6,12 @@ import CommentInput from "./CommentInput";
 import { ClipLoader, PulseLoader } from "react-spinners";
 
 const AllLogComments = ({ logId }) => {
-  const {
-    data: log,
-    isLoading: isLoadingLog,
-    error: errorLog,
-  } = useQuery({
+  const { data: log, isLoading: isLoadingLog } = useQuery({
     queryKey: ["log", logId],
     queryFn: () => getLogById(logId),
   });
 
-  const {
-    data: comments,
-    isLoading: isLoadingComments,
-    error: errorComments,
-  } = useQuery({
+  const { data: comments, isLoading: isLoadingComments } = useQuery({
     queryKey: ["comments", logId],
     queryFn: () => getComments(logId),
   });

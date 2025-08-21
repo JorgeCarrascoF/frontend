@@ -116,7 +116,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             options={[
               { value: "unresolved", label: "Unresolved" },
               { value: "in review", label: "In Review" },
-              { value: "resolved", label: "Resolved" },
+              { value: "solved", label: "Solved" },
             ]}
           />
 
@@ -226,7 +226,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : data.data.length === 0 ? (
-        <div>No more logs available.</div>
+        <div className="mt-10">No more logs available.</div>
       ) : (
         <>
           <div className="mt-4">

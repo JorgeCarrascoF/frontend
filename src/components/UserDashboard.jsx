@@ -12,10 +12,10 @@ import { jwtDecode } from "jwt-decode";
 
 const USERS_PER_PAGE = 13;
 
-const UserDashboard = () => {
+const UserDashboard = ({ search, setSearch }) => {
   const [page, setPage] = useState(1);
   const [roleFilter, setRoleFilter] = useState("");
-  const [visibleUsers, setVisibleUsers] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("");
   const navigate = useNavigate();
 
   let userData = JSON.parse(localStorage.getItem("userData"));
@@ -31,16 +31,17 @@ const UserDashboard = () => {
     error,
     isPreviousData,
   } = useQuery({
-    queryKey: ["users", page, roleFilter],
-    queryFn: () => getUsers({ page, limit: USERS_PER_PAGE, role: roleFilter }),
+    queryKey: ["users", page, search, roleFilter, activeFilter],
+    queryFn: () =>
+      getUsers({
+        page,
+        limit: USERS_PER_PAGE,
+        role: roleFilter,
+        active: activeFilter,
+        search: search.trim(),
+      }),
     keepPreviousData: true,
   });
-
-  useEffect(() => {
-    if (users?.data) {
-      setVisibleUsers(users.data);
-    }
-  }, [users]);
 
   const columns = [
     { key: "username", label: "Username" },
@@ -71,12 +72,13 @@ const UserDashboard = () => {
   };
 
   const handleFakeDelete = (user) => {
-    setVisibleUsers((prev) => prev.filter((u) => u.id !== user.id));
+    // setVisibleUsers((prev) => prev.filter((u) => u.id !== user.id));
+    console.log("User deleted:", user);
   };
 
   return (
     <div className="flex flex-col h-full w-full self-start mt-2">
-      <div className="mr-auto">
+      <div className="mr-auto flex gap-5">
         <SelectInput
           value={roleFilter}
           onChange={(e) => {
@@ -90,19 +92,46 @@ const UserDashboard = () => {
             { value: "superadmin", label: "Superadmin" },
           ]}
         />
+        {userData.role !== "user" && (
+          <SelectInput
+            value={activeFilter}
+            onChange={(e) => {
+              setActiveFilter(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Status"
+            options={[
+              { value: "active", label: "Active" },
+              { value: "inactive", label: "Inactive" },
+            ]}
+          />
+        )}
+        {(search || roleFilter || activeFilter) && (
+          <div>
+            <Button
+              onClick={() => {
+                setActiveFilter("");
+                setRoleFilter("");
+                setSearch("");
+              }}
+            >
+              Clear filters
+            </Button>
+          </div>
+        )}
       </div>
       {loadingUsers ? (
         <div className="flex justify-center items-center">
           <ClipLoader color="#36d7b7" size={50} />
         </div>
-      ) : visibleUsers.length === 0 ? (
+      ) : users.data.length === 0 ? (
         <div>No more users available.</div>
       ) : (
         <>
           <div className="flex flex-col w-full mt-4">
             <UserTable
               columns={columns}
-              data={visibleUsers}
+              data={users.data}
               onDelete={handleFakeDelete}
               onRowClick={handleRowClick}
               currentUser={userRole}
