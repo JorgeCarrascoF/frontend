@@ -12,7 +12,7 @@ export default function LogTable({ data, onRowClick }) {
   ];
 
   return (
-    <div className="w-full border border-gray-200 rounded-md overflow-hidden">
+    <div className="w-full h-max-full border border-gray-200 rounded-md overflow-x-auto overflow-y-auto">
       <table className="w-full">
         <thead className="bg-[#fafafa]">
           <tr className="[&>th]:px-4 [&>th]:py-2 [&>th]:text-left [&>th]:font-medium [&>th]:text-sm [&>th]:border-b [&>th]:border-gray-200">

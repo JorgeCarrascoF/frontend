@@ -4,8 +4,8 @@ import { Link, useLocation } from "react-router-dom";
   light: {
     base: "text-gray-900",
     bg: "bg-[#fafafa]",
-    bgActive: "bg-[#f0f2f5]",
-    hover: "hover:bg-[#f0f2f5]",
+    bgActive: "bg-[#e3ebf6]",
+    hover: "hover:bg-[#e3ebf6]",
     icon: "text-black",
   },
   dark: {

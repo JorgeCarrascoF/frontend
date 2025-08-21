@@ -134,9 +134,11 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
         </div>
         <div className="m-auto flex mt-4 gap-4">
           {setChangingPassword && (
-            <Button variant="light" onClick={() => setChangingPassword(false)}>
-              Cancel
-            </Button>
+            <div className="">
+              <Button variant="base" onClick={() => setChangingPassword(false)}>
+                Cancel
+              </Button>
+            </div>
           )}
           <Button
             type="submit"

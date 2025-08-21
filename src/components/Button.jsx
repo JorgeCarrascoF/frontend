@@ -31,6 +31,14 @@ const variants = {
     icon: "text-black",
     border: "border border-[#DBDBDB]",
   },
+  outline: {
+    base: "text-[#295BA2]",
+    bg: "bg-white",
+    bgActive: "bg-transparent",
+    hover: "",
+    icon: "text-[#295BA2]",
+    border: "border-2 border-[#295BA2]",
+  }
 };
 
 const justifyMap = {

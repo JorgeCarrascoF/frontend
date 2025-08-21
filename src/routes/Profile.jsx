@@ -29,15 +29,19 @@ const Profile = () => {
               <p className="text-md text-black">{userData?.role}</p>
             </div>
           </div>
-          <div className="flex flex-col gap-5 items-center">
+          <div className="flex flex-col w-[65%] gap-5 items-center">
             <Button
               active={!changingPassword}
+              variant="light"
+              align="left"
               onClick={() => setChangingPassword(false)}
             >
               Personal information
             </Button>
             <Button
               active={changingPassword}
+              variant="light"
+              align="left"
               onClick={() => setChangingPassword(true)}
             >
               Change password
