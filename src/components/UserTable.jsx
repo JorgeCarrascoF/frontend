@@ -137,7 +137,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
           </div>
           <div className="w-[40%]">
             <Button
-              variant="light"
+              variant="base"
               onClick={() => {
                 mutation.mutate(false);
               }}

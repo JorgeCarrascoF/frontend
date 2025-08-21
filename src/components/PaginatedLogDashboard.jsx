@@ -43,6 +43,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
         status: statusFilter,
         environment: environmentFilter,
         priority: priorityFilter,
+        date: dateFilter,
         search: search.trim(),
         searchId:
           !isNaN(search) && search.trim() !== "" ? Number(search) : null,
@@ -71,6 +72,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
   };
 
   let totalPages = data ? Math.ceil(data.total / LOGS_PER_PAGE) : 0;
+  console.log(data)
 
   return (
     <div className="flex flex-col h-full w-full self-start">

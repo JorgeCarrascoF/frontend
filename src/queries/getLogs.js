@@ -1,6 +1,6 @@
 import { api } from "../api";
 
-export const getLogs = async ({ type, status, environment, platform, priority, search, page, limit }) => {
+export const getLogs = async ({ type, status, environment, platform, priority, search, date, page, limit }) => {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams();
 
@@ -18,6 +18,7 @@ export const getLogs = async ({ type, status, environment, platform, priority, s
       params.append("search", search);
     }
   }
+  if (date) params.append("date", date);
   if (page) params.append("page", page);
   if (limit) params.append("limit", limit);
 
