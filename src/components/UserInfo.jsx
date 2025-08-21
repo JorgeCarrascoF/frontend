@@ -9,11 +9,14 @@ import { useState } from "react";
 import Modal from "./Modal";
 import Button from "./Button";
 import { changeUserStatus } from "../queries/changeUserStatus";
+import { mdiAlertOutline } from "@mdi/js";
+import { mdiCheckCircleOutline } from "@mdi/js";
 
 const UserInfo = ({ userId }) => {
   const [activeTab, setActiveTab] = useState("info");
   const [newStatus, setNewStatus] = useState(null);
   const [changingUserStatus, setChangingUserStatus] = useState(false);
+  const [statusChangeConfirmed, setStatusChangeConfirmed] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -31,9 +34,8 @@ const UserInfo = ({ userId }) => {
     mutationFn: (isActive) => changeUserStatus(userId, isActive),
     onSuccess: () => {
       queryClient.invalidateQueries(["user", userId]);
-      setChangingUserStatus(false);
-      setNewStatus("");
-      setActiveTab("info");
+      setStatusChangeConfirmed(true);
+      setNewStatus(null);
     },
     onError: (error) => {
       console.error("Error changing user status:", error);
@@ -256,39 +258,69 @@ const UserInfo = ({ userId }) => {
       <Modal
         onClose={() => setChangingUserStatus(false)}
         isOpen={changingUserStatus}
-        title={`Are you sure you want to change this user's status to "${
-          newStatus ? "Active" : "Inactive"
-        }"?`}
       >
+        <Icon
+          path={statusChangeConfirmed ? mdiCheckCircleOutline : mdiAlertOutline}
+          color={statusChangeConfirmed ? "green" : "#ffa60a"}
+          size={3}
+        />
+        <h2
+          className={`text-2xl mb-10 mt-5 text-${
+            statusChangeConfirmed ? "green" : "black"
+          } font-semibold`}
+        >
+          {statusChangeConfirmed
+            ? "User status changed succesfully"
+            : `Are you sure you want to change this user's status to ${
+                newStatus ? "Active" : "Inactive"
+              }?`}
+        </h2>
         <p>
-          {newStatus
+          {statusChangeConfirmed
+            ? "You can update this status later if required."
+            : newStatus
             ? "Active users will be able to access the system"
             : "Inactive users will no longer be able to access the system"}
         </p>
 
-        <div className="flex mt-12 w-[70%] justify-evenly">
-          <div className="w-[40%]">
+        {statusChangeConfirmed ? (
+          <div className="flex mt-12 w-[40%] justify-evenly">
             <Button
-              variant="gray"
+              variant="base"
               onClick={() => {
+                setStatusChangeConfirmed(false);
                 setChangingUserStatus(false);
-                setNewStatus("");
+                setActiveTab("info");
               }}
             >
-              Cancel
+              Go back
             </Button>
           </div>
-          <div className="w-[40%]">
-            <Button
-              variant="light"
-              onClick={() => {
-                mutation.mutate(newStatus);
-              }}
-            >
-              Confirm
-            </Button>
+        ) : (
+          <div className="flex mt-12 w-[70%] justify-evenly">
+            <div className="w-[40%]">
+              <Button
+                variant="gray"
+                onClick={() => {
+                  setChangingUserStatus(false);
+                  setNewStatus(null);
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+            <div className="w-[40%]">
+              <Button
+                variant="base"
+                onClick={() => {
+                  mutation.mutate(newStatus);
+                }}
+              >
+                Confirm
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
         {mutation.isLoading ? (
           <div className="flex justify-center items-center mt-8">
             <ClipLoader color="#000000" size={50} />

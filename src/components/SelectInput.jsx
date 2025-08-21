@@ -6,13 +6,14 @@ const SelectInput = ({
   onChange,
   options = [],
   placeholder = "Select an option",
+  colorizeOnActive = true
 }) => {
   return (
     <div className={`w-fit relative flex`}>
       <select
         className={`appearance-none w-full rounded-lg px-3 py-2 pr-10 
           ${
-            value
+            (value && colorizeOnActive)
               ? "bg-[#295ba2] text-white"
               : "bg-white text-gray-700 border border-gray-300"
           }`}

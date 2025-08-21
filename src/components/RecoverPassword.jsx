@@ -1,15 +1,35 @@
 import { useState } from "react";
 import TextInput from "./TextInput";
 import Button from "./Button";
+import useToast from "../hooks/useToast";
+import { useMutation } from "@tanstack/react-query";
+import { recoverPassword } from "../queries/recoverPassword";
 
 const RecoverPassword = ({ setForgotPassword }) => {
   const [email, setEmail] = useState("");
+  const { showToast, ToastContainer } = useToast();
 
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+  const mutation = useMutation({
+    mutationFn: recoverPassword,
+    onSuccess: () =>
+      showToast("We’ve sent a password reset link to your email.", "success"),
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
+  const handleRecover = () => {
+    if (isEmailValid(email)) {
+      mutation.mutate(email);
+    } else {
+      showToast("Please enter a valid email address.", "error");
+    }
+  };
   return (
     <div className="w-full flex flex-col items-center py-6">
       <h1 className=" text-4xl font-semibold">Recover your password</h1>
@@ -17,17 +37,15 @@ const RecoverPassword = ({ setForgotPassword }) => {
         <TextInput
           label="Reset your password using your email"
           id="email"
-          type="text"
+          type="email"
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <div className="w-[50%] self-center">
           <Button
-            disabled={!email || !isEmailValid(email)}
-            onClick={() => {
-              console.log("Sending reset link to:", email);
-            }}
+            disabled={!email || !isEmailValid(email) || mutation.isLoading}
+            onClick={handleRecover}
           >
             Send reset link
           </Button>
@@ -38,6 +56,7 @@ const RecoverPassword = ({ setForgotPassword }) => {
         >
           Back to login
         </span>
+        <ToastContainer />
       </div>
     </div>
   );

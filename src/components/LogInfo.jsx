@@ -10,6 +10,7 @@ import LogAISuggestion from "./LogAISuggestion";
 import Chip from "./Chip";
 import Select from "react-select";
 import SelectInput from "./SelectInput";
+import { maxLimitInteger } from "../utils/maxLimitInteger";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -33,7 +34,7 @@ const LogInfo = ({ logId }) => {
     error: usersError,
   } = useQuery({
     queryKey: ["users"],
-    queryFn: () => getUsers({ page: 1, limit: 100 }),
+    queryFn: () => getUsers({ page: 1, limit: maxLimitInteger }),
   });
 
   const mutation = useMutation({
@@ -100,14 +101,14 @@ const LogInfo = ({ logId }) => {
             <InfoItem label="Last seen" value={formatDate(log.last_seen_at)} />
             <InfoItem
               label="Error Type"
-              value={log.error_type || "placeholder"}
+              value={log.error_type || "Undetermined"}
             />
             <InfoItem label="Priority" value={log.priority} badge />
             <InfoItem label="Environment" value={log.environment} badge />
             <InfoItem
               label="Location"
               value={
-                log.culprit === "error culprit" ? "Undetermined" : log.culprit
+                (log.culprit === "error culprit" || !log.culprit) ? "Undetermined" : log.culprit
               }
             />
 
@@ -168,7 +169,11 @@ const InfoItem = ({ label, value, badge, colSpan }) => (
   >
     <span className="text-lg font-semibold mb-1">{label}</span>
     {badge ? (
-      <Chip type={label.toLowerCase().replace(" ", "_")} value={value} showPoint={label == "Priority"} />
+      <Chip
+        type={label.toLowerCase().replace(" ", "_")}
+        value={value}
+        showPoint={label == "Priority"}
+      />
     ) : (
       <p className="ml-2 break-all">{value}</p>
     )}
