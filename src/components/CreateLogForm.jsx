@@ -62,7 +62,7 @@ export default function CreateLogForm() {
       log.message.length >= 5 &&
       log.description &&
       log.description.length >= 100 &&
-      log.assigned_to &&
+      (userData.role == "user" || log.assigned_to) &&
       log.priority &&
       log.environment
     );
