@@ -107,10 +107,10 @@ const LoginForm = () => {
             <div className="flex flex-col items-center w-full">
               <div className="flex flex-col w-full gap-2 mb-10">
                 <TextInput
-                  label="Email"
+                  label="Username"
                   id="email"
                   type="text"
-                  placeholder="user@gmail.com"
+                  placeholder="Enter your email..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   error={emailError}
@@ -120,7 +120,7 @@ const LoginForm = () => {
                 <PasswordInput
                   label="Password"
                   id="password"
-                  placeholder="**********"
+                  placeholder="Enter your password..."
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   error={passwordError}
@@ -149,7 +149,7 @@ const LoginForm = () => {
                   onClick={() => setForgotPassword(true)}
                   className="text-[#737373] cursor-pointer underline"
                 >
-                  Forgot password?
+                  Forgot your password?
                 </span>
               </div>
             )}
