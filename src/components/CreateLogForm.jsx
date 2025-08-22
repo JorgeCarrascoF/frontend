@@ -14,6 +14,7 @@ import { mdiCheckCircleOutline } from "@mdi/js";
 export default function CreateLogForm() {
   const [log, setLog] = useState({});
   const [labelCount, setLabelCount] = useState(0);
+  const [labelMessageCount, setLabelMessageCount] = useState(0);
   const [message, setMessage] = useState("");
   const [logCreated, setLogCreated] = useState(false);
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ export default function CreateLogForm() {
   const clearFields = () => {
     setLog({});
     setLabelCount(0);
+    setLabelMessageCount(0);
     setMessage("");
   };
 
@@ -89,34 +91,39 @@ export default function CreateLogForm() {
       </label>
       <div className="flex justify-between items-baseline w-[80%] gap-4 mb-10">
         <div className="w-[70%] flex flex-col">
-          <input
+          {/* <input
             placeholder=""
             className="border w-full border-gray-300 rounded-md px-3 py-2 text-sm"
             onChange={(e) => setLog({ ...log, message: e.target.value })}
             value={log.message || ""}
             maxLength={100}
             minLength={5}
-          />
-
-          <span
-            className={`${
-              !log.message || log.message.length < 5
-                ? "text-red-500 "
-                : "text-transparent select-none"
-            }  text-sm text-left ml-2 mt-1`}
-          >
-            Message is required and must be at least 5 characters long.
-          </span>
+          /> */}
+          <div className="relative flex flex-col w-full">
+            <input
+              placeholder=""
+              className="border w-full border-gray-300 rounded-md px-3 py-2 text-sm"
+              value={log.message || ""}
+              maxLength={100}
+              minLength={5}
+              onChange={(e) => {
+                setLog({ ...log, message: e.target.value });
+                setLabelMessageCount(e.target.value.length);
+              }}
+            />
+            <span className="absolute top-10 right-3 text-xs text-gray-400">
+              {labelMessageCount}/100
+            </span>
+          </div>
         </div>
         <div className="w-[25%]">
           <SelectInput
             colorizeOnActive={false}
             options={[
-              { value: "unresolved", label: "Unresolved" },
+              { value: "unresolved", label: "Pending", default: true },
               { value: "in review", label: "In Review" },
               { value: "solved", label: "Solved" },
             ]}
-            placeholder="Set status"
             onChange={(e) => setLog({ ...log, status: e.target.value })}
             value={log.status || ""}
           />
@@ -300,13 +307,15 @@ export default function CreateLogForm() {
             type="button"
             variant="light"
             disabled={
-              !(log.message ||
-              log.description ||
-              log.assigned_to ||
-              log.priority ||
-              log.environment || 
-              log.status ||
-              log.type)
+              !(
+                log.message ||
+                log.description ||
+                log.assigned_to ||
+                log.priority ||
+                log.environment ||
+                log.status ||
+                log.type
+              )
             }
             onClick={clearFields}
           >
@@ -315,7 +324,7 @@ export default function CreateLogForm() {
         </div>
         <div>
           <Button type="submit" disabled={isButtonDisabled}>
-            Submit
+            Save
           </Button>
         </div>
       </div>

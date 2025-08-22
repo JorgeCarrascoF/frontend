@@ -11,7 +11,7 @@ const stylesMap = {
     low: { text: "text-[#358438]", bg: "bg-[#F3FAF3]", point: "bg-[#358438]" },
   },
   status: {
-    unresolved: { text: "text-[#274673]", bg: "bg-[#E3EBF6]" },
+    pending: { text: "text-[#274673]", bg: "bg-[#E3EBF6]" },
     "in review": { text: "text-[#274673]", bg: "bg-[#EDEDED]" },
     solved: { text: "text-[#E3EBF6]", bg: "bg-[#295BA2]" },
   },

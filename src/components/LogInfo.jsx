@@ -80,7 +80,6 @@ const LogInfo = ({ logId }) => {
     });
   };
 
-
   return (
     <>
       <div className="w-full flex flex-col gap-6 border border-gray-200 bg-white  rounded-2xl  py-5 px-6">
@@ -142,7 +141,7 @@ const LogInfo = ({ logId }) => {
               <span className="text-lg font-semibold mb-1">Status</span>
               <SelectInput
                 options={[
-                  { value: "unresolved", label: "Unresolved" },
+                  { value: "unresolved", label: "Pending" },
                   { value: "in review", label: "In Review" },
                   { value: "solved", label: "Solved" },
                 ]}

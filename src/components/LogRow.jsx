@@ -39,7 +39,7 @@ const LogRow = ({ log, onRowClick }) => {
         <Chip type="priority" value={log.priority || "low"} showPoint />
       </td>
       <td>
-        <Chip type="status" value={log.status || "Unresolved"} />
+        <Chip type="status" value={(log.status == "unresolved" ? "Pending" : log.status) || "Pending"} />
       </td>
       {userData.role != "user" && (
         <td>

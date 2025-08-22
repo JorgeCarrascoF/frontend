@@ -109,7 +109,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
               onChange={(e) => setStatusFilter(e.target.value)}
               placeholder="Status"
               options={[
-                { value: "unresolved", label: "Unresolved" },
+                { value: "unresolved", label: "Pending" },
                 { value: "in review", label: "In Review" },
                 { value: "solved", label: "Solved" },
               ]}
