@@ -13,7 +13,7 @@ export default function DataTable({ columns, data, onRowClick }) {
             {columns.map((col, i) => (
               <th
                 key={col.key}
-                className={`px-4 py-2 border-b-[1px] border-gray-200 ${
+                className={`px-4 py-2 border-b border-gray-200 ${
                   i === 0 ? "rounded-tl-md" : ""
                 }
                   ${i === columns.length - 1 ? "rounded-tr-md" : ""}`}
@@ -42,7 +42,7 @@ export default function DataTable({ columns, data, onRowClick }) {
                       ? "rounded-br-md"
                       : ""
                   }
-                  ${idx === data.length - 1 ? "" : "border-b-[1px]"}`}
+                  ${idx === data.length - 1 ? "" : "border-b"}`}
                   >
                     <button
                       className="cursor-pointer"
@@ -65,7 +65,7 @@ export default function DataTable({ columns, data, onRowClick }) {
                       ? "rounded-br-md"
                       : ""
                   }
-                  ${idx === data.length - 1 ? "" : "border-b-[1px]"}`}
+                  ${idx === data.length - 1 ? "" : "border-b"}`}
                   >
                     {row[col.key] ? (
                       dateKeys.includes(col.key) ? (

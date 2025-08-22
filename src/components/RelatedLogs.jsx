@@ -1,10 +1,110 @@
-const RelatedLogs = ({logId}) => {
+import { mdiChevronDown } from "@mdi/js";
+import Icon from "@mdi/react";
+import { useEffect, useState } from "react";
+import { getRelatedLogs } from "../queries/getRelatedLogs";
+import { useQuery } from "@tanstack/react-query";
+import { ClipLoader } from "react-spinners";
+import RelatedLogRow from "./RelatedLogRow";
 
+const RelatedLogs = ({ log }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-    return <div>
-        <h2>Related Logs for Log ID: {logId}</h2>
+  // Solo ejecuta el query si existe error_signature
+  const {
+    data: relatedLogs,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["relatedLogs", log.error_signature],
+    queryFn: () => getRelatedLogs(log.error_signature),
+    enabled: !!log.error_signature, // importante: evita el fetch si no hay error_signature
+  });
+
+  const noErrorSignature = !log.error_signature;
+
+  const columns = [
+    { key: "id", label: "ID", width: "w-[25%]" },
+    { key: "status", label: "Status", width: "w-[15%]" },
+    { key: "message", label: "Error message", width: "w-[50%]" },
+    { key: "environment", label: "Environment", width: "w-[10%]" },
+  ];
+
+  return (
+    <div className="w-full m-2 border border-gray-200 bg-white rounded-2xl ">
+      <button
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className="w-full p-4 px-6 cursor-pointer flex justify-between items-center"
+      >
+        <h2 className="text-xl text-left font-semibold ml-2">Related logs</h2>
+        <Icon
+          path={mdiChevronDown}
+          size={1.5}
+          className={`ml-2 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      {isOpen && (
+        <div className="border-t mx-4 border-gray-200">
+          <table className="mt-3">
+            <thead className="bg-[#fafafa]">
+              <tr className="[&>th]:px-4 [&>th]:py-2 [&>th]:text-left [&>th]:font-medium [&>th]:text-sm [&>th]:border-b [&>th]:border-gray-200">
+                {columns.map((col, i) => (
+                  <th
+                    key={col.key}
+                    className={`${col.width ?? ""} ${
+                      i === 0 ? "rounded-tl-md" : ""
+                    } ${i === columns.length - 1 ? "rounded-tr-md" : ""}`}
+                  >
+                    {col.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <RelatedLogRow log={log} />
+              {/* {data.map((row) => (
+                <LogRow key={row.id} log={row} onRowClick={onRowClick} />
+              ))} */}
+            </tbody>
+          </table>
+          {noErrorSignature && (
+            <p className="text-left my-5 ml-3 text-gray-500 ">
+              No related logs found.
+            </p>
+          )}
+
+          {!noErrorSignature && (
+            <>
+              {isLoading && (
+                <div className="flex items-center justify-center p-4">
+                  <ClipLoader color="#000000" size={20} />
+                </div>
+              )}
+              {isError && (
+                <p className="text-left my-5 ml-3">
+                  Error fetching related logs: {isError.message}
+                </p>
+              )}
+              {relatedLogs?.length === 0 && !isLoading && (
+                <p className="text-left my-5 ml-3 text-gray-500">
+                  No related logs found.
+                </p>
+              )}
+
+              {relatedLogs?.length > 0 && (
+                <ul className="my-4 ml-6 list-disc text-gray-700">
+                  {/* {relatedLogs.map((item, idx) => (
+                    <li key={idx}>{item.message}</li>
+                  ))} */}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </div>
-}
-
+  );
+};
 
 export default RelatedLogs;

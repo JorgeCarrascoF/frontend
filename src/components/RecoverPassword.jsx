@@ -8,6 +8,7 @@ import { recoverPassword } from "../queries/recoverPassword";
 const RecoverPassword = ({ setForgotPassword }) => {
   const [email, setEmail] = useState("");
   const { showToast, ToastContainer } = useToast();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const isEmailValid = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,10 +17,14 @@ const RecoverPassword = ({ setForgotPassword }) => {
 
   const mutation = useMutation({
     mutationFn: recoverPassword,
-    onSuccess: () =>
-      showToast("We’ve sent a password reset link to your email.", "success"),
+    onSuccess: () => {
+      setErrorMessage("");
+      showToast("We’ve sent a password reset link to your email.", "success");
+      return;
+    },
     onError: (error) => {
-      console.log(error);
+      console.log("Error sending link", error.message);
+      setErrorMessage(error.message);
     },
   });
 
@@ -41,6 +46,7 @@ const RecoverPassword = ({ setForgotPassword }) => {
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          error={errorMessage}
         />
         <div className="w-[50%] self-center">
           <Button

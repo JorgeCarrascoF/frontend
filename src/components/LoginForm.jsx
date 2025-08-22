@@ -147,7 +147,7 @@ const LoginForm = () => {
                 </Button>
                 <span
                   onClick={() => setForgotPassword(true)}
-                  className="text-[#737373] cursor-pointer"
+                  className="text-[#737373] cursor-pointer underline"
                 >
                   Forgot password?
                 </span>

@@ -5,6 +5,7 @@ import Chip from "./Chip";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
 
 const LogRow = ({ log, onRowClick }) => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
   const {
     data: users,
     isLoading: isLoadingUsers,
@@ -22,11 +23,11 @@ const LogRow = ({ log, onRowClick }) => {
     })) || [];
   return (
     <tr
-      className="cursor-pointer h-[42px] border-t text-left border-gray-200 text-sm hover:bg-gray-50
+      className="cursor-pointer h-[4.6rem] 2xl:h-[3.9rem] border-t text-left border-gray-200 text-sm hover:bg-gray-50
                  [&>td]:px-4 [&>td]:py-1 [&>td]:border-t [&>td]:border-gray-200"
       onClick={() => onRowClick(log)}
     >
-      <td>{log.id}</td>
+      <td className="w-[10ch] truncate">{log.id}</td>
       <td>
         <Chip type="environment" value={log.environment || "Unknown"} />
       </td>
@@ -40,16 +41,18 @@ const LogRow = ({ log, onRowClick }) => {
       <td>
         <Chip type="status" value={log.status || "Unresolved"} />
       </td>
-      <td>
-        <Chip
-          type="assignee"
-          value={
-            userOptions.find((u) => u.value === log.assigned_to)?.label ||
-            log.assigned_to ||
-            "Jane Doe"
-          }
-        />
-      </td>
+      {userData.role != "user" && (
+        <td>
+          <Chip
+            type="assignee"
+            value={
+              userOptions.find((u) => u.value === log.assigned_to)?.label ||
+              log.assigned_to ||
+              "Jane Doe"
+            }
+          />
+        </td>
+      )}
       <td>{formatDate(log.created_at)}</td>
     </tr>
   );

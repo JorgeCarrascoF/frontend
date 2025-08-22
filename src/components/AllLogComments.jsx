@@ -17,7 +17,7 @@ const AllLogComments = ({ logId }) => {
   });
 
   return (
-    <div className="w-full h-full flex flex-col gap-2 border-[1px] border-gray-200 bg-white rounded-2xl py-5 px-6">
+    <div className="w-full h-full flex flex-col gap-2 border border-gray-200 bg-white rounded-2xl py-5 px-6">
       <div className="flex flex-col items-start mb-2">
         <h2 className="font-bold text-2xl text-left truncate overflow-hidden w-full">
           Notes and comments/{" "}
@@ -40,7 +40,7 @@ const AllLogComments = ({ logId }) => {
           )}
         </span>
       </div>
-      <div className="flex flex-col gap-2 mx-[12px] h-[62vh] overflow-y-scroll">
+      <div className="flex flex-col gap-2 mx-[0.75rem] h-[62vh] overflow-y-scroll">
         {isLoadingComments ? (
           <div className="w-full mt-20 flex items-center justify-center">
             <ClipLoader color="#000000" size={50} />

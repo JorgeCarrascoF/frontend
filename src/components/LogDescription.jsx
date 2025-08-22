@@ -7,7 +7,7 @@ const LogDescription = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="w-full m-2 border-[1px] border-gray-200 bg-white rounded-2xl ">
+    <div className="w-full m-2 border border-gray-200 bg-white rounded-2xl ">
       <button
         onClick={() => {
           setIsOpen(!isOpen);
@@ -22,7 +22,7 @@ const LogDescription = ({
         />
       </button>
       {isOpen && (
-        <div className="border-t-[1px] mx-4 border-gray-200">
+        <div className="border-t mx-4 border-gray-200">
           <p className="text-left my-5 ml-3 text-gray-500 leading-relaxed">
             {description ? description !== "error description" ? description : "No description available" : "No description available"}
           </p>

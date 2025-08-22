@@ -4,7 +4,7 @@ import {formatDate} from "../utils/formatDate";
 const UserComment = ({ comment }) => {
   return (
     <div className="p-3 flex items-center">
-      <div className="w-[50px] aspect-square mr-4">
+      <div className="w-[3.125rem] aspect-square mr-4">
         <UserIconSmall name={comment.user?.fullName || "Default User"} />
       </div>
       <div className="flex flex-col items-start">

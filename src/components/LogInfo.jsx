@@ -11,6 +11,7 @@ import Chip from "./Chip";
 import Select from "react-select";
 import SelectInput from "./SelectInput";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
+import RelatedLogs from "./RelatedLogs";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -79,11 +80,10 @@ const LogInfo = ({ logId }) => {
     });
   };
 
-  console.log(log);
 
   return (
     <>
-      <div className="w-full flex flex-col gap-6 border-[1px] border-gray-200 bg-white  rounded-2xl  py-5 px-6">
+      <div className="w-full flex flex-col gap-6 border border-gray-200 bg-white  rounded-2xl  py-5 px-6">
         <h1 className="text-3xl font-bold text-left m-2 mb-6">Log #{logId}</h1>
 
         <div className="flex flex-col items-start">
@@ -108,7 +108,9 @@ const LogInfo = ({ logId }) => {
             <InfoItem
               label="Location"
               value={
-                (log.culprit === "error culprit" || !log.culprit) ? "Undetermined" : log.culprit
+                log.culprit === "error culprit" || !log.culprit
+                  ? "Undetermined"
+                  : log.culprit
               }
             />
 
@@ -156,6 +158,7 @@ const LogInfo = ({ logId }) => {
 
       <LogDescription description={log.description} />
       <LogComments logId={logId} />
+      <RelatedLogs log={log} />
       <LogAISuggestion logId={logId} />
     </>
   );

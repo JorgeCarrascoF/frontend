@@ -9,14 +9,14 @@ const Profile = () => {
   const [changingPassword, setChangingPassword] = useState(false);
 
   return (
-    <div className=" w-[90%]">
+    <div className=" w-full h-full">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold">
           {userData?.username || "Profile"}
         </h1>
       </div>
       <div className="flex items-center justify-between m-2.5 rounded-2xl h-[90%]">
-        <div className="border-[1px] border-gray-200 bg-white rounded-2xl h-full w-[27%] flex flex-col items-center justify-start gap-20 py-20">
+        <div className="border border-gray-200 bg-white rounded-2xl h-full w-[27%] flex flex-col items-center justify-start gap-20 py-20">
           <div className="w-full flex items-center flex-col">
             <div className=" rounded-full w-[40%] aspect-square flex items-center justify-center">
               <UserIcon name={userData?.fullName} />
@@ -29,7 +29,7 @@ const Profile = () => {
               <p className="text-md text-black">{userData?.role}</p>
             </div>
           </div>
-          <div className="flex flex-col w-[65%] gap-5 items-center">
+          <div className="flex flex-col w-[75%] gap-5 items-center">
             <Button
               active={!changingPassword}
               variant="light"
@@ -48,7 +48,7 @@ const Profile = () => {
             </Button>
           </div>
         </div>
-        <div className="border-[1px] border-gray-200 bg-white rounded-2xl h-full w-[72%]">
+        <div className="border border-gray-200 bg-white rounded-2xl h-full w-[72%]">
           {changingPassword ? (
             <ChangePasswordForm setChangingPassword={setChangingPassword} />
           ) : (

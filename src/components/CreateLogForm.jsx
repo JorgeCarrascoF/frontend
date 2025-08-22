@@ -108,17 +108,19 @@ export default function CreateLogForm() {
             Message is required and must be at least 5 characters long.
           </span>
         </div>
-        <SelectInput
-          colorizeOnActive={false}
-          options={[
-            { value: "unresolved", label: "Unresolved" },
-            { value: "in review", label: "In Review" },
-            { value: "solved", label: "Solved" },
-          ]}
-          placeholder="Set status"
-          onChange={(e) => setLog({ ...log, status: e.target.value })}
-          value={log.status || ""}
-        />
+        <div className="w-[25%]">
+          <SelectInput
+            colorizeOnActive={false}
+            options={[
+              { value: "unresolved", label: "Unresolved" },
+              { value: "in review", label: "In Review" },
+              { value: "solved", label: "Solved" },
+            ]}
+            placeholder="Set status"
+            onChange={(e) => setLog({ ...log, status: e.target.value })}
+            value={log.status || ""}
+          />
+        </div>
         {/* <select
           className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 h-12 w-55"
           onChange={(e) => setLog({ ...log, status: e.target.value })}
@@ -171,7 +173,7 @@ export default function CreateLogForm() {
           <option value="warning">Warning</option>
           <option value="error">Error</option>
         </select> */}
-        <div>
+        <div className="w-[25%]">
           <SelectInput
             colorizeOnActive={false}
             options={[
@@ -225,7 +227,7 @@ export default function CreateLogForm() {
               Asignation is required
             </span>
           </div>
-          <div>
+          <div className="w-[35%] flex flex-col">
             <SelectInput
               colorizeOnActive={false}
               options={[
@@ -257,7 +259,7 @@ export default function CreateLogForm() {
             <option value="low">Low</option>
             </select> */}
 
-        <div className="h-full flex flex-col">
+        <div className="h-full w-[25%] flex flex-col">
           <SelectInput
             colorizeOnActive={false}
             options={[
@@ -294,7 +296,20 @@ export default function CreateLogForm() {
       {/* Botones */}
       <div className="flex justify-end gap-3 w-full mt-4">
         <div>
-          <Button type="button" variant="gray" onClick={clearFields}>
+          <Button
+            type="button"
+            variant="light"
+            disabled={
+              !(log.message ||
+              log.description ||
+              log.assigned_to ||
+              log.priority ||
+              log.environment || 
+              log.status ||
+              log.type)
+            }
+            onClick={clearFields}
+          >
             Cancel
           </Button>
         </div>

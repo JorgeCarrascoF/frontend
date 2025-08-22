@@ -75,7 +75,7 @@ export default function EditLogForm({ logId }) {
         <div className="flex flex-col gap-1 align-baseline">
           <label className="font-semibold text-left">Proyecto:</label>
           <input
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={data.project}
             onChange={(e) => setLog({ ...log, project: e.target.value })}
           />
@@ -83,7 +83,7 @@ export default function EditLogForm({ logId }) {
         <div className="flex flex-col gap-1 align-baseline">
           <label className="font-semibold text-left">Status:</label>
           <select
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={data.status}
             onChange={(e) => setLog({ ...log, status: e.target.value })}
           >
@@ -93,7 +93,7 @@ export default function EditLogForm({ logId }) {
         </div>
       </div>
       <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
+        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b border-gray-300">
           Detalles técnicos
         </h3>
       </div>
@@ -101,7 +101,7 @@ export default function EditLogForm({ logId }) {
         <div className="flex flex-col align-baseline">
           <label className="font-semibold text-left">Plataforma:</label>
           <input
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={data.platform}
             onChange={(e) => setLog({ ...log, platform: e.target.value })}
           />
@@ -109,7 +109,7 @@ export default function EditLogForm({ logId }) {
         <div className="flex flex-col align-baseline">
           <label className="font-semibold text-left">Tipo:</label>
           <select
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={data.type}
             onChange={(e) => setLog({ ...log, type: e.target.value })}
           >
@@ -121,7 +121,7 @@ export default function EditLogForm({ logId }) {
         <div className="flex flex-col align-baseline">
           <label className="font-semibold text-left">Prioridad:</label>
           <select
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={data.priority}
             onChange={(e) => setLog({ ...log, priority: e.target.value })}
           >
@@ -132,7 +132,7 @@ export default function EditLogForm({ logId }) {
         </div>
       </div>
       <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
+        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b border-gray-300">
           Archivo
         </h3>
       </div>
@@ -140,7 +140,7 @@ export default function EditLogForm({ logId }) {
         <div className="flex flex-col align-baseline">
           <label className="font-semibold text-left">Archivo:</label>
           <input
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={data.filename}
             onChange={(e) => setLog({ ...log, filename: e.target.value })}
           />
@@ -148,14 +148,14 @@ export default function EditLogForm({ logId }) {
         <div className="flex flex-col align-baseline">
           <label className="font-semibold text-left">Función:</label>
           <input
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={data.function}
             onChange={(e) => setLog({ ...log, function: e.target.value })}
           />
         </div>
       </div>
       <div className="w-full px-4">
-        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b-[1px] border-gray-300">
+        <h3 className="font-semibold text-xl text-left mt-2 px-2 pb-1 flex border-b border-gray-300">
           Estadísticas
         </h3>
       </div>
@@ -164,7 +164,7 @@ export default function EditLogForm({ logId }) {
           <label className="font-semibold text-left">First seen:</label>
           <input
             type="date"
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={new Date(data.firstSeen).toISOString().split("T")[0]}
             onChange={(e) =>
               setLog({
@@ -178,7 +178,7 @@ export default function EditLogForm({ logId }) {
           <label className="font-semibold text-left">Last seen:</label>
           <input
             type="date"
-            className="text-left border-[1px] px-1 rounded-md"
+            className="text-left border px-1 rounded-md"
             defaultValue={new Date(data.lastSeen).toISOString().split("T")[0]}
             onChange={(e) =>
               setLog({

@@ -11,8 +11,9 @@ import { useNavigate } from "react-router-dom";
 import LogTable from "./LogTable";
 import SelectInput from "./SelectInput";
 import DateInput from "./DateInput";
+import getPageNumbers from "../utils/getPageNumbers";
 
-const LOGS_PER_PAGE = 14;
+const LOGS_PER_PAGE = 10;
 
 const PaginatedLogDashboard = ({ search, setSearch }) => {
   const [page, setPage] = useState(1);
@@ -53,74 +54,67 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
     keepPreviousData: true,
   });
 
-  const columns = [
-    { key: "id", label: "ID" },
-    { key: "environment", label: "Environment" },
-    { key: "message", label: "Error title" },
-    { key: "priority", label: "Priority" },
-    { key: "status", label: "Status" },
-  ];
-
-  if (userData.role == "admin" || userData.role == "superadmin") {
-    columns.push({ key: "assigned_to", label: "Assignee" });
-  }
-
-  columns.push({ key: "created_at", label: "Date" });
-
   const handleRowClick = (row) => {
     navigate(`/dashboard/log/${row.id}`);
   };
 
   let totalPages = data ? Math.ceil(data.total / LOGS_PER_PAGE) : 0;
-  console.log(data)
 
   return (
     <div className="flex flex-col h-full w-full self-start">
       <div className="w-full">
         <div className="flex flex-wrap items-center gap-4">
-          <SelectInput
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-            placeholder="Error type"
-            options={[
-              { value: "error", label: "Error" },
-              { value: "warning", label: "Warning" },
-              { value: "info", label: "Info" },
-            ]}
-          />
+          <div>
+            <SelectInput
+              value={typeFilter}
+              onChange={(e) => setTypeFilter(e.target.value)}
+              placeholder="Error type"
+              options={[
+                { value: "error", label: "Error" },
+                { value: "warning", label: "Warning" },
+                { value: "info", label: "Info" },
+              ]}
+            />
+          </div>
 
-          <SelectInput
-            value={priorityFilter}
-            onChange={(e) => setPriorityFilter(e.target.value)}
-            placeholder="Error priority"
-            options={[
-              { value: "low", label: "Low" },
-              { value: "medium", label: "Medium" },
-              { value: "high", label: "High" },
-            ]}
-          />
+          <div>
+            <SelectInput
+              value={priorityFilter}
+              onChange={(e) => setPriorityFilter(e.target.value)}
+              placeholder="Error priority"
+              options={[
+                { value: "low", label: "Low" },
+                { value: "medium", label: "Medium" },
+                { value: "high", label: "High" },
+              ]}
+            />
+          </div>
 
-          <SelectInput
-            value={environmentFilter}
-            onChange={(e) => setEnvironmentFilter(e.target.value)}
-            placeholder="Environment"
-            options={[
-              { value: "production", label: "Production" },
-              { value: "testing", label: "Testing" },
-              { value: "development", label: "Development" },
-            ]}
-          />
+          <div>
+            <SelectInput
+              value={environmentFilter}
+              onChange={(e) => setEnvironmentFilter(e.target.value)}
+              placeholder="Environment"
+              options={[
+                { value: "production", label: "Production" },
+                { value: "testing", label: "Testing" },
+                { value: "development", label: "Development" },
+              ]}
+            />
+          </div>
 
-          <SelectInput
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            placeholder="Status"
-            options={[
-              { value: "unresolved", label: "Unresolved" },
-              { value: "in review", label: "In Review" },
-              { value: "solved", label: "Solved" },
-            ]}
-          />
+          <div>
+            <SelectInput
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              placeholder="Status"
+              options={[
+                { value: "unresolved", label: "Unresolved" },
+                { value: "in review", label: "In Review" },
+                { value: "solved", label: "Solved" },
+              ]}
+            />
+          </div>
 
           {/* <select
             value={typeFilter}
@@ -232,38 +226,43 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
       ) : (
         <>
           <div className="mt-4">
-            <LogTable
-              columns={columns}
-              data={data?.data ?? []}
-              onRowClick={handleRowClick}
-            />
+            <LogTable data={data?.data ?? []} onRowClick={handleRowClick} />
           </div>
           <div className="flex justify-center items-center gap-4 mt-auto pt-4">
-            <div className="w-[175px] flex">
+            <div className="w-[11rem] flex">
               <Button
                 onClick={() => setPage((old) => Math.max(old - 1, 1))}
                 disabled={page === 1}
+                variant="mixed"
+                active={false}
               >
                 <Icon path={mdiChevronLeft} size={1} />
                 Previous page
               </Button>
             </div>
             <div className="flex gap-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (pageNum) => (
+              {getPageNumbers(page, totalPages).map((p, i) =>
+                p === "..." ? (
+                  <span key={i} className="px-2">
+                    ...
+                  </span>
+                ) : (
                   <Button
-                    key={pageNum}
-                    onClick={() => setPage(pageNum)}
-                    active={pageNum === page}
+                    variant="mixed"
+                    key={i}
+                    onClick={() => setPage(p)}
+                    active={p === page}
                   >
-                    {pageNum}
+                    {p}
                   </Button>
                 )
               )}
             </div>
-            <div className="w-[175px] flex">
+            <div className="w-[11rem] flex">
               <Button
+                variant="mixed"
                 onClick={() => setPage((old) => old + 1)}
+                active={false}
                 disabled={
                   isPreviousData || (data?.data?.length ?? 0) < LOGS_PER_PAGE
                 }

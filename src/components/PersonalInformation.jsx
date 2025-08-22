@@ -39,7 +39,7 @@ const PersonalInformation = ({ data }) => {
               <label className="block text-xl font-medium mb-2">
                 First name
               </label>
-              <p className="text-lg border-[1px] px-2 py-2 text-left w-full rounded-lg border-gray-300">
+              <p className="text-lg border px-2 py-2 text-left w-full rounded-lg border-gray-300">
                 {fullName.split(" ")[0] || "Default Name"}
               </p>
             </div>
@@ -47,7 +47,7 @@ const PersonalInformation = ({ data }) => {
               <label className="block text-xl font-medium mb-2">
                 Last name
               </label>
-              <p className="text-lg border-[1px] px-2 py-2 text-left w-full rounded-lg border-gray-300">
+              <p className="text-lg border px-2 py-2 text-left w-full rounded-lg border-gray-300">
                 {fullName.split(" ").slice(1).join(" ") || "Default Name"}
               </p>
             </div>
@@ -58,7 +58,7 @@ const PersonalInformation = ({ data }) => {
                 <label className="block text-xl font-medium mt-0 mb-2">
                   Email
                 </label>
-                <p className="text-lg border-[1px] px-2 py-2 text-left w-full rounded-lg border-gray-300">
+                <p className="text-lg border px-2 py-2 text-left w-full rounded-lg border-gray-300">
                   {data?.email || "Default Email"}
                 </p>
               </div>

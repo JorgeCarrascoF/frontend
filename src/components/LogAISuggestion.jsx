@@ -6,7 +6,7 @@ import { mdiCreation } from "@mdi/js";
 const LogAISuggestion = ({ logId }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="w-full m-2 border-[1px] border-gray-200 bg-white rounded-2xl ">
+    <div className="w-full m-2 border border-gray-200 bg-white rounded-2xl ">
       <div className="w-full p-4 px-6 cursor-pointer flex justify-between items-center">
         <h2 className="text-xl text-left font-semibold ml-2">
           Automated support with AI
@@ -23,7 +23,7 @@ const LogAISuggestion = ({ logId }) => {
         </div>
       </div>
       {isOpen && (
-        <div className="border-t-[1px] mx-4 border-gray-200">
+        <div className="border-t mx-4 border-gray-200">
           <p className="text-left my-5 ml-3 text-gray-500 leading-relaxed">
             This is a placeholder for AI suggestions related to the log. It can
             include recommendations for actions, insights based on the log data,

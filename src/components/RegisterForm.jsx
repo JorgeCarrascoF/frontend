@@ -98,7 +98,7 @@ const RegisterForm = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-2 gap-6 w-full mt-3"
+        className="grid grid-cols-2 gap-6 w-full mt-3 h-full"
       >
         <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-left">
@@ -210,29 +210,32 @@ const RegisterForm = () => {
             <p className="text-red-500 text-xs mt-1">{errors.username}</p>
           )}
         </div>
-        <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-left">
-            Domain
-          </label>
-          <input
-            type="text"
-            name="domain"
-            placeholder="buggle.com"
-            value={form.domain}
-            onChange={handleChange}
-            className={`${inputBaseStyle} ${
-              errors.domain ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.domain && (
-            <p className="text-red-500 text-xs mt-1">{errors.domain}</p>
-          )}
+        <div className="flex w-full">
+          <div className="mb-5 w-full">
+            <label className="block mb-2 text-sm font-medium text-left">
+              Domain
+            </label>
+            <input
+              type="text"
+              name="domain"
+              placeholder="buggle.com"
+              value={form.domain}
+              onChange={handleChange}
+              className={`${inputBaseStyle} ${
+                errors.domain ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.domain && (
+              <p className="text-red-500 text-xs mt-1">{errors.domain}</p>
+            )}
+          </div>
         </div>
 
         <div className="col-span-1">
           <label className="block mb-2 text-sm font-medium text-left">
             Password
           </label>
+          <div></div>
           <input
             type="password"
             name="password"
@@ -257,8 +260,8 @@ const RegisterForm = () => {
             <ClipLoader color="#36d7b7" />
           ) : (
             <div className="flex gap-4">
-              <NavButton text="Cancel" route="/users" />
-              <Button type="submit" variant="dark">
+              <Button variant="gray">Cancel</Button>
+              <Button type="submit" variant="base">
                 Register
               </Button>
             </div>

@@ -23,30 +23,29 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
     },
   });
 
-  console.log(data);
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-100 shadow-sm max-w-7xl mx-auto mb-4">
+    <div className="overflow-x-auto rounded-lg border border-gray-100 shadow-sm w-full mx-auto mb-4">
       <table className="w-full table-fixed border-collapse text-sm">
         <thead className="bg-gray-50">
           <tr>
-            <th className="w-[180px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
+            <th className="w-[10.438rem] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Username
             </th>
-            <th className="w-[100px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
+            <th className="w-[6.25rem] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Role
             </th>
-            <th className="w-[250px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
+            <th className="w-[15.625rem] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Email
             </th>
-            <th className="w-[120px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
+            <th className="w-[7.5rem] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Date
             </th>
-            <th className="w-[120px] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
+            <th className="w-[7.5rem] px-4 py-2 text-left font-medium text-gray-600 border-b border-b-gray-200">
               Status
             </th>
 
             {currentUser === "superadmin" && (
-              <th className="w-[80px] px-4 py-2 text-center font-medium text-gray-600 border-b border-b-gray-200">
+              <th className="w-[8.375rem] px-4 py-2 text-center font-medium text-gray-600 border-b border-b-gray-200">
                 Delete
               </th>
             )}
@@ -57,31 +56,31 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
           {data.map((row, idx) => (
             <tr
               key={idx}
-              className="hover:bg-gray-50 cursor-pointer border-t border-b-gray-200"
+              className="hover:bg-gray-50 h-[4.6rem] 2xl:h-[3.9rem] cursor-pointer border-t border-b-gray-200"
             >
               <td
-                className="w-[180px] px-4 py-2 text-left text-gray-800 truncate whitespace-nowrap overflow-hidden"
+                className="px-4 py-2 text-left text-[#737373] truncate whitespace-nowrap overflow-hidden"
                 onClick={() => onRowClick && onRowClick(row)}
               >
-                {row.username}
+                {row.fullName || row.username}
               </td>
 
               <td
-                className="w-[100px] px-4 py-2 text-left text-gray-800 capitalize"
+                className="px-4 py-2 text-left text-[#737373] capitalize"
                 onClick={() => onRowClick && onRowClick(row)}
               >
                 {row.role}
               </td>
 
               <td
-                className="w-[250px] px-4 py-2 text-left text-gray-800 truncate whitespace-nowrap overflow-hidden"
+                className=" px-4 py-2 text-left text-[#737373] truncate whitespace-nowrap overflow-hidden"
                 onClick={() => onRowClick && onRowClick(row)}
               >
                 {row.email || "No email provided"}
               </td>
 
               <td
-                className="w-[120px] px-4 py-2 text-left text-gray-800"
+                className="px-4 py-2 text-left text-[#737373]"
                 onClick={() => onRowClick && onRowClick(row)}
               >
                 {row.createdAt
@@ -90,7 +89,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
               </td>
 
               <td
-                className="w-[120px] px-4 py-2 text-center"
+                className="px-4 py-2 text-center"
                 onClick={() => onRowClick && onRowClick(row)}
               >
                 <Chip
@@ -100,7 +99,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
               </td>
 
               {currentUser === "superadmin" && (
-                <td className="w-[80px] px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center">
                   <button
                     onClick={() => {
                       setSelectedUser(row.id);

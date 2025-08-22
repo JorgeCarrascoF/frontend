@@ -9,8 +9,9 @@ import UserTable from "./UserTable.jsx";
 import { useNavigate } from "react-router-dom";
 import SelectInput from "./SelectInput.jsx";
 import { jwtDecode } from "jwt-decode";
+import getPageNumbers from "../utils/getPageNumbers.js";
 
-const USERS_PER_PAGE = 13;
+const USERS_PER_PAGE = 10;
 
 const UserDashboard = ({ search, setSearch }) => {
   const [page, setPage] = useState(1);
@@ -77,7 +78,7 @@ const UserDashboard = ({ search, setSearch }) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full self-start mt-2">
+    <div className="flex flex-col h-full w-full self-start">
       <div className="mr-auto flex gap-5">
         <SelectInput
           value={roleFilter}
@@ -138,31 +139,40 @@ const UserDashboard = ({ search, setSearch }) => {
             />
           </div>
           <div className="flex justify-center items-center mt-auto gap-4">
-            <div className="w-[175px]">
+            <div className="w-[11rem]">
               <Button
+                variant="mixed"
                 onClick={() => setPage((old) => Math.max(old - 1, 1))}
                 disabled={page === 1}
+                active={false}
               >
                 <Icon path={mdiChevronLeft} size={1} />
                 Previous page
               </Button>
             </div>
             <div className="flex gap-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                (pageNum) => (
+              {getPageNumbers(page, totalPages).map((p, i) =>
+                p === "..." ? (
+                  <span key={i} className="px-2">
+                    ...
+                  </span>
+                ) : (
                   <Button
-                    key={pageNum}
-                    onClick={() => setPage(pageNum)}
-                    active={pageNum === page}
+                    key={i}
+                    variant="mixed"
+                    onClick={() => setPage(p)}
+                    active={p === page}
                   >
-                    {pageNum}
+                    {p}
                   </Button>
                 )
               )}
             </div>
-            <div className="w-[175px]">
+            <div className="w-[11rem]">
               <Button
                 onClick={() => setPage((old) => old + 1)}
+                variant="mixed"
+                active={false}
                 disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
               >
                 Next page

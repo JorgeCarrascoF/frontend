@@ -25,7 +25,7 @@ const stylesMap = {
     bg: "bg-[#FAFAFA]",
     border: "border-[#DBDBDB]",
   },
-  userStatus:{
+  userStatus: {
     active: {
       bg: "bg-[#295BA2]",
       text: "text-white",
@@ -33,30 +33,41 @@ const stylesMap = {
     inactive: {
       bg: "bg-[#EDEDED]",
       text: "text-[#274673]",
-      border: ""
-    }
-
-  }
-}
+      border: "",
+    },
+  },
+};
+const chipWidth = {
+  environment: "w-[7.5rem]",
+  assignee: "w-[7.5rem] 2xl:w-[9rem]",
+  priority: "w-[6.438rem]",
+  userStatus: "w-[7.3rem] 2xl:max-w-[6rem]",
+};
 
 const Chip = ({ type, value, showPoint }) => {
   const safeValue = (value || "").toLowerCase();
-  const style = (stylesMap[type]?.[safeValue] || stylesMap[type] || stylesMap.assignee) ?? {};
+  const style =
+    (stylesMap[type]?.[safeValue] || stylesMap[type] || stylesMap.assignee) ??
+    {};
   return (
     <div
-      className={`text-center ${type == "assignee" ? "w-[130px]" : "w-[107px]"} rounded-lg py-1 ${style.bg} ${
-        style.text
-      } ${style.border || ""} ${style.border && "border"}`}
+      className={`text-center ${
+        chipWidth[type] || chipWidth.default
+      } rounded-lg py-1 ${style.bg} ${style.text} ${style.border || ""} ${
+        style.border && "border"
+      }`}
     >
       <div
         className={`flex items-center ${
-          showPoint ? "justify-start px-5" : "justify-center"
+          showPoint ? "justify-start pl-5" : "justify-center"
         } gap-2 `}
       >
         {showPoint && style.point && (
           <div className={`w-2 h-2 rounded-full ${style.point}`}></div>
         )}
-        <span className={`${type == "assignee" ? "max-w-[13ch]" : "max-w-[12ch]"} max-w-[12ch] truncate overflow-hidden`}>
+        <span
+          className={`max-w-[12ch] 2xl:max-w-[18ch] truncate overflow-hidden`}
+        >
           {capitalizeWords(value)}
         </span>
       </div>

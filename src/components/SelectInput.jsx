@@ -9,7 +9,7 @@ const SelectInput = ({
   colorizeOnActive = true
 }) => {
   return (
-    <div className={`w-fit relative flex`}>
+    <div className={`w-full relative flex`}>
       <select
         className={`appearance-none w-full rounded-lg px-3 py-2 pr-10 
           ${
