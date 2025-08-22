@@ -114,7 +114,7 @@ const LogInfo = ({ logId }) => {
             />
 
             <div className="w-fit flex flex-col items-start">
-              {!isAdmin ? (
+              {isAdmin ? (
                 <div className="pt-4">
                   <Select
                     options={userOptions}
