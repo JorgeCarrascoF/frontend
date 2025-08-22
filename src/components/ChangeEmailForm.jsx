@@ -6,11 +6,13 @@ import TextInput from "./TextInput";
 import Modal from "./Modal";
 import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
+import getToken from "../utils/getToken";
 
 const ChangeEmailForm = ({ setChangingEmail }) => {
   const [newEmail, setNewEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const [message, setMessage] = useState("");
+
 
   const [validNewEmail, setValidNewEmail] = useState(false);
 
@@ -26,7 +28,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
       setMessage(data.msg);
       setNewEmail("");
       setConfirmEmail("");
-      let credentials = localStorage.getItem("credentials");
+      let credentials = getToken("credentials");
       credentials = JSON.parse(credentials);
       localStorage.setItem(
         "credentials",
@@ -105,14 +107,14 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
         </div>
         <div className="m-auto flex mt-4 gap-4">
           <div>
-            <Button variant="base" onClick={() => setChangingEmail(false)}>
+            <Button variant="secondary" onClick={() => setChangingEmail(false)}>
               Cancel
             </Button>
           </div>
           <div>
             <Button
               type="submit"
-              variant="gray"
+              variant="primary"
               disabled={!validNewEmail || confirmEmail !== newEmail}
             >
               Change email
@@ -140,7 +142,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
             You can now log in using your new email address.
           </p>
           <div>
-            <Button variant="light" onClick={() => setChangingEmail(false)}>
+            <Button variant="secondary" onClick={() => setChangingEmail(false)}>
               Go back
             </Button>
           </div>

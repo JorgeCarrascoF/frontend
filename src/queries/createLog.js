@@ -1,7 +1,9 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export async function createLog(logData) {
-  const token = localStorage.getItem("token");
+  const token = getToken();
+
   logData.issue_id = crypto.randomUUID();
   logData.culprit = "";
   logData.active = true;

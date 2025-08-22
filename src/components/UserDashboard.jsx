@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import SelectInput from "./SelectInput.jsx";
 import { jwtDecode } from "jwt-decode";
 import getPageNumbers from "../utils/getPageNumbers.js";
+import getToken from "../utils/getToken.js";
 
 const USERS_PER_PAGE = 10;
 
@@ -19,8 +20,10 @@ const UserDashboard = ({ search, setSearch }) => {
   const [activeFilter, setActiveFilter] = useState("");
   const navigate = useNavigate();
 
+
   let userData = JSON.parse(localStorage.getItem("userData"));
-  const token = localStorage.getItem("token");
+
+  const token = getToken();
 
   const decoded = jwtDecode(token);
   const userRole = decoded.role;
@@ -141,7 +144,7 @@ const UserDashboard = ({ search, setSearch }) => {
           <div className="flex justify-center items-center mt-auto gap-4">
             <div className="w-[11rem]">
               <Button
-                variant="mixed"
+                variant="pagination"
                 onClick={() => setPage((old) => Math.max(old - 1, 1))}
                 disabled={page === 1}
                 active={false}
@@ -159,7 +162,7 @@ const UserDashboard = ({ search, setSearch }) => {
                 ) : (
                   <Button
                     key={i}
-                    variant="mixed"
+                    variant="pagination"
                     onClick={() => setPage(p)}
                     active={p === page}
                   >
@@ -171,7 +174,7 @@ const UserDashboard = ({ search, setSearch }) => {
             <div className="w-[11rem]">
               <Button
                 onClick={() => setPage((old) => old + 1)}
-                variant="mixed"
+                variant="pagination"
                 active={false}
                 disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
               >

@@ -1,7 +1,8 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export const getUsers = async ({ page, limit, role, active, search }) => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   let isActive;
   if (active === "active") isActive = "true";

@@ -32,7 +32,7 @@ const LoginForm = () => {
     mutationFn: loginUser,
     onSuccess: (data) => {
       setSuccess("Login successful!");
-      login(data.token, data.user.id, data.user);
+      login(data.token, data.user.id, data.user, remember);
 
       if (remember) {
         saveCredentials(email, password);

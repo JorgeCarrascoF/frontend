@@ -1,7 +1,9 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export const getLogs = async ({ type, status, environment, platform, priority, search, date, page, limit }) => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
+
   const params = new URLSearchParams();
 
   if (type) params.append("type", type);

@@ -32,7 +32,7 @@ const Profile = () => {
           <div className="flex flex-col w-[75%] gap-5 items-center">
             <Button
               active={!changingPassword}
-              variant="light"
+              variant="section"
               align="left"
               onClick={() => setChangingPassword(false)}
             >
@@ -40,7 +40,7 @@ const Profile = () => {
             </Button>
             <Button
               active={changingPassword}
-              variant="light"
+              variant="section"
               align="left"
               onClick={() => setChangingPassword(true)}
             >

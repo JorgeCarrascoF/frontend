@@ -1,7 +1,9 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 const deleteLog = async (id) => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
+
   const response = await api.patch(
     `/logs/${id}`,
     {

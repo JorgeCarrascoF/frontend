@@ -1,7 +1,8 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export async function changeUserStatus(userId, isActive) {
-    const token = localStorage.getItem("token");
+    const token = getToken();
     try {
         const response = await api.patch(
             `/users/${userId}`,

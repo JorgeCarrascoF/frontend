@@ -126,7 +126,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
         <div className="flex mt-12 w-[70%] justify-evenly">
           <div className="w-[40%]">
             <Button
-              variant="gray"
+              variant="secondary"
               onClick={() => {
                 setChangingUserStatus(false);
               }}
@@ -136,7 +136,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
           </div>
           <div className="w-[40%]">
             <Button
-              variant="base"
+              variant="primary"
               onClick={() => {
                 mutation.mutate(false);
               }}

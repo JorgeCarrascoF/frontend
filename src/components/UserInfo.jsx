@@ -82,7 +82,7 @@ const UserInfo = ({ userId }) => {
 
           <div className="flex flex-col gap-4 mt-12 w-[70%] px-3">
             <Button
-              variant="light"
+              variant="section"
               align="left"
               active={activeTab === "info"}
               onClick={() => setActiveTab("info")}
@@ -90,7 +90,7 @@ const UserInfo = ({ userId }) => {
               Account information
             </Button>
             <Button
-              variant="light"
+              variant="section"
               align="left"
               active={activeTab === "status"}
               onClick={() => setActiveTab("status")}
@@ -234,7 +234,6 @@ const UserInfo = ({ userId }) => {
               </div>
               <div className="flex w-[30%] gap-4 mt-auto ml-auto mr-5">
                 <Button
-                  variant="gray"
                   disabled={
                     newStatus === null || newStatus === userData.isActive
                   }
@@ -286,7 +285,7 @@ const UserInfo = ({ userId }) => {
         {statusChangeConfirmed ? (
           <div className="flex mt-12 w-[40%] justify-evenly">
             <Button
-              variant="base"
+              variant="primary"
               onClick={() => {
                 setStatusChangeConfirmed(false);
                 setChangingUserStatus(false);
@@ -300,7 +299,7 @@ const UserInfo = ({ userId }) => {
           <div className="flex mt-12 w-[70%] justify-evenly">
             <div className="w-[40%]">
               <Button
-                variant="gray"
+                variant="secondary"
                 onClick={() => {
                   setChangingUserStatus(false);
                   setNewStatus(null);
@@ -311,7 +310,7 @@ const UserInfo = ({ userId }) => {
             </div>
             <div className="w-[40%]">
               <Button
-                variant="base"
+                variant="primary"
                 onClick={() => {
                   mutation.mutate(newStatus);
                 }}

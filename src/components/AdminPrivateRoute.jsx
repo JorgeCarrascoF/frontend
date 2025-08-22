@@ -1,8 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import getToken from "../utils/getToken";
 
 const AdminPrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   if (!token) {
     return <Navigate to="/login" replace />;

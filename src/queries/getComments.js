@@ -1,7 +1,9 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export const getComments = async (logId) => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
+
   try {
     const { data } = await api.get(`/comments/log/${logId}`, {
       headers: {

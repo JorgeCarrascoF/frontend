@@ -233,7 +233,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
               <Button
                 onClick={() => setPage((old) => Math.max(old - 1, 1))}
                 disabled={page === 1}
-                variant="mixed"
+                variant="pagination"
                 active={false}
               >
                 <Icon path={mdiChevronLeft} size={1} />
@@ -248,7 +248,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
                   </span>
                 ) : (
                   <Button
-                    variant="mixed"
+                    variant="pagination"
                     key={i}
                     onClick={() => setPage(p)}
                     active={p === page}
@@ -260,7 +260,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             </div>
             <div className="w-[11rem] flex">
               <Button
-                variant="mixed"
+                variant="pagination"
                 onClick={() => setPage((old) => old + 1)}
                 active={false}
                 disabled={

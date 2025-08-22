@@ -1,7 +1,8 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export const getRelatedLogs = async ({ error_signature }) => {
-  const token = localStorage.getItem("token");
+  const token = getToken();
 
   const response = await api.get(`/logs`, {
     params: {

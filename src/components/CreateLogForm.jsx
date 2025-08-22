@@ -260,7 +260,7 @@ export default function CreateLogForm() {
         <div>
           <Button
             type="button"
-            variant="light"
+            variant="secondary"
             disabled={
               !(
                 log.message ||

@@ -1,7 +1,9 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export async function updateLog(id, updatedFields) {
-  const token = localStorage.getItem("token");
+  const token = getToken();
+
   console.log("Updating log with ID:", id, "Fields:", updatedFields);
   try {
     const response = await api.patch(`/logs/${id}`, updatedFields, {

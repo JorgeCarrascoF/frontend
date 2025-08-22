@@ -1,8 +1,9 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export async function changeEmail({ newEmail }) {
   let userId = localStorage.getItem("userId");
-  let token = localStorage.getItem("token");
+  let token = getToken();
   try {
     const response = await api.patch(
       `/users/${userId}`,

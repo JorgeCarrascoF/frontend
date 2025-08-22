@@ -260,8 +260,8 @@ const RegisterForm = () => {
             <ClipLoader color="#36d7b7" />
           ) : (
             <div className="flex gap-4">
-              <Button variant="gray">Cancel</Button>
-              <Button type="submit" variant="base">
+              <Button variant="secondary">Cancel</Button>
+              <Button type="submit">
                 Register
               </Button>
             </div>

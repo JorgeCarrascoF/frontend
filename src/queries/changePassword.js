@@ -1,7 +1,8 @@
 import { api } from "../api";
+import getToken from "../utils/getToken";
 
 export async function changePassword({ currentPassword, newPassword }) {
-  const token = localStorage.getItem("token");
+  const token = getToken();
   try {
     const response = await api.post(
       "/users/change-password",

@@ -22,7 +22,7 @@ const PersonalInformation = ({ data }) => {
             </h2>
             <div className="w-[95px] flex items-center gap-1 cursor-pointer hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
               <Button
-                variant="outline"
+                variant="primary"
                 onClick={() => {
                   setEditingEmail(true);
                 }}
