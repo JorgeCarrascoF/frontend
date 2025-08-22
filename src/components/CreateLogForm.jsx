@@ -22,10 +22,7 @@ export default function CreateLogForm() {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
   const {
-    data: users,
-    isLoading: isLoadingUsers,
-    isError: isErrorUsers,
-    error: usersError,
+    data: users
   } = useQuery({
     queryKey: ["users"],
     queryFn: () => getUsers({ page: 1, limit: maxLimitInteger }),
@@ -39,7 +36,7 @@ export default function CreateLogForm() {
 
   const mutation = useMutation({
     mutationFn: (newLog) => createLog(newLog),
-    onSuccess: (data) => {
+    onSuccess: () => {
       setLogCreated(true);
       // setMessage("Log created successfully");
       // setTimeout(() => {
@@ -68,7 +65,7 @@ export default function CreateLogForm() {
       log.priority &&
       log.environment
     );
-  }, [log]);
+  }, [log, userData.role]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -87,7 +84,7 @@ export default function CreateLogForm() {
       {/* Encabezado */}
       {/* Primera fila */}
       <label className="block mb-2 text-sm font-medium text-left">
-        Message
+        Error Message
       </label>
       <div className="flex justify-between items-baseline w-[80%] gap-4 mb-10">
         <div className="w-[70%] flex flex-col">
@@ -128,21 +125,11 @@ export default function CreateLogForm() {
             value={log.status || ""}
           />
         </div>
-        {/* <select
-          className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 h-12 w-55"
-          onChange={(e) => setLog({ ...log, status: e.target.value })}
-          value={log.status || ""}
-        >
-          <option value="">Set status</option>
-          <option value="unresolved">Unresolved</option>
-          <option value="in review">In Review</option>
-          <option value="solved">Solved</option>
-        </select> */}
       </div>
 
       {/* Segunda fila */}
       <label className="block mb-2 text-sm font-medium text-left">
-        Description
+        Details
       </label>
       <div className="flex justify-between  w-[80%] gap-4 mb-10">
         <div className="relative flex flex-col w-[70%]">
@@ -157,29 +144,20 @@ export default function CreateLogForm() {
             }}
             value={log.description || ""}
           />
-          <span
+          {/* <span
             className={`${
-              !log.description || log.description.length < 100
+              log.description && log.description.length < 100
                 ? "text-red-500 "
                 : "text-transparent select-none"
             }  text-sm text-left ml-2 mt-1`}
           >
             Description is required and must be at least 100 characters long.
-          </span>
+          </span> */}
           <span className="absolute top-25 right-3 text-xs text-gray-400">
             {labelCount}/5000
           </span>
         </div>
-        {/* <select
-          className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500 w-55 h-12"
-          onChange={(e) => setLog({ ...log, type: e.target.value })}
-          value={log.type || ""}
-        >
-          <option value="">Error type</option>
-          <option value="info">Info</option>
-          <option value="warning">Warning</option>
-          <option value="error">Error</option>
-        </select> */}
+
         <div className="w-[25%]">
           <SelectInput
             colorizeOnActive={false}
@@ -188,7 +166,7 @@ export default function CreateLogForm() {
               { value: "warning", label: "Warning" },
               { value: "error", label: "Error" },
             ]}
-            placeholder="Set error type"
+            placeholder="Error type"
             onChange={(e) => setLog({ ...log, type: e.target.value })}
             value={log.type || ""}
           />
@@ -211,7 +189,7 @@ export default function CreateLogForm() {
                 setLog({ ...log, assigned_to: e ? e.value : null })
               }
               isSearchable
-              placeholder="Select assignee"
+              placeholder="Select user*"
               className={`w-full`}
               styles={{
                 control: (base) => ({
@@ -224,7 +202,7 @@ export default function CreateLogForm() {
               }}
               isDisabled={mutation.isLoading || userData.role == "user"}
             />
-            <span
+            {/* <span
               className={`${
                 !log.assigned_to && userData.role != "user"
                   ? "text-red-500 "
@@ -232,7 +210,7 @@ export default function CreateLogForm() {
               }  text-sm text-left ml-2 mt-1`}
             >
               Asignation is required
-            </span>
+            </span> */}
           </div>
           <div className="w-[35%] flex flex-col">
             <SelectInput
@@ -242,30 +220,19 @@ export default function CreateLogForm() {
                 { value: "medium", label: "Medium" },
                 { value: "low", label: "Low" },
               ]}
-              placeholder="Set priority"
+              placeholder="Priority"
               onChange={(e) => setLog({ ...log, priority: e.target.value })}
               value={log.priority || ""}
             />
-            <span
+            {/* <span
               className={`${
                 !log.priority ? "text-red-500 " : "text-transparent select-none"
               }  text-sm text-left ml-2 mt-1`}
             >
               Priority is required
-            </span>
+            </span> */}
           </div>
         </div>
-        {/* <select
-            className="border rounded-md w-full px-3 py-2 text-sm text-gray-500"
-            onChange={(e) => setLog({ ...log, priority: e.target.value })}
-            value={log.priority || ""}
-            >
-            <option value="">Priority</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-            </select> */}
-
         <div className="h-full w-[25%] flex flex-col">
           <SelectInput
             colorizeOnActive={false}
@@ -278,7 +245,7 @@ export default function CreateLogForm() {
             onChange={(e) => setLog({ ...log, environment: e.target.value })}
             value={log.environment || ""}
           />
-          <span
+          {/* <span
             className={`${
               !log.environment
                 ? "text-red-500 "
@@ -286,17 +253,7 @@ export default function CreateLogForm() {
             }  text-sm text-left ml-2 mt-1`}
           >
             Environment is required
-          </span>
-          {/* <select
-            className="border rounded-md ms-15 px-3 py-2 text-sm text-gray-500"
-            value={log.environment || ""}
-            onChange={(e) => setLog({ ...log, environment: e.target.value })}
-          >
-            <option value="">Set Environment</option>
-            <option value="production">Production</option>
-            <option value="development">Development</option>
-            <option value="testing">Testing</option>
-          </select> */}
+          </span> */}
         </div>
       </div>
 
