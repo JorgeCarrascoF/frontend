@@ -21,9 +21,7 @@ export default function CreateLogForm() {
 
   const userData = JSON.parse(localStorage.getItem("userData"));
 
-  const {
-    data: users
-  } = useQuery({
+  const { data: users } = useQuery({
     queryKey: ["users"],
     queryFn: () => getUsers({ page: 1, limit: maxLimitInteger }),
   });
@@ -119,7 +117,7 @@ export default function CreateLogForm() {
             options={[
               { value: "unresolved", label: "Pending", default: true },
               { value: "in review", label: "In Review" },
-              { value: "solved", label: "Solved" },
+              { value: "solved", label: "Resolved" },
             ]}
             onChange={(e) => setLog({ ...log, status: e.target.value })}
             value={log.status || ""}

@@ -111,7 +111,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
               options={[
                 { value: "unresolved", label: "Pending" },
                 { value: "in review", label: "In Review" },
-                { value: "solved", label: "Solved" },
+                { value: "solved", label: "Resolved" },
               ]}
             />
           </div>

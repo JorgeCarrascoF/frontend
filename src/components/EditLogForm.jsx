@@ -89,7 +89,7 @@ export default function EditLogForm({ logId }) {
           >
             <option value="unresolved">Pending</option>
             
-            <option value="solved">Solved</option>
+            <option value="solved">Resolved</option>
           </select>
         </div>
       </div>

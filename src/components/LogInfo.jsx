@@ -113,37 +113,38 @@ const LogInfo = ({ logId }) => {
               }
             />
 
-            <div className="w-fit flex flex-col items-start p-4">
-              <span className="text-lg font-semibold mb-1">Assigned to</span>
-              {isAdmin ? (
-                <Select
-                  options={userOptions}
-                  defaultValue={userOptions.find(
-                    (u) => u.value === log.assigned_to
-                  )}
-                  onChange={handleAssignedChange}
-                  isSearchable
-                  className="w-48"
-                  isDisabled={mutation.isLoading}
-                />
+            <div className="w-fit flex flex-col items-start">
+              {!isAdmin ? (
+                <div className="pt-4">
+                  <Select
+                    options={userOptions}
+                    defaultValue={userOptions.find(
+                      (u) => u.value === log.assigned_to
+                    )}
+                    onChange={handleAssignedChange}
+                    isSearchable
+                    className="w-48"
+                    isDisabled={mutation.isLoading}
+                  />
+                </div>
               ) : (
-                <Chip
-                  type="assigned_to"
+                <InfoItem
+                  label="Assigned to"
                   value={
                     userOptions.find((u) => u.value === log.assigned_to)
                       ?.label || log.assigned_to
                   }
+                  badge
                 />
               )}
             </div>
 
             <div className="w-fit flex flex-col items-start p-4">
-              <span className="text-lg font-semibold mb-1">Status</span>
               <SelectInput
                 options={[
                   { value: "unresolved", label: "Pending" },
                   { value: "in review", label: "In Review" },
-                  { value: "solved", label: "Solved" },
+                  { value: "solved", label: "Resolved" },
                 ]}
                 value={log.status}
                 onChange={handleStatusChange}
@@ -171,11 +172,13 @@ const InfoItem = ({ label, value, badge, colSpan }) => (
   >
     <span className="text-lg font-semibold mb-1">{label}</span>
     {badge ? (
-      <Chip
-        type={label.toLowerCase().replace(" ", "_")}
-        value={value}
-        showPoint={label == "Priority"}
-      />
+      <div className="w-28">
+        <Chip
+          type={label.toLowerCase().replace(" ", "_")}
+          value={value}
+          showPoint={label == "Priority"}
+        />
+      </div>
     ) : (
       <p className="ml-2 break-all">{value}</p>
     )}
