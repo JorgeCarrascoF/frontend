@@ -26,10 +26,22 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
       setMessage(data.msg);
       setNewEmail("");
       setConfirmEmail("");
+      let credentials = localStorage.getItem("credentials");
+      credentials = JSON.parse(credentials);
+      localStorage.setItem(
+        "credentials",
+        JSON.stringify({ ...credentials, email: newEmail })
+      );
+      let userData = localStorage.getItem("userData");
+      userData = JSON.parse(userData);
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({ ...userData, email: newEmail })
+      );
     },
     onError: (error) => {
-      console.log("Error changing email:", error);
-      setMessage(error.response);
+      console.log("Error changing email:", error.message);
+      setMessage(error.message);
     },
   });
 
@@ -107,16 +119,14 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
             </Button>
           </div>
         </div>
+      <div
+        className={`mt-4 text-sm text-red-500 ${mutation.isError ? "block" : "hidden"}`}
+      >
+        {message}
+      </div>
       </form>
-      {message && (
-        <div
-          className={`mt-4 text-sm ${
-            mutation.isError ? "text-red-500" : "text-green-500"
-          }`}
-        >
-          {message}
-        </div>
-      )}
+
+
       <Modal
         isOpen={mutation.isSuccess}
         onClose={() => setChangingEmail(false)}

@@ -34,10 +34,9 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-
-      if (!setChangingPassword) {
-        setTimeout(() => navigate("/"), 1500);
-      }
+      let credentials = localStorage.getItem("credentials");
+      credentials = JSON.parse(credentials);
+      localStorage.setItem("credentials", JSON.stringify({ ...credentials, password: newPassword }));
     },
     onError: (error) => {
       console.log("Error changing password:", error);
