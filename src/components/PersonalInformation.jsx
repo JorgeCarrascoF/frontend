@@ -11,7 +11,7 @@ const PersonalInformation = ({ data }) => {
   const [editingEmail, setEditingEmail] = useState(false);
 
   return (
-    <div className="p-8 w-full flex flex-col items-center mt-20">
+    <div className="p-5 w-full flex flex-col items-center mt-20">
       {editingEmail ? (
         <ChangeEmailForm setChangingEmail={setEditingEmail} />
       ) : (
@@ -20,7 +20,7 @@ const PersonalInformation = ({ data }) => {
             <h2 className="text-2xl ml-15 text-left w-full font-semibold mb-4">
               Account Information
             </h2>
-            <div className="w-[95px] flex items-center gap-1 cursor-pointer hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200">
+            <div className="w-[95px] flex items-center gap-1 cursor-pointer hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200 me-20">
               <Button
                 variant="outline"
                 onClick={() => {
@@ -43,7 +43,7 @@ const PersonalInformation = ({ data }) => {
                 {fullName.split(" ")[0] || "Default Name"}
               </p>
             </div>
-            <div className="mb-4 flex justify-start items-start flex-col w-[40%]">
+            <div className="mb-4 flex justify-start items-start flex-col w-[40%] me-9">
               <label className="block text-xl font-medium mb-2">
                 Last name
               </label>

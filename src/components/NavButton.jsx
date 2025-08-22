@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
     base: "text-white",
     bg: "bg-[#295ba2]",
     bgActive: "bg-black",
-    hover: "hover:bg-gray-800",
+    hover: "hover:bg-[#3f77c6]",
     icon: "text-white",
   },
 };
