@@ -50,7 +50,7 @@ const Profile = () => {
         </div>
         <div className="border-[1px] border-gray-200 bg-white rounded-2xl h-full w-[72%]">
           {changingPassword ? (
-            <ChangePasswordForm setChangingPassword={setChangingPassword} />
+            <div className="ms-15 mt-20"><ChangePasswordForm setChangingPassword={setChangingPassword} /></div>
           ) : (
             <PersonalInformation data={userData} />
           )}
