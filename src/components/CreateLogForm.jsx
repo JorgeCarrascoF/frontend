@@ -82,7 +82,7 @@ export default function CreateLogForm() {
       {/* Encabezado */}
       {/* Primera fila */}
       <label className="block mb-2 text-sm font-medium text-left">
-        Error Message
+        Error Message*
       </label>
       <div className="flex justify-between items-baseline w-[80%] gap-4 mb-10">
         <div className="w-[70%] flex flex-col">
@@ -96,7 +96,7 @@ export default function CreateLogForm() {
           /> */}
           <div className="relative flex flex-col w-full">
             <input
-              placeholder=""
+              placeholder="Placeholder"
               className="border w-full border-gray-300 rounded-md px-3 py-2 text-sm"
               value={log.message || ""}
               maxLength={100}
@@ -132,7 +132,7 @@ export default function CreateLogForm() {
       <div className="flex justify-between  w-[80%] gap-4 mb-10">
         <div className="relative flex flex-col w-[70%]">
           <textarea
-            placeholder=""
+            placeholder="Placeholder"
             className="border rounded-md border-gray-300 px-3 py-2 text-sm w-full h-24 resize-none"
             maxLength={5000}
             minLength={100}
@@ -164,7 +164,7 @@ export default function CreateLogForm() {
               { value: "warning", label: "Warning" },
               { value: "error", label: "Error" },
             ]}
-            placeholder="Error type"
+            placeholder="Error type*"
             onChange={(e) => setLog({ ...log, type: e.target.value })}
             value={log.type || ""}
           />
@@ -216,7 +216,7 @@ export default function CreateLogForm() {
                 { value: "medium", label: "Medium" },
                 { value: "low", label: "Low" },
               ]}
-              placeholder="Priority"
+              placeholder="Priority*"
               onChange={(e) => setLog({ ...log, priority: e.target.value })}
               value={log.priority || ""}
             />
@@ -237,7 +237,7 @@ export default function CreateLogForm() {
               { value: "development", label: "Development" },
               { value: "testing", label: "Testing" },
             ]}
-            placeholder="Set environment"
+            placeholder="Set environment*"
             onChange={(e) => setLog({ ...log, environment: e.target.value })}
             value={log.environment || ""}
           />
