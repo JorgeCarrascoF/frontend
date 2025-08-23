@@ -172,9 +172,7 @@ export default function CreateLogForm() {
       </div>
 
       {/* Tercera fila */}
-      <label className="block mb-2 text-sm font-medium text-left">
-        Assignee
-      </label>
+
       <div className="flex justify-between w-[80%] gap-4 mb-10">
         <div className="flex items-center justify-between w-[70%]">
           <div className="w-[60%] flex flex-col br">
