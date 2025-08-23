@@ -78,8 +78,8 @@ const UserDashboard = ({ search, setSearch }) => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full self-start">
-      <div className="mr-auto flex gap-5">
+    <div className="flex flex-col h-full w-full self-start mt-2">
+      <div className="ms-4 mr-auto flex gap-5">
         <SelectInput
           value={roleFilter}
           onChange={(e) => {
