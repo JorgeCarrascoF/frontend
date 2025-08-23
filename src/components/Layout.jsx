@@ -5,8 +5,8 @@ import { mdiFile } from "@mdi/js";
 import { mdiAccountMultipleOutline } from "@mdi/js";
 import LogoutButton from "./LogoutButton";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
 import { mdiAccount } from "@mdi/js";
+import { useAuth } from "../hooks/useAuth";
 
 const Layout = () => {
   const { isLoggedIn } = useAuth();

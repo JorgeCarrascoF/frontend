@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import Icon from "@mdi/react";
 import { mdiLogout } from "@mdi/js";
 
