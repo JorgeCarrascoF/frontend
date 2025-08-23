@@ -222,7 +222,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : data.data.length === 0 ? (
-        <div className="mt-10">No more logs available.</div>
+        <div className="mt-10">No results found.</div>
       ) : (
         <>
           <div className="mt-4">
