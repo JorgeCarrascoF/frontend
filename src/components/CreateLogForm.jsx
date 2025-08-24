@@ -69,7 +69,8 @@ export default function CreateLogForm() {
     e.preventDefault();
 
     if (!log.status) log.status = "unresolved";
-    if (!log.type) log.type = "error";
+    if (!log.type) log.error_type = "error";
+    else log.error_type = log.type;
     console.log("Log data:", log);
     mutation.mutate(log);
   };

@@ -15,6 +15,7 @@ import { maxLimitInteger } from "../utils/maxLimitInteger";
 import RelatedLogs from "./RelatedLogs";
 import Modal from "./Modal";
 
+
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
   let currentUser = JSON.parse(localStorage.getItem("userData"));
@@ -68,6 +69,8 @@ const LogInfo = ({ logId }) => {
         Error cargando usuarios: {usersError.message}
       </div>
     );
+
+console.log("Log data:", log);
 
   const isAdmin =
     currentUser?.role === "admin" || currentUser?.role === "superadmin";

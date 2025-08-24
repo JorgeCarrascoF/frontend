@@ -40,8 +40,6 @@ console.error = (...args) => {
 };
 
 
-console.info("¿Esto lo ve sentry?");
-
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
