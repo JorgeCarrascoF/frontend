@@ -14,7 +14,7 @@ import SelectInput from "./SelectInput";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
 import RelatedLogs from "./RelatedLogs";
 import Modal from "./Modal";
-
+import { registerStatusChange } from "../queries/registerStatusChange";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -51,6 +51,17 @@ const LogInfo = ({ logId }) => {
     },
   });
 
+  const statusMutation = useMutation({
+    mutationFn: ({ newStatus }) => registerStatusChange(logId, newStatus),
+    onSuccess: (response) => {
+      console.log("Status changed successfully", response);
+      queryClient.invalidateQueries(["log", logId]);
+    },
+    onError: (error) => {
+      console.error("Error changing status:", error);
+    },
+  });
+
   const userOptions =
     users?.data?.map((u) => ({
       value: u.id,
@@ -70,8 +81,6 @@ const LogInfo = ({ logId }) => {
       </div>
     );
 
-console.log("Log data:", log);
-
   const isAdmin =
     currentUser?.role === "admin" || currentUser?.role === "superadmin";
 
@@ -85,6 +94,7 @@ console.log("Log data:", log);
     mutation.mutate({
       updates: { status: e.target.value },
     });
+    statusMutation.mutate({ newStatus: e.target.value });
   };
 
   const confirmDeactivate = () => {
@@ -130,7 +140,10 @@ console.log("Log data:", log);
             <p className="text-left ml-2 text-gray-500">{log.message}</p>
           </div>
           <div className="w-[100%] p-0 grid grid-cols-3 gap-8">
-            <InfoItem label="Creation date" value={formatDate(log.created_at)} />
+            <InfoItem
+              label="Creation date"
+              value={formatDate(log.created_at)}
+            />
             <InfoItem label="Last seen" value={formatDate(log.last_seen_at)} />
             <InfoItem
               label="Error Type"
@@ -165,8 +178,8 @@ console.log("Log data:", log);
                 <InfoItem
                   label="Assigned to"
                   value={
-                    userOptions.find((u) => u.value === log.assigned_to)?.label ||
-                    log.assigned_to
+                    userOptions.find((u) => u.value === log.assigned_to)
+                      ?.label || log.assigned_to
                   }
                 />
               )}
@@ -189,10 +202,7 @@ console.log("Log data:", log);
         </div>
       </div>
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      >
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="flex flex-col items-center text-center p-6">
           <h2 className="text-2xl font-semibold mb-3">Deactivate this log?</h2>
           <p className="text-lg text-gray-600 mb-5">

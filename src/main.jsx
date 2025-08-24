@@ -21,24 +21,6 @@ Sentry.init({
   ],
 });
 
-window.addEventListener("error", (event) => {
-  if (event.error) {
-    Sentry.captureException(event.error);
-  } else {
-    Sentry.captureMessage(`GlobalError: ${event.message}`);
-  }
-});
-
-window.addEventListener("unhandledrejection", (event) => {
-  Sentry.captureException(event.reason);
-});
-
-const origError = console.error;
-console.error = (...args) => {
-  Sentry.captureMessage("ConsoleError: " + args.join(" "));
-  origError.apply(console, args);
-};
-
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

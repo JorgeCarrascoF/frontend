@@ -1,6 +1,6 @@
 import { mdiChevronDown } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getRelatedLogs } from "../queries/getRelatedLogs";
 import { useQuery } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
@@ -9,7 +9,6 @@ import RelatedLogRow from "./RelatedLogRow";
 const RelatedLogs = ({ log }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Solo ejecuta el query si existe error_signature
   const {
     data: relatedLogs,
     isLoading,
@@ -18,7 +17,7 @@ const RelatedLogs = ({ log }) => {
   } = useQuery({
     queryKey: ["relatedLogs", log.error_signature],
     queryFn: () => getRelatedLogs(log.error_signature),
-    enabled: !!log.error_signature, // importante: evita el fetch si no hay error_signature
+    enabled: !!log.error_signature,
   });
 
   const noErrorSignature = !log.error_signature;
@@ -29,6 +28,9 @@ const RelatedLogs = ({ log }) => {
     { key: "message", label: "Error message", width: "w-[50%]" },
     { key: "environment", label: "Environment", width: "w-[10%]" },
   ];
+
+  console.log("Error signature:", log.error_signature);
+  console.log("Related logs:", relatedLogs);
 
   return (
     <div className="w-full m-2 border border-gray-200 bg-white rounded-2xl ">
