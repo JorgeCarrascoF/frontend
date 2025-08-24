@@ -51,6 +51,7 @@ const UserInfo = ({ userId }) => {
   if (isError)
     return <div className="text-red-500">Error: {error.message}</div>;
 
+
   return (
     <div className="w-full h-full">
       <div className="flex items-center justify-between mt-6 mb-8">
@@ -133,7 +134,7 @@ const UserInfo = ({ userId }) => {
                   </label>
                   <input
                     type="text"
-                    value={userData?.firstName || ""}
+                    value={userData?.fullName?.split(" ")[0] || ""}
                     disabled
                     className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-700 h-[80%]"
                   />
@@ -144,7 +145,7 @@ const UserInfo = ({ userId }) => {
                   </label>
                   <input
                     type="text"
-                    value={userData?.lastName || ""}
+                    value={userData?.fullName?.split(" ")[1]  || ""}
                     disabled
                     className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-gray-700 h-[80%]"
                   />

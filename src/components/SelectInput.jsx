@@ -8,6 +8,7 @@ const SelectInput = ({
   options = [],
   placeholder = "Select an option",
   colorizeOnActive = true,
+  isDisabled = false
 }) => {
 
   useEffect(() => {
@@ -22,11 +23,12 @@ const SelectInput = ({
   return (
     <div className={`w-full relative flex`}>
       <select
-        className={`appearance-none w-full rounded-lg px-3 py-2 pr-10 
+      disabled={isDisabled}
+        className={`appearance-none cursor-pointer disabled:cursor-not-allowed w-full rounded-lg px-3 py-2 pr-10 
           ${
             value && colorizeOnActive
               ? "bg-[#295ba2] text-white"
-              : "bg-white text-gray-700 border border-gray-300"
+              : "bg-white text-black border border-gray-300"
           }`}
         value={value}
         onChange={onChange}

@@ -4,10 +4,11 @@ import { mdiChevronDown } from "@mdi/js";
 
 const LogDescription = ({
   description = "There is no description for this log.",
+  inactive = false
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="w-full m-2 border border-gray-200 bg-white rounded-2xl ">
+    <div className={`w-full m-2 border border-gray-200 bg-white ${inactive ? "text-[#737373]" : "text-black"} rounded-2xl `}>
       <button
         onClick={() => {
           setIsOpen(!isOpen);

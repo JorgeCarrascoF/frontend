@@ -4,7 +4,7 @@ import UserIconSmall from "./UserIconSmall";
 import { createComment } from "../queries/createComment";
 import { useState } from "react";
 
-const CommentInput = ({ logId }) => {
+const CommentInput = ({ logId, inactive = false }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
   const [comment, setComment] = useState("");
 
@@ -33,24 +33,28 @@ const CommentInput = ({ logId }) => {
   return (
     <form className="items-center text-left my-5 ml-3  flex px-3">
       <UserIconSmall user={userData} />
-      <input
-        type="text"
-        value={comment}
-        minLength={50}
-        maxLength={5000}
-        onChange={(e) => setComment(e.target.value)}
-        placeholder="Enter comment"
-        className=" ml-2 flex-1 px-4 py-3 rounded-xl bg-[#ededed]"
-      />
-      <div className="w-fit ml-2">
-        <Button
-          type="submit"
-          onClick={handleSubmit}
-          active
-          disabled={mutation.isPending || !comment.trim()}
-        >
-          {mutation.isSuccess ? "Comment added" : "Send"}
-        </Button>
+      <div className="flex w-full ml-4 items-center bg-[#ededed] px-2 py-1 rounded-xl">
+        <input
+          type="text"
+          value={comment}
+          minLength={50}
+          disabled={inactive}
+          maxLength={5000}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Enter comment"
+          className=" flex-1 px-4 py-3 rounded-xl bg-[#ededed]"
+        />
+        <div className="w-fit ml-2">
+          <Button
+            type="submit"
+            onClick={handleSubmit}
+            active
+          
+            disabled={mutation.isPending || !comment.trim() || inactive}
+          >
+            {mutation.isSuccess ? "Comment added" : "Send"}
+          </Button>
+        </div>
       </div>
     </form>
   );

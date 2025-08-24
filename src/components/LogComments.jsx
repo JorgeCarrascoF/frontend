@@ -9,7 +9,7 @@ import { getComments } from "../queries/getComments";
 import { ClipLoader } from "react-spinners";
 import NavButton from "./NavButton";
 
-const LogComments = ({ logId }) => {
+const LogComments = ({ logId, inactive }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const {
@@ -22,7 +22,7 @@ const LogComments = ({ logId }) => {
 
 
   return (
-    <div className="w-full m-2 border border-gray-200 bg-white rounded-2xl ">
+    <div className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${inactive ? "text-[#737373]" : "text-black"} `}>
       <button
         onClick={() => {
           setIsOpen(!isOpen);
@@ -40,7 +40,7 @@ const LogComments = ({ logId }) => {
       </button>
       {isOpen && (
         <div className="border-t mx-4 border-gray-200">
-          <CommentInput logId={logId} />
+          <CommentInput logId={logId} inactive={inactive} />
           <div className="text-left my-5 ml-3 text-gray-500">
             {isLoading ? (
               <div className="w-full flex items-center justify-center">

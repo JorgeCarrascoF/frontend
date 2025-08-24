@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../queries/getUsers";
 import { ClipLoader } from "react-spinners";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import Icon from "@mdi/react";
 import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
@@ -19,7 +19,6 @@ const UserDashboard = ({ search, setSearch }) => {
   const [roleFilter, setRoleFilter] = useState("");
   const [activeFilter, setActiveFilter] = useState("");
   const navigate = useNavigate();
-
 
   let userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -83,46 +82,52 @@ const UserDashboard = ({ search, setSearch }) => {
   return (
     <div className="flex flex-col h-full w-full self-start mt-2">
       <div className="ms-4 mr-auto flex gap-5">
-        <SelectInput
-          value={roleFilter}
-          onChange={(e) => {
-            setRoleFilter(e.target.value);
-            setPage(1);
-          }}
-          placeholder="Role"
-          options={[
-            { value: "user", label: "User" },
-            { value: "admin", label: "Admin" },
-            { value: "superadmin", label: "Superadmin" },
-          ]}
-        />
-        {userData.role !== "user" && (
+        <div>
           <SelectInput
-            value={activeFilter}
+            value={roleFilter}
             onChange={(e) => {
-              setActiveFilter(e.target.value);
+              setRoleFilter(e.target.value);
               setPage(1);
             }}
-            placeholder="Status"
+            placeholder="Role"
             options={[
-              { value: "active", label: "Active" },
-              { value: "inactive", label: "Inactive" },
+              { value: "user", label: "User" },
+              { value: "admin", label: "Admin" },
+              { value: "superadmin", label: "Superadmin" },
             ]}
           />
-        )}
-        {(search || roleFilter || activeFilter) && (
-          <div>
-            <Button
-              onClick={() => {
-                setActiveFilter("");
-                setRoleFilter("");
-                setSearch("");
+        </div>
+        <div>
+          {userData.role !== "user" && (
+            <SelectInput
+              value={activeFilter}
+              onChange={(e) => {
+                setActiveFilter(e.target.value);
+                setPage(1);
               }}
-            >
-              Clear filters
-            </Button>
-          </div>
-        )}
+              placeholder="Status"
+              options={[
+                { value: "active", label: "Active" },
+                { value: "inactive", label: "Inactive" },
+              ]}
+            />
+          )}
+        </div>
+        <div>
+          {(search || roleFilter || activeFilter) && (
+            <div>
+              <Button
+                onClick={() => {
+                  setActiveFilter("");
+                  setRoleFilter("");
+                  setSearch("");
+                }}
+              >
+                Clear filters
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
       {loadingUsers ? (
         <div className="flex justify-center items-center">

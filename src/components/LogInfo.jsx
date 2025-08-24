@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getLogById } from "../queries/getLogById";
 import { getUsers } from "../queries/getUsers";
@@ -13,15 +12,12 @@ import Select from "react-select";
 import SelectInput from "./SelectInput";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
 import RelatedLogs from "./RelatedLogs";
-import Modal from "./Modal";
 import { registerStatusChange } from "../queries/registerStatusChange";
+import DeactivateLog from "./DeactivateLog";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
   let currentUser = JSON.parse(localStorage.getItem("userData"));
-
-  const [isInactive, setIsInactive] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data: log,
@@ -84,9 +80,17 @@ const LogInfo = ({ logId }) => {
   const isAdmin =
     currentUser?.role === "admin" || currentUser?.role === "superadmin";
 
+  const isInactive = log.active === false;
+
   const handleAssignedChange = (selected) => {
     mutation.mutate({
       updates: { assigned_to: selected.value },
+    });
+  };
+
+  const handlePriorityChange = (e) => {
+    mutation.mutate({
+      updates: { priority: e.target.value },
     });
   };
 
@@ -97,16 +101,11 @@ const LogInfo = ({ logId }) => {
     statusMutation.mutate({ newStatus: e.target.value });
   };
 
-  const confirmDeactivate = () => {
-    setIsInactive(true);
-    setIsModalOpen(false);
-  };
-
   return (
     <>
       <div
-        className={`w-full flex flex-col gap-6 border border-gray-200 rounded-2xl py-5 px-6 mb-4 ${
-          isInactive ? "bg-gray-100 text-gray-400" : "bg-white text-black"
+        className={`w-full flex flex-col gap-6 border border-gray-200 bg-white rounded-2xl py-5 px-6 mb-4 ${
+          isInactive ? " text-[#737373]" : " text-black"
         }`}
       >
         <div className="flex justify-between items-center mt-5">
@@ -115,20 +114,8 @@ const LogInfo = ({ logId }) => {
               Log #{logId}
             </h1>
           </div>
-
           {currentUser?.role === "superadmin" && (
-            <button
-              onClick={() =>
-                isInactive ? setIsInactive(false) : setIsModalOpen(true)
-              }
-              className={`px-4 py-2 rounded-md font-medium transition me-5 ${
-                isInactive
-                  ? "bg-[#295ba2] text-white hover:bg-[#3f77c6]"
-                  : "bg-[#295ba2] text-white hover:bg-[#3f77c6]"
-              }`}
-            >
-              {isInactive ? "Activate Log" : "Deactivate Log"}
-            </button>
+            <DeactivateLog logId={logId} inactive={isInactive} />
           )}
         </div>
 
@@ -149,10 +136,10 @@ const LogInfo = ({ logId }) => {
               label="Error Type"
               value={log.error_type || "Undetermined"}
             />
-            <InfoItem label="Priority" value={log.priority} badge />
             <InfoItem label="Environment" value={log.environment} />
             <InfoItem
               label="Location"
+              colSpan={2}
               value={
                 log.culprit === "error culprit" || !log.culprit
                   ? "Undetermined"
@@ -160,9 +147,9 @@ const LogInfo = ({ logId }) => {
               }
             />
 
-            <div className="w-fit flex flex-col items-start">
+            <div className="w-fit flex flex-col items-start ">
               {isAdmin ? (
-                <div className="pt-4">
+                <div className="">
                   <Select
                     options={userOptions}
                     defaultValue={userOptions.find(
@@ -170,7 +157,27 @@ const LogInfo = ({ logId }) => {
                     )}
                     onChange={handleAssignedChange}
                     isSearchable
-                    className="w-48 mt-2"
+                    className="w-48 cursor-pointer"
+                    isDisabled={mutation.isLoading || isInactive}
+                  />
+                </div>
+              ) : (
+                <InfoItem label="Priority" value={log.priority} badge />
+              )}
+            </div>
+            <div className="w-fit flex flex-col items-start ">
+              {isAdmin ? (
+                <div className="">
+                  <SelectInput
+                    options={[
+                      { value: "low", label: "Low" },
+                      { value: "medium", label: "Medium" },
+                      { value: "high", label: "High" },
+                    ]}
+                    value={log.priority}
+                    onChange={handlePriorityChange}
+                    className="w-48"
+                    colorizeOnActive={false}
                     isDisabled={mutation.isLoading || isInactive}
                   />
                 </div>
@@ -179,57 +186,40 @@ const LogInfo = ({ logId }) => {
                   label="Assigned to"
                   value={
                     userOptions.find((u) => u.value === log.assigned_to)
-                      ?.label || log.assigned_to
+                      ?.label ||
+                    log.assigned_to ||
+                    "Unassigned"
                   }
                 />
               )}
             </div>
 
-            <div className="w-fit flex flex-col items-start p-4">
-              <SelectInput
-                options={[
-                  { value: "unresolved", label: "Pending" },
-                  { value: "in review", label: "In Review" },
-                  { value: "solved", label: "Resolved" },
-                ]}
-                value={log.status}
-                onChange={handleStatusChange}
-                className="w-48"
-                isDisabled={mutation.isLoading || isInactive}
-              />
+            <div className="w-fit flex flex-col items-start">
+              {isAdmin ? (
+                <SelectInput
+                  options={[
+                    { value: "unresolved", label: "Pending" },
+                    { value: "in review", label: "In Review" },
+                    { value: "solved", label: "Resolved" },
+                  ]}
+                  value={log.status}
+                  onChange={handleStatusChange}
+                  className="w-48"
+                  colorizeOnActive={false}
+                  isDisabled={mutation.isLoading || isInactive}
+                />
+              ) : (
+                <InfoItem label="Status" value={log.status} />
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div className="flex flex-col items-center text-center p-6">
-          <h2 className="text-2xl font-semibold mb-3">Deactivate this log?</h2>
-          <p className="text-lg text-gray-600 mb-5">
-            This action will mark the log as inactive. <br />
-            It can be reactivated later if needed
-          </p>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 w-32"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={confirmDeactivate}
-              className="px-4 py-2 rounded-lg bg-[#295ba2] text-white hover:bg-[#3f77c6] w-28"
-            >
-              Save
-            </button>
-          </div>
-        </div>
-      </Modal>
-
-      <LogDescription description={log.description} />
-      <LogComments logId={logId} />
-      <RelatedLogs log={log} />
-      <LogAISuggestion logId={logId} />
+      <LogDescription description={log.description} inactive={isInactive} />
+      <LogComments logId={logId} inactive={isInactive} />
+      <RelatedLogs log={log} inactive={isInactive} />
+      <LogAISuggestion logId={logId} inactive={isInactive} />
     </>
   );
 };
