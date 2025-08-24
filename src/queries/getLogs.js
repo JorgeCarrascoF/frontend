@@ -6,7 +6,7 @@ export const getLogs = async ({ type, status, environment, platform, priority, s
 
   const params = new URLSearchParams();
 
-  if (type) params.append("type", type);
+  if (type) params.append("error_type", type);
   if (status) params.append("status", status);
   if (platform) params.append("platform", platform);
   if (environment) params.append("environment", environment);

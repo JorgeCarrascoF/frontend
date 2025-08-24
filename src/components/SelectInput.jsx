@@ -37,7 +37,7 @@ const SelectInput = ({
           </option>
         )}{" "}
         {options.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option className="bg-white text-black" key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
