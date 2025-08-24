@@ -11,6 +11,9 @@ import NavButton from "./NavButton";
 
 const LogComments = ({ logId, inactive }) => {
   const [isOpen, setIsOpen] = useState(false);
+  
+  let userData = JSON.parse(localStorage.getItem("userData"));
+  const userId = userData?.id
 
   const {
     data: comments,
@@ -50,10 +53,10 @@ const LogComments = ({ logId, inactive }) => {
               <>
                 {comments?.data.length > 0 ? (
                   comments?.data.map((comment) => {
-                    return <UserComment key={comment.id} comment={comment} />;
+                    return <div className="mx-12 border-b border-gray-200 py-3"><UserComment key={comment.id} comment={comment} currentUserId={userId} /></div>;
                   })
                 ) : (
-                  <div>There are no comments for this log.</div>
+                  <div className="ms-20 mt-5">There are no comments for this log.</div>
                 )}
               </>
             )}

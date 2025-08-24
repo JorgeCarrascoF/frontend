@@ -32,7 +32,7 @@ const CommentInput = ({ logId, inactive = false }) => {
 
   return (
     <form className="items-center text-left my-5 ml-3  flex px-3">
-      <UserIconSmall user={userData} />
+      <UserIconSmall name={userData?.fullName} />
       <div className="flex w-full ml-4 items-center bg-[#ededed] px-2 py-1 rounded-xl">
         <input
           type="text"
@@ -49,10 +49,9 @@ const CommentInput = ({ logId, inactive = false }) => {
             type="submit"
             onClick={handleSubmit}
             active
-          
             disabled={mutation.isPending || !comment.trim() || inactive}
           >
-            {mutation.isSuccess ? "Comment added" : "Send"}
+            {mutation.isSuccess && !comment ? "Comment added" : "Send"}
           </Button>
         </div>
       </div>
