@@ -5,6 +5,7 @@ import UserComment from "./UserComment";
 import CommentInput from "./CommentInput";
 import { ClipLoader, PulseLoader } from "react-spinners";
 
+
 const AllLogComments = ({ logId }) => {
   const { data: log, isLoading: isLoadingLog } = useQuery({
     queryKey: ["log", logId],
@@ -53,7 +54,7 @@ const AllLogComments = ({ logId }) => {
           ))
         )}
       </div>
-      <CommentInput logId={logId} />
+      <CommentInput logId={logId} inactive={!log.active} />
     </div>
   );
 };

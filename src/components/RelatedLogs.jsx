@@ -4,7 +4,6 @@ import { useState } from "react";
 import { getRelatedLogs } from "../queries/getRelatedLogs";
 import { useQuery } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
-import RelatedLogRow from "./RelatedLogRow";
 import RelatedLogsTable from "./RelatedLogsTable";
 
 const RelatedLogs = ({ log, inactive = false }) => {

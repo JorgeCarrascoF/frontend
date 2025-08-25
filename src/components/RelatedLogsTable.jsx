@@ -17,7 +17,7 @@ const RelatedLogsTable = ({ relatedLogs }) => {
   };
 
   return (
-    <div className="flex flex-col w-full h-full border border-gray-200 rounded-md overflow-hidden">
+    <div className="flex flex-col w-full max-h-[333px] border border-gray-200 rounded-md overflow-auto">
       <div className="flex-1 w-full overflow-y-auto">
         <table className="min-w-max table-fixed w-full">
           <thead className="bg-[#fafafa]">
