@@ -23,15 +23,6 @@ const RelatedLogs = ({ log, inactive = false }) => {
 
   const noErrorSignature = !errorSignature;
 
-  const columns = [
-    { key: "id", label: "ID", width: "w-[25%]" },
-    { key: "status", label: "Status", width: "w-[15%]" },
-    { key: "message", label: "Error message", width: "w-[50%]" },
-    { key: "environment", label: "Environment", width: "w-[10%]" },
-  ];
-
-  console.log("Related logs data:", relatedLogs);
-
   return (
     <div
       className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${
@@ -44,7 +35,7 @@ const RelatedLogs = ({ log, inactive = false }) => {
         }}
         className="w-full p-4 px-6 cursor-pointer flex justify-between items-center"
       >
-        <h2 className="text-xl text-left font-semibold ml-2">Related logs</h2>
+        <h2 className="text-xl text-left font-semibold ml-2">Related Log</h2>
         <Icon
           path={mdiChevronDown}
           size={1.5}

@@ -1,10 +1,52 @@
 import { useState } from "react";
 import UserIconSmall from "./UserIconSmall";
 import { formatDate } from "../utils/formatDate";
-import { Pencil, Copy, Pin, Check } from "lucide-react";
+import { mdiPencil, mdiContentCopy, mdiCheck, mdiPin } from "@mdi/js";
+import Icon from "@mdi/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import updateComment from "../queries/updateComment";
+import { ClipLoader } from "react-spinners";
+import { mdiContentSaveOutline } from "@mdi/js";
+import { mdiClose } from "@mdi/js";
 
-const UserComment = ({ comment, currentUserId, onEdit, onPin }) => {
+const UserComment = ({ comment, currentUserId }) => {
   const [copied, setCopied] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [newCommentText, setNewCommentText] = useState("");
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (params) => updateComment(comment.id, params),
+    onSuccess: (data) => {
+      console.log("Comment updated successfully:", data);
+      queryClient.invalidateQueries(["comments", comment.id]);
+    },
+    onError: (error) => {
+      console.error("Error updating comment:", error);
+    },
+  });
+
+  // Duplicado para gestionar correctamente el spinner en dos iconos diferentes
+  const editMutation = useMutation({
+    mutationFn: (params) => updateComment(comment.id, params),
+    onSuccess: (data) => {
+      console.log("Comment updated successfully:", data);
+      queryClient.invalidateQueries(["comments", comment.id]);
+    },
+    onError: (error) => {
+      console.error("Error updating comment:", error);
+    },
+  });
+
+  const canEditComment = (date) => {
+    const EDIT_TIME = 5 * 60 * 1000;
+    const commentDate = new Date(date);
+    const now = new Date();
+
+    const diff = now - commentDate;
+    return diff <= EDIT_TIME && diff >= 0;
+  };
 
   const handleCopy = async () => {
     try {
@@ -16,10 +58,19 @@ const UserComment = ({ comment, currentUserId, onEdit, onPin }) => {
     }
   };
 
+  const handlePin = async (newPinned) => {
+    mutation.mutate({ pinned: newPinned });
+  };
+
+  const handleEdit = async () => {
+    editMutation.mutate({ text: newCommentText });
+  };
+
   const isOwner = comment.user?.id === currentUserId;
+  const canEdit = canEditComment(comment.create_at);
 
   return (
-    <div className="p-3 flex items-start">
+    <div className="p-3 flex items-center">
       <div className="w-[3.125rem] aspect-square mr-4">
         <UserIconSmall name={comment.user?.fullName || "Default User"} />
       </div>
@@ -34,34 +85,83 @@ const UserComment = ({ comment, currentUserId, onEdit, onPin }) => {
             </span>
           </div>
           <div className="flex gap-2 text-gray-500 mt-3">
-            {isOwner && (
+            {isOwner && editing && (
               <button
-                onClick={() => onEdit?.(comment)}
-                className="hover:text-gray-700 hover:cursor-pointer"
-                title="Editar comentario"
+                onClick={() => {
+                  setEditing(false);
+                  setNewCommentText("");
+                }}
+                className="hover:text-gray-700 -mr-1 hover:cursor-pointer"
+                title="Cancel editing"
               >
-                <Pencil size={20} />
+                <Icon path={mdiClose} size={1} />
+              </button>
+            )}
+            {isOwner && canEdit && (
+              <button
+                onClick={() => {
+                  if (!editMutation.isPending) {
+                    setEditing(!editing);
+                    if (editing) handleEdit();
+                  }
+                }}
+                className="hover:text-gray-700 hover:cursor-pointer"
+                title="Edit comment"
+              >
+                {editMutation.isPending ? (
+                  <ClipLoader size={15} />
+                ) : (
+                  <Icon
+                    path={editing ? mdiContentSaveOutline : mdiPencil}
+                    size={1}
+                  />
+                )}
               </button>
             )}
             <button
               onClick={handleCopy}
               className="hover:text-gray-700 hover:cursor-pointer"
-              title="Copiar comentario"
+              title="Copy comment"
             >
-              {copied ? <Check size={20} /> : <Copy size={20} />}
+              {copied ? (
+                <Icon path={mdiCheck} size={1} />
+              ) : (
+                <Icon path={mdiContentCopy} size={1} />
+              )}
             </button>
             <button
-              onClick={() => onPin?.(comment)}
+              onClick={() => handlePin(!comment.pinned)}
               className="hover:text-gray-700 hover:cursor-pointer"
-              title="Fijar comentario"
+              title="Pin comment"
             >
-              <Pin size={20} />
+              {" "}
+              {mutation.isPending ? (
+                <div className="flex items-center">
+                  <ClipLoader size={15} />
+                </div>
+              ) : (
+                <Icon
+                  path={mdiPin}
+                  size={1}
+                  color={comment.pinned ? "#295ba2" : "gray"}
+                />
+              )}
             </button>
           </div>
         </div>
-        <p className="text-gray-700 text-left mt-1 whitespace-pre-wrap">
-          {comment.text || "No comment text available"}
-        </p>
+        {editing ? (
+          <input
+            className="text-gray-700 text-left border rounded-md px-1 mt-1 whitespace-pre-wrap"
+            onChange={(e) => setNewCommentText(e.target.value)}
+            maxLength={5000}
+            minLength={100}
+            defaultValue={comment.text || "No comment text available"}
+          />
+        ) : (
+          <p className="text-gray-700 border border-transparent px-1 text-left mt-1 whitespace-pre-wrap">
+            {comment.text || "No comment text available"}
+          </p>
+        )}
       </div>
     </div>
   );

@@ -8,24 +8,29 @@ import { useQuery } from "@tanstack/react-query";
 import { getComments } from "../queries/getComments";
 import { ClipLoader } from "react-spinners";
 import NavButton from "./NavButton";
+import sortComments from "../utils/sortComments";
+import { maxLimitInteger } from "../utils/maxLimitInteger";
 
 const LogComments = ({ logId, inactive }) => {
   const [isOpen, setIsOpen] = useState(false);
-  
-  let userData = JSON.parse(localStorage.getItem("userData"));
-  const userId = userData?.id
 
-  const {
-    data: comments,
-    isLoading,
-  } = useQuery({
+  let userData = JSON.parse(localStorage.getItem("userData"));
+  const userId = userData?.id;
+
+  const { data: comments, isLoading } = useQuery({
     queryKey: ["comments", logId],
-    queryFn: () => getComments(logId),
+    queryFn: () => getComments(logId, { limit: maxLimitInteger }),
   });
 
 
+  const sortedComments = sortComments(comments?.data || []).slice(0, 5);
+
   return (
-    <div className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${inactive ? "text-[#737373]" : "text-black"} `}>
+    <div
+      className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${
+        inactive ? "text-[#737373]" : "text-black"
+      } `}
+    >
       <button
         onClick={() => {
           setIsOpen(!isOpen);
@@ -51,12 +56,23 @@ const LogComments = ({ logId, inactive }) => {
               </div>
             ) : (
               <>
-                {comments?.data.length > 0 ? (
-                  comments?.data.map((comment) => {
-                    return <div className="mx-12 border-b border-gray-200 py-3"><UserComment key={comment.id} comment={comment} currentUserId={userId} /></div>;
+                {sortedComments.length > 0 ? (
+                  sortedComments.map((comment, idx) => {
+                    return (
+                      <div
+                        className={`mx-12 ${
+                          idx != 4 && "border-b"
+                        } border-gray-200 py-3`}
+                        key={idx}
+                      >
+                        <UserComment comment={comment} currentUserId={userId} />
+                      </div>
+                    );
                   })
                 ) : (
-                  <div className="ms-20 mt-5">There are no comments for this log.</div>
+                  <div className="ms-20 mt-5">
+                    There are no comments for this log.
+                  </div>
                 )}
               </>
             )}

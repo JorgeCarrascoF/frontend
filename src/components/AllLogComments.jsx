@@ -4,9 +4,11 @@ import { getLogById } from "../queries/getLogById";
 import UserComment from "./UserComment";
 import CommentInput from "./CommentInput";
 import { ClipLoader, PulseLoader } from "react-spinners";
-
+import sortComments from "../utils/sortComments";
+import { maxLimitInteger } from "../utils/maxLimitInteger";
 
 const AllLogComments = ({ logId }) => {
+  const userId = localStorage.getItem("userId");
   const { data: log, isLoading: isLoadingLog } = useQuery({
     queryKey: ["log", logId],
     queryFn: () => getLogById(logId),
@@ -14,8 +16,12 @@ const AllLogComments = ({ logId }) => {
 
   const { data: comments, isLoading: isLoadingComments } = useQuery({
     queryKey: ["comments", logId],
-    queryFn: () => getComments(logId),
+    queryFn: () => getComments(logId, { limit: maxLimitInteger }),
   });
+
+  console.log(comments);
+
+  sortComments(comments?.data || []);
 
   return (
     <div className="w-full h-full flex flex-col gap-2 border border-gray-200 bg-white rounded-2xl py-5 px-6">
@@ -50,11 +56,15 @@ const AllLogComments = ({ logId }) => {
           <span className="text-left">There are no comments for this log.</span>
         ) : (
           comments?.data.map((comment) => (
-            <UserComment key={comment.id} comment={comment} />
+            <UserComment
+              key={comment.id}
+              comment={comment}
+              currentUserId={userId}
+            />
           ))
         )}
       </div>
-      <CommentInput logId={logId} inactive={!log.active} />
+      <CommentInput logId={logId} inactive={!(log?.active)} />
     </div>
   );
 };

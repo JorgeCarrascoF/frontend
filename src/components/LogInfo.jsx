@@ -14,6 +14,8 @@ import { maxLimitInteger } from "../utils/maxLimitInteger";
 import RelatedLogs from "./RelatedLogs";
 import { registerStatusChange } from "../queries/registerStatusChange";
 import DeactivateLog from "./DeactivateLog";
+import LogStatusRegister from "./LogStatusRegister";
+import splitDate from "../utils/splitDate";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -52,6 +54,7 @@ const LogInfo = ({ logId }) => {
     onSuccess: (response) => {
       console.log("Status changed successfully", response);
       queryClient.invalidateQueries(["log", logId]);
+      queryClient.invalidateQueries(["statusRegister", logId]);
     },
     onError: (error) => {
       console.error("Error changing status:", error);
@@ -100,6 +103,8 @@ const LogInfo = ({ logId }) => {
     });
     statusMutation.mutate({ newStatus: e.target.value });
   };
+
+  console.log(splitDate(log.created_at));
 
   return (
     <>
@@ -219,6 +224,7 @@ const LogInfo = ({ logId }) => {
       <LogDescription description={log.description} inactive={isInactive} />
       <LogComments logId={logId} inactive={isInactive} />
       <RelatedLogs log={log} inactive={isInactive} />
+      <LogStatusRegister logId={logId} inactive={isInactive} />
       <LogAISuggestion logId={logId} inactive={isInactive} />
     </>
   );

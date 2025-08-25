@@ -21,6 +21,8 @@ const LogRow = ({ log, onRowClick }) => {
       value: u.id,
       label: u.username,
     })) || [];
+
+    console.log(log.created_at)
   return (
     <tr
       className="cursor-pointer h-[4.6rem] 2xl:h-[3.9rem] border-t text-left border-gray-200 text-sm hover:bg-gray-50

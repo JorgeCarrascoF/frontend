@@ -11,8 +11,8 @@ const RelatedLogRow = ({ log, onClick }) => {
             value={
               log.status == "unresolved"
                 ? "Pending"
-                : log.status == "resolved"
-                ? "Solved"
+                : log.status == "solved"
+                ? "Resolved"
                 : log.status
             }
           />{" "}

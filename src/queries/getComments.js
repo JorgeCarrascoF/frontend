@@ -1,7 +1,7 @@
 import { api } from "../api";
 import getToken from "../utils/getToken";
 
-export const getComments = async (logId) => {
+export const getComments = async (logId, params) => {
   const token = getToken();
 
   try {
@@ -9,6 +9,7 @@ export const getComments = async (logId) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params,
     });
     return data;
   } catch (error) {
