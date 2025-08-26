@@ -19,7 +19,6 @@ const Layout = () => {
   return (
     <div className="flex h-screen bg-[#fafafa]">
       <nav className="w-[20rem] h-screen fixed left-0 flex flex-col justify-between p-4 py-8">
-        {/* Logo */}
         <div className="mx-8 flex flex-col items-center">
           <span
             className="font-semibold self-start text-left text-black text-2xl cursor-pointer"
@@ -34,8 +33,6 @@ const Layout = () => {
               />
             </div>
           </span>
-
-          {/* Información del usuario */}
           {userData && (
             <div className="flex items-center gap-3 self-start">
               <UserIconSmall name={userData.fullName} />
@@ -47,8 +44,6 @@ const Layout = () => {
               </div>
             </div>
           )}
-
-          {/* Botones de navegación */}
           <div className="flex flex-col mt-10 w-full ml-2 gap-3">
             <NavButton
               text={"Logs"}
@@ -71,16 +66,12 @@ const Layout = () => {
             )}
           </div>
         </div>
-
-        {/* Logout */}
         <div className="mx-8 mt-4 flex flex-col items-center">
           <div className="flex flex-col mt-10 w-full ml-2 gap-2">
             <LogoutButton />
           </div>
         </div>
       </nav>
-
-      {/* Contenido principal */}
       <main className="ml-[20rem] flex-1 flex flex-col py-6 px-8 overflow-auto h-full">
         <Outlet />
       </main>
