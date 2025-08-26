@@ -7,35 +7,50 @@ import LogoutButton from "./LogoutButton";
 import { Outlet, useNavigate } from "react-router-dom";
 import { mdiAccount } from "@mdi/js";
 import { useAuth } from "../hooks/useAuth";
+import LogoIsotipo from "../assets/Buggle_Isotipo.svg";
+import LogoTipografia from "../assets/Buggle_tipografia_curvas.svg";
+import UserIconSmall from "./UserIconSmall.jsx";
 
 const Layout = () => {
   const { isLoggedIn } = useAuth();
   const userData = JSON.parse(localStorage.getItem("userData"));
   const navigate = useNavigate();
+
   return (
     <div className="flex h-screen bg-[#fafafa]">
-      <nav
-        className="w-[20rem] h-screen fixed left-0 flex flex-col justify-between p-4 py-8"
-      >
+      <nav className="w-[20rem] h-screen fixed left-0 flex flex-col justify-between p-4 py-8">
         <div className="mx-8 flex flex-col items-center">
           <span
             className="font-semibold self-start text-left text-black text-2xl cursor-pointer"
             onClick={() => navigate("/")}
           >
-            Buggle
+            <div className="flex">
+              <img src={LogoIsotipo} alt="Isotipo" className="h-12" />
+              <img
+                src={LogoTipografia}
+                alt="Tipografía"
+                className="h-24 w-24 relative bottom-6"
+              />
+            </div>
           </span>
+          {userData && (
+            <div className="flex items-center gap-3 self-start">
+              <UserIconSmall name={userData.fullName} />
+              <div className="flex flex-col">
+                <span className="font-semibold text-xs text-black">
+                  {userData.fullName} - {userData.role}
+                </span>
+                <span className="text-xs text-gray-500">{userData.email}</span>
+              </div>
+            </div>
+          )}
           <div className="flex flex-col mt-10 w-full ml-2 gap-3">
             <NavButton
               text={"Logs"}
               route={"/dashboard"}
               icon={<Icon path={mdiFile} size={1} />}
             />
-            {/* <NavButton
-              text={"Documentation"}
-              route={"/docs"}
-              icon={<Icon path={mdiBookOpenBlankVariantOutline} size={1} />}
-            /> */}
-            {(userData?.role == "admin" || userData?.role == "superadmin") && (
+            {(userData?.role === "admin" || userData?.role === "superadmin") && (
               <NavButton
                 text={"User Management"}
                 route={"/users"}
