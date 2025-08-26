@@ -37,21 +37,25 @@ const CustomDateSelector = ({ month, onMonthChange }) => {
   };
 
   return (
-    <div className="flex justify-center gap-2 mb-2">
-      <SelectInput
-        value={month.getMonth()}
-        colorizeOnActive={false}
-        onChange={handleMonthChange}
-        placeholder="Month"
-        options={months.map((m, idx) => ({ value: idx, label: m }))}
-      />
-      <SelectInput
-        value={month.getFullYear()}
-        colorizeOnActive={false}
-        onChange={handleYearChange}
-        placeholder="Year"
-        options={years.map((y) => ({ value: y, label: y }))}
-      />
+    <div className="flex justify-center gap-4">
+      <div className="w-30">
+        <SelectInput
+          value={month.getMonth()}
+          colorizeOnActive={false}
+          onChange={handleMonthChange}
+          placeholder="Month"
+          options={months.map((m, idx) => ({ value: idx, label: m }))}
+        />
+      </div>
+      <div>
+        <SelectInput
+          value={month.getFullYear()}
+          colorizeOnActive={false}
+          onChange={handleYearChange}
+          placeholder="Year"
+          options={years.map((y) => ({ value: y, label: y }))}
+        />
+      </div>
     </div>
   );
 };
@@ -104,7 +108,7 @@ const DateInput = ({ value, onChange, placeholder = "Select date" }) => {
       </button>
 
       {open && (
-        <div className="absolute z-10 mt-2 bg-white rounded-xl shadow-lg p-3">
+        <div className="absolute z-10 mt-2 bg-white rounded-xl border border-[#DBDBDB] shadow-lg p-3">
           <CustomDateSelector month={month} onMonthChange={setMonth} />
           <DayPicker
             mode="single"
@@ -116,7 +120,7 @@ const DateInput = ({ value, onChange, placeholder = "Select date" }) => {
             hideWeekdays
             classNames={{
               selected: `bg-[#295ba2] text-white`,
-              root: `${defaultClassNames.root} p-`,
+              root: `${defaultClassNames.root} p-1`,
               day: `rounded-full hover:bg-[#e3ebf6] ${defaultClassNames.day}`,
               today: `text-black`,
               caption_label: `hidden`,

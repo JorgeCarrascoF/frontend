@@ -20,7 +20,7 @@ const UserOption = (props) => (
   </components.Option>
 );
 
-const PriorityUserSelect = ({ log, isInactive }) => {
+const PriorityUserSelect = ({ log, isInactive, handleAssignedChange }) => {
   const {
     data: users
   } = useQuery({
@@ -33,22 +33,6 @@ const PriorityUserSelect = ({ log, isInactive }) => {
     queryFn: () => getSuggestedUsers({ error_signature: log.error_signature }),
     enabled: !!log.error_signature,
   });
-
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: ({ updates }) => updateLog(log.id, updates),
-    onSuccess: (response) => {
-      console.log("Log updated successfully", response);
-      queryClient.invalidateQueries(["log", log.id]);
-    },
-  });
-
-  const handleAssignedChange = (selected) => {
-    mutation.mutate({
-      updates: { assigned_to: selected.value },
-    });
-  };
 
   const suggestedIds = suggestedUsers?.suggestions?.map((u) => u.userId) || [];
 
@@ -74,7 +58,7 @@ const PriorityUserSelect = ({ log, isInactive }) => {
       onChange={handleAssignedChange}
       isSearchable
       className="w-[13rem] cursor-pointer"
-      isDisabled={mutation.isLoading || isInactive}
+      isDisabled={isInactive}
       components={{ Option: UserOption }}
     />
   );

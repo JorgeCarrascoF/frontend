@@ -156,27 +156,10 @@ const LogInfo = ({ logId }) => {
             <div className="w-fit flex flex-col items-start ">
               {isAdmin ? (
                 <div className="">
-                  <PriorityUserSelect log={log} isInactive={isInactive} />
-                </div>
-              ) : (
-                <InfoItem label="Priority" value={log.priority} badge />
-              )}
-            </div>
-
-            <div className="w-fit flex flex-col items-start ">
-              {isAdmin ? (
-                <div className="">
-                  <SelectInput
-                    options={[
-                      { value: "low", label: "Low" },
-                      { value: "medium", label: "Medium" },
-                      { value: "high", label: "High" },
-                    ]}
-                    value={log.priority}
-                    onChange={handlePriorityChange}
-                    className="w-48"
-                    colorizeOnActive={false}
-                    isDisabled={mutation.isLoading || isInactive}
+                  <PriorityUserSelect
+                    log={log}
+                    isInactive={mutation.isLoading || isInactive}
+                    handleAssignedChange={handleAssignedChange}
                   />
                 </div>
               ) : (
@@ -189,6 +172,27 @@ const LogInfo = ({ logId }) => {
                     "Unassigned"
                   }
                 />
+              )}
+            </div>
+
+            <div className="w-fit flex flex-col items-start ">
+              {isAdmin ? (
+                <div className="w-30">
+                  <SelectInput
+                    options={[
+                      { value: "high", label: "High", color: "#ff5252" },
+                      { value: "medium", label: "Medium", color: "#fb8c00" },
+                      { value: "low", label: "Low", color: "#4CAF50" },
+                    ]}
+                    value={log.priority}
+                    onChange={handlePriorityChange}
+                    className="w-48"
+                    colorizeOnActive={false}
+                    isDisabled={mutation.isLoading || isInactive}
+                  />
+                </div>
+              ) : (
+                <InfoItem label="Priority" value={log.priority} badge />
               )}
             </div>
 

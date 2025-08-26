@@ -12,7 +12,6 @@ import SelectInput from "./SelectInput";
 import DateInput from "./DateInput";
 import getPageNumbers from "../utils/getPageNumbers";
 
-
 const LOGS_PER_PAGE = 10;
 
 const PaginatedLogDashboard = ({ search, setSearch }) => {
@@ -83,9 +82,9 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
               onChange={(e) => setPriorityFilter(e.target.value)}
               placeholder="Error priority"
               options={[
-                { value: "low", label: "Low" },
-                { value: "medium", label: "Medium" },
-                { value: "high", label: "High" },
+                { value: "high", label: "High", color: "#ff5252" },
+                { value: "medium", label: "Medium", color: "#fb8c00" },
+                { value: "low", label: "Low", color: "#4CAF50" },
               ]}
             />
           </div>
@@ -115,7 +114,6 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
               ]}
             />
           </div>
-
 
           <DateInput
             value={dateFilter}
