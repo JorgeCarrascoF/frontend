@@ -36,12 +36,18 @@ const stylesMap = {
       border: "",
     },
   },
+  suggestedUser: {
+      bg: "bg-[#E3EBF6]",
+      text: "text-[#295BA2]",
+      border: "border-[#295BA2]",
+  }
 };
 const chipWidth = {
   environment: "w-[7.5rem]",
   assignee: "w-[7.5rem] 2xl:w-[9rem]",
   priority: "w-[6.438rem]",
   userStatus: "w-[7.3rem] 2xl:max-w-[6rem]",
+  suggestedUser: "w-[4rem]"
 };
 
 const Chip = ({ type, value, showPoint }) => {

@@ -16,6 +16,7 @@ import { registerStatusChange } from "../queries/registerStatusChange";
 import DeactivateLog from "./DeactivateLog";
 import LogStatusRegister from "./LogStatusRegister";
 import splitDate from "../utils/splitDate";
+import PriorityUserSelect from "./PriorityUserSelect";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -104,6 +105,8 @@ const LogInfo = ({ logId }) => {
     statusMutation.mutate({ newStatus: e.target.value });
   };
 
+  console.log("Log data:", log);
+
   return (
     <>
       <div
@@ -153,21 +156,13 @@ const LogInfo = ({ logId }) => {
             <div className="w-fit flex flex-col items-start ">
               {isAdmin ? (
                 <div className="">
-                  <Select
-                    options={userOptions}
-                    defaultValue={userOptions.find(
-                      (u) => u.value === log.assigned_to
-                    )}
-                    onChange={handleAssignedChange}
-                    isSearchable
-                    className="w-48 cursor-pointer"
-                    isDisabled={mutation.isLoading || isInactive}
-                  />
+                  <PriorityUserSelect log={log} isInactive={isInactive} />
                 </div>
               ) : (
                 <InfoItem label="Priority" value={log.priority} badge />
               )}
             </div>
+
             <div className="w-fit flex flex-col items-start ">
               {isAdmin ? (
                 <div className="">
