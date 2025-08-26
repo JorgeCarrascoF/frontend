@@ -3,7 +3,6 @@ import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { getLogs } from "../queries/getLogs";
 import Button from "./Button";
-import DataTable from "./DataTable";
 import Icon from "@mdi/react";
 import { mdiChevronLeft } from "@mdi/js";
 import { mdiChevronRight } from "@mdi/js";
@@ -12,6 +11,7 @@ import LogTable from "./LogTable";
 import SelectInput from "./SelectInput";
 import DateInput from "./DateInput";
 import getPageNumbers from "../utils/getPageNumbers";
+
 
 const LOGS_PER_PAGE = 10;
 
@@ -116,80 +116,12 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             />
           </div>
 
-          {/* <select
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value)}
-            className={`${
-              typeFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
-            } rounded-lg px-2 py-2`}
-          >
-            <option value="" selected>
-              Error type
-            </option>
-            <option value="error">Error</option>
-            <option value="warning">Warning</option>
-            <option value="info">Info</option>
-          </select> */}
 
           <DateInput
             value={dateFilter}
             onChange={setDateFilter}
             placeholder="Date"
           />
-
-          {/* <input
-            type="date"
-            className={`${
-              dateFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
-            } rounded-lg px-2 py-2`}
-            value={dateFilter}
-            onChange={(e) => setDateFilter(e.target.value)}
-          /> */}
-
-          {/* <select
-            value={priorityFilter}
-            onChange={(e) => setPriorityFilter(e.target.value)}
-            className={`${
-              priorityFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
-            } rounded-lg px-2 py-2`}
-          >
-            <option value="" selected>
-              Priority
-            </option>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select> */}
-
-          {/* <select
-            value={environmentFilter}
-            onChange={(e) => setEnvironmentFilter(e.target.value)}
-            className={`${
-              environmentFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
-            } rounded-lg px-2 py-2`}
-          >
-            <option value="" selected>
-              Environment
-            </option>
-            <option value="production">Production</option>
-            <option value="staging">Staging</option>
-            <option value="development">Development</option>
-          </select> */}
-
-          {/* <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className={`${
-              statusFilter ? "bg-[#295ba2] text-white" : "bg-[#f0f2f5]"
-            } rounded-lg px-2 py-2`}
-          >
-            <option value="" selected>
-              Status
-            </option>
-            <option value="unresolved">Unresolved</option>
-            <option value="in review">In Review</option>
-            <option value="resolved">Resolved</option>
-          </select> */}
 
           {(search ||
             typeFilter ||

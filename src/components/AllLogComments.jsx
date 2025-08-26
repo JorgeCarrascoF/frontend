@@ -19,8 +19,6 @@ const AllLogComments = ({ logId }) => {
     queryFn: () => getComments(logId, { limit: maxLimitInteger }),
   });
 
-  console.log(comments);
-
   sortComments(comments?.data || []);
 
   return (

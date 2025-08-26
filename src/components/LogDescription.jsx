@@ -24,7 +24,7 @@ const LogDescription = ({
       </button>
       {isOpen && (
         <div className="border-t mx-4 border-gray-200">
-          <p className="text-left my-5 ml-3 text-gray-500 leading-relaxed">
+          <p className="text-left my-5 ml-3 text-gray-500 leading-relaxed break-words">
             {description ? description !== "error description" ? description : "No description available" : "No description available"}
           </p>
         </div>

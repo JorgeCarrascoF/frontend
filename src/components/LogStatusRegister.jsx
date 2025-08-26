@@ -14,8 +14,6 @@ const LogStatusRegister = ({ logId, inactive = false }) => {
     queryKey: ["statusRegister", logId],
   });
 
-  console.log(statusRegister);
-
   return (
     <div
       className={`w-full m-2 border border-gray-200 bg-white ${

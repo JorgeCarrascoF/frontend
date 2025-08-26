@@ -104,8 +104,6 @@ const LogInfo = ({ logId }) => {
     statusMutation.mutate({ newStatus: e.target.value });
   };
 
-  console.log(splitDate(log.created_at));
-
   return (
     <>
       <div

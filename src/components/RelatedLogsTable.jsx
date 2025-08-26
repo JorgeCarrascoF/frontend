@@ -12,7 +12,6 @@ const RelatedLogsTable = ({ relatedLogs }) => {
 
     const navigate = useNavigate();
   const onRowClick = (logId) => {
-    console.log("Row clicked:", logId);
     navigate(`/dashboard/log/${logId}`);
   };
 
