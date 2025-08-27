@@ -158,8 +158,8 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
           <div className="mt-4">
             <LogTable data={data?.data ?? []} onRowClick={handleRowClick} />
           </div>
-          <div className="flex justify-center items-center gap-4 mt-auto pt-4">
-            <div className="w-[11rem] flex">
+          <div className="flex justify-center text-xs items-center gap-4 mt-auto pt-4">
+            <div className="w-[6rem]">
               <Button
                 onClick={() => setPage((old) => Math.max(old - 1, 1))}
                 disabled={page === 1}
@@ -167,10 +167,10 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
                 active={false}
               >
                 <Icon path={mdiChevronLeft} size={1} />
-                Previous page
+                Previous
               </Button>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 h-full items-center">
               {getPageNumbers(page, totalPages).map((p, i) =>
                 p === "..." ? (
                   <span key={i} className="px-2">
@@ -188,7 +188,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
                 )
               )}
             </div>
-            <div className="w-[11rem] flex">
+            <div className="w-[4.5rem]">
               <Button
                 variant="pagination"
                 onClick={() => setPage((old) => old + 1)}
@@ -197,7 +197,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
                   isPreviousData || (data?.data?.length ?? 0) < LOGS_PER_PAGE
                 }
               >
-                Next page
+                Next
                 <Icon path={mdiChevronRight} size={1} />
               </Button>
             </div>

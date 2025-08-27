@@ -1,6 +1,5 @@
 import NavButton from "./NavButton";
 import Icon from "@mdi/react";
-import { mdiBookOpenBlankVariantOutline } from "@mdi/js";
 import { mdiFile } from "@mdi/js";
 import { mdiAccountMultipleOutline } from "@mdi/js";
 import LogoutButton from "./LogoutButton";
@@ -34,13 +33,15 @@ const Layout = () => {
             </div>
           </span>
           {userData && (
-            <div className="flex items-center gap-3 self-start">
-              <UserIconSmall name={userData.fullName} />
+            <div className="flex w-full items-center gap-3 self-start">
+              <div className="">
+                <UserIconSmall name={userData.fullName} />
+              </div>
               <div className="flex flex-col">
-                <span className="font-semibold text-xs text-black">
+                <span className="font-semibold text-sm text-black">
                   {userData.fullName} - {userData.role}
                 </span>
-                <span className="text-xs text-gray-500">{userData.email}</span>
+                <span className="text-sm text-gray-500">{userData.email}</span>
               </div>
             </div>
           )}
@@ -50,7 +51,8 @@ const Layout = () => {
               route={"/dashboard"}
               icon={<Icon path={mdiFile} size={1} />}
             />
-            {(userData?.role === "admin" || userData?.role === "superadmin") && (
+            {(userData?.role === "admin" ||
+              userData?.role === "superadmin") && (
               <NavButton
                 text={"User Management"}
                 route={"/users"}

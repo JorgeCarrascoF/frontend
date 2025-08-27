@@ -10,9 +10,9 @@ const Profile = () => {
 
   return (
     <div className=" w-full h-full">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-4 mt-4">
         <h1 className="text-2xl font-bold">
-          {userData?.username || "Profile"}
+          Edit profile
         </h1>
       </div>
       <div className="flex items-center justify-between m-2.5 rounded-2xl h-[90%]">

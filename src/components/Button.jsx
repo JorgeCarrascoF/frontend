@@ -91,8 +91,10 @@ const Button = ({
       disabled={disabled}
       type={type}
       className={`cursor-pointer rounded-md flex ${justifyMap[align]} 
-w-full items-center gap-2 py-2 px-5 
-${active && v.active ? v.active : v.base} 
+w-full items-center 
+${active && v.active ? v.active : v.base} ${
+        variant == "pagination" ? "px-[1rem] py-[0.4rem] h-full" : "p-2 px-5"
+      }
 disabled:cursor-not-allowed transition-colors duration-200`}
     >
       {children}

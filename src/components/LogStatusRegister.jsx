@@ -9,7 +9,7 @@ import StatusRegisterTable from "./StatusRegisterTable";
 const LogStatusRegister = ({ logId, inactive = false }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data: statusRegister, isLoading, isError, error } = useQuery({
+  const { data: statusRegister } = useQuery({
     queryFn: () => getStatusRegister(logId, { limit: maxLimitInteger }),
     queryKey: ["statusRegister", logId],
   });
@@ -35,14 +35,9 @@ const LogStatusRegister = ({ logId, inactive = false }) => {
       </button>
       {isOpen && (
         <div className="border-t mx-4 border-gray-200">
-          {/* <p className="text-left my-5 ml-3 text-gray-500 leading-relaxed">
-            {description
-              ? description !== "error description"
-                ? description
-                : "No description available"
-              : "No description available"}
-          </p> */}
-          {statusRegister && <StatusRegisterTable statusRegister={statusRegister.data} />}
+          {statusRegister?.data.length > 0 ? <StatusRegisterTable statusRegister={statusRegister.data} /> : 
+            <div className="text-left my-5 ml-3 text-gray-500 leading-relaxed break-words">There are no status changes about this log.</div>
+          }
         </div>
       )}
     </div>

@@ -1,16 +1,15 @@
 import { hashString } from "./hashString";
 
 const colores = [
-  "#F44336", // rojo
-  "#E91E63", // rosa
-  "#9C27B0", // morado
-  "#673AB7", // índigo
-  "#3F51B5", // azul
-  "#2196F3", // azul claro
-  "#03A9F4", // celeste
-  "#009688", // verde
-  "#4CAF50", // verde claro
-  "#FFC107"  // amarillo
+  "#F3F6FC", 
+  "#E6EDF8", 
+  "#96B7E3", 
+  "#5E92D2", 
+  "#3974BE", 
+  "#295BA2", 
+  "#224882",
+  "#203F6C", 
+  "#1F365B"  
 ];
 
 

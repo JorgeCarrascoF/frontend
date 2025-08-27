@@ -1,9 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getUsers } from "../queries/getUsers";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
-import { updateLog } from "../queries/updateLog";
 import { getSuggestedUsers } from "../queries/getSuggestedUsers";
 import Select from "react-select";
+// eslint-disable-next-line no-unused-vars
 import { components } from "react-select";
 import Chip from "./Chip";
 
@@ -25,7 +25,7 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange }) => {
     data: users
   } = useQuery({
     queryKey: ["users"],
-    queryFn: () => getUsers({ page: 1, limit: maxLimitInteger }),
+    queryFn: () => getUsers({ page: 1, limit: maxLimitInteger, active: "active" }),
   });
 
   const { data: suggestedUsers } = useQuery({

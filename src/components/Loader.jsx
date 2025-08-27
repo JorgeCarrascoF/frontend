@@ -10,22 +10,16 @@ export default function Loader() {
     path.style.strokeDasharray = length;
     path.style.strokeDashoffset = length;
 
-    path.animate(
-      [
-        { strokeDashoffset: length, fill: "transparent" },
-        { strokeDashoffset: 0, fill: "#295ba2" },
-      ],
-      {
-        duration: 1000,
-        easing: "cubic-bezier(0.42, 0, 0.58, 1)",
-        iterations: Infinity,
-        direction: "alternate",
-      }
-    );
+    path.animate([{ fill: "transparent" }, { fill: "#295ba2" }], {
+      duration: 1000,
+      easing: "cubic-bezier(0.42, 0, 0.58, 1)",
+      iterations: Infinity,
+      direction: "alternate",
+    });
   }, []);
 
   return (
-    <div style={{ width: "80px", margin: "auto" }}>
+    <div style={{ width: "180px", margin: "auto" }}>
       <svg viewBox="0 0 5062 5339">
         <path
           ref={pathRef}

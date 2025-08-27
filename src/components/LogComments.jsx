@@ -10,6 +10,7 @@ import { ClipLoader } from "react-spinners";
 import NavButton from "./NavButton";
 import sortComments from "../utils/sortComments";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
+import { Link } from "react-router-dom";
 
 const LogComments = ({ logId, inactive }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,6 @@ const LogComments = ({ logId, inactive }) => {
     queryKey: ["comments", logId],
     queryFn: () => getComments(logId, { limit: maxLimitInteger }),
   });
-
 
   const sortedComments = sortComments(comments?.data || []).slice(0, 5);
 
@@ -77,13 +77,13 @@ const LogComments = ({ logId, inactive }) => {
               </>
             )}
           </div>
-          <div className="flex w-fit place-self-end my-4 mx-1">
-            <NavButton
-              text={"See all comments"}
-              route={`/dashboard/log/${logId}/comments`}
-              icon={<Icon path={mdiOpenInNew} size={1} />}
-              variant="dark"
-            />
+          <div className="flex w-fit place-self-end mb-2 mx-1">
+            <Link
+              to={`/dashboard/log/${logId}/comments`}
+              className={`px-4 py-3 flex items-center justify-left rounded-lg transition-colors duration-200`}
+            >
+              <Icon path={mdiOpenInNew} size={1} />
+            </Link>
           </div>
         </div>
       )}
