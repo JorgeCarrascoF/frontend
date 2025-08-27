@@ -226,7 +226,10 @@ const RegisterForm = () => {
           label="Username"
           name="username"
           value={form.username}
-          onChange={handleChange}
+          onChange={(e) => {
+            handleChange(e);
+            setForm((prev) => ({ ...prev, displayName: e.target.value }));
+          }}
           placeholder="Enter user's email"
           error={errors.username}
         />

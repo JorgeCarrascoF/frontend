@@ -14,9 +14,20 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const [validNewPassword, setValidNewPassword] = useState(false);
+
+    useEffect(() => {
+      let timer;
+      if (success) {
+        timer = setTimeout(() => {
+          setSuccess(false);
+        }, 3000);
+      }
+      return () => clearTimeout(timer);
+    }, [success]);
 
   useEffect(() => {
     const isValid =
@@ -34,6 +45,7 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
+      setSuccess(true)
       let credentials = localStorage.getItem("credentials");
       credentials = JSON.parse(credentials);
       localStorage.setItem(
@@ -47,6 +59,15 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
     },
   });
 
+  const passwordIsSafe = () => {
+    return (
+      newPassword.length >= 8 &&
+      /[A-Z]/.test(newPassword) &&
+      /[0-9]/.test(newPassword) &&
+      /[!@#$%^&*]/.test(newPassword)
+    );
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessage("");
@@ -54,32 +75,40 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
   };
 
   return (
-    <div className="p-5 mt-10 flex flex-col w-full h-[90%] items-start justify-start">
-      <h2 className="text-2xl font-semibold mb-10">Change Password</h2>
+    <div className="mt-15 flex flex-col w-full h-full items-start justify-start">
+      <h2 className="text-2xl font-semibold mb-10">Change password</h2>
       <form className="flex flex-col gap-5 w-[95%]" onSubmit={handleSubmit}>
-        <PasswordInput
-          label="Current Password"
-          placeholder={"Enter current password"}
-          onChange={(e) => setCurrentPassword(e.target.value)}
-        />
-        <div className="w-full">
+        <div className="w-[70%]">
+          <PasswordInput
+            label="Current Password"
+            placeholder={"Enter your current password"}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+        </div>
+        <div className="w-[70%] mt-4">
           <PasswordInput
             label="New Password"
             placeholder={"Enter new password"}
             onChange={(e) => setNewPassword(e.target.value)}
           />
           <div className="w-full ml-4 -mt-2 flex flex-col">
-            <span className="text-sm w-full text-left mt-0">
-              Please add all necessary character to create safe password:
+            <span
+              className={`text-sm w-full text-left mt-0 mb-3 ${
+                passwordIsSafe() ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {newPassword && (passwordIsSafe()
+                ? "✓ Secure password."
+                : "Please add all necessary character to create safe password:")}
             </span>
-            <ul className="flex flex-col list-disc ml-5">
+            <ul className="flex flex-col list-disc ml-5 gap-1 text-[#737373]">
               <li
                 className={`text-sm w-full text-left ${
                   newPassword &&
                   (newPassword.length >= 8 ? "text-green-500" : "text-red-500")
                 }`}
               >
-                At least 8 characters
+                Minimum 8 characters
               </li>
               <li
                 className={`text-sm w-full text-left ${
@@ -115,14 +144,14 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
           </div>
         </div>
 
-        <div className="w-full">
+        <div className="w-[70%] mt-6">
           <PasswordInput
             label="Confirm New Password"
             placeholder={"Confirm new password"}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <div className="w-full ml-4 -mt-2 flex flex-col">
-            <span
+            {/* <span
               className={`text-sm w-full text-left mt-0 ${
                 confirmPassword &&
                 (confirmPassword === newPassword
@@ -131,10 +160,10 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
               }`}
             >
               Please confirm your new password.
-            </span>
+            </span> */}
           </div>
         </div>
-        <div className="ml-auto flex mt-4 gap-4">
+        <div className="ml-auto flex mt-20 gap-7">
           {setChangingPassword && (
             <div className="w-[170px]">
               <Button
@@ -150,7 +179,7 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
               type="submit"
               disabled={newPassword !== confirmPassword || !validNewPassword}
             >
-              Change password
+              Saved
             </Button>
           </div>
         </div>
@@ -169,29 +198,19 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
         )
       )}
       <Modal
-        isOpen={mutation.isSuccess}
+        isOpen={success}
         onClose={() =>
           setChangingPassword ? setChangingPassword(false) : navigate("/")
         }
       >
-        <div className="p-4 flex flex-col items-center gap-8">
-          <Icon path={mdiCheckCircleOutline} size={4} color={"green"} />
-          <h3 className="text-lg font-semibold text-[#008000]">
+        <div className="p-4 flex flex-col items-center">
+          <Icon path={mdiCheckCircleOutline} size={2} color={"green"} />
+          <h3 className="text-2xl text-black font-semibold mt-4">
             Password updated successfully
           </h3>
-          <p className="text-sm text-gray-600 mb-5">
+          <p className="text-sm text-[#737373] mt-3 mb-8">
             You can now log in with your new password.
           </p>
-          <div>
-            <Button
-              variant="secondary"
-              onClick={() =>
-                setChangingPassword ? setChangingPassword(false) : navigate("/")
-              }
-            >
-              Go back
-            </Button>
-          </div>
         </div>
       </Modal>
     </div>

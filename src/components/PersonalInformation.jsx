@@ -27,8 +27,8 @@ const PersonalInformation = ({ data }) => {
                   setEditingEmail(true);
                 }}
               >
-                <div>
-                  <Icon path={mdiPencil} size={1} />
+                <div className="mr-2">
+                  <Icon path={mdiPencil} size={0.9} />
                 </div>
                 Edit
               </Button>

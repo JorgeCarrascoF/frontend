@@ -1,14 +1,10 @@
-import { mdiChevronDown } from "@mdi/js";
-import Icon from "@mdi/react";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import getStatusRegister from "../queries/getStatusRegister";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
 import StatusRegisterTable from "./StatusRegisterTable";
 import Accordion from "./Accordion";
 
 const LogStatusRegister = ({ logId, inactive = false }) => {
-  const [isOpen, setIsOpen] = useState(false);
 
   const { data: statusRegister } = useQuery({
     queryFn: () => getStatusRegister(logId, { limit: maxLimitInteger }),

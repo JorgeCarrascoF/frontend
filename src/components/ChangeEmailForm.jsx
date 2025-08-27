@@ -9,6 +9,9 @@ import { mdiCheckCircleOutline } from "@mdi/js";
 import getToken from "../utils/getToken";
 
 const ChangeEmailForm = ({ setChangingEmail }) => {
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  console.log("userData", userData);
+  const [currentEmail, setCurrentEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -46,15 +49,25 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
     },
   });
 
+  const currentEmailMismatch = () => {
+    return currentEmail !== userData.email;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     mutation.mutate({ newEmail });
   };
 
   return (
-    <div className="p-10 flex flex-col w-full h-[90%] items-start justify-start pt-0 ms-10">
+    <div className="p-10 flex flex-col w-full h-[90%] items-start justify-start border pt-0 ms-10">
       <h2 className="text-2xl font-semibold mb-10">Change Email</h2>
       <form className="flex flex-col gap-5 w-[60%]" onSubmit={handleSubmit}>
+        <TextInput
+          label="Current Email"
+          placeholder={"Enter your current email"}
+          onChange={(e) => setCurrentEmail(e.target.value)}
+          error={currentEmail && (currentEmailMismatch()) && "Email does not match with this account's email"}
+        />
         <div className="w-full">
           <TextInput
             label="New Email"
@@ -101,7 +114,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
             <Button
               type="submit"
               variant="primary"
-              disabled={!validNewEmail || confirmEmail !== newEmail}
+              disabled={!validNewEmail || confirmEmail !== newEmail || currentEmailMismatch()}
             >
               Change email
             </Button>

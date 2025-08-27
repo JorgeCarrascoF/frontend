@@ -25,8 +25,8 @@ export default function PasswordInput({
         </label>
       )}
       <div
-        className={`w-full px-3 py-3 relative border placeholder:text-sm rounded-md focus:outline-none focus:ring ${
-          error ? "border-red-500" : "border-gray-300"
+        className={`w-full px-3 py-3 relative border placeholder:text-sm rounded-md bg-[#FAFAFA] focus:outline-none focus:ring ${
+          error ? "border-red-500" : "border-[#DBDBDB]"
         }`}
       >
         <input
@@ -38,7 +38,7 @@ export default function PasswordInput({
           placeholder={placeholder}
           aria-invalid={!!error}
           aria-describedby={error ? `error-${id}` : undefined}
-          className={`w-full border-0 focus:ring-0 p-0 focus:border-gray-300 focus:outline-none`}
+          className={`w-full border-0 focus:ring-0 bg-transparent p-0 focus:border-gray-300 focus:outline-none placeholder:text-sm `}
         />
         <button
           onClick={() => {
@@ -47,7 +47,7 @@ export default function PasswordInput({
               : setInputType("password");
           }}
           type="button"
-          className="absolute right-2 cursor-pointer top-1/2 transform -translate-y-1/2"
+          className="absolute right-6 cursor-pointer top-1/2 transform -translate-y-1/2"
         >
           {inputType === "password" ? (
             <Icon path={mdiEye} size={1} />

@@ -13,7 +13,7 @@ const UserIcon = ({ name = "Default User" }) => {
       <span
         className={`${
           lightColors.includes(bgColor) ? "text-[#1F365B]" : "text-white"
-        } font-bold select-none text-5xl`}
+        }  select-none text-5xl`}
       >
         {initials}
       </span>
