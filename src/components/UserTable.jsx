@@ -106,7 +106,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
                       setChangingUserStatus(true);
                     }}
                     disabled={!row.isActive}
-                    className="text-gray-600 cursor-pointer disabled:cursor-not-allowed hover:text-red-600"
+                    className="text-black cursor-pointer disabled:cursor-not-allowed ml-12 hover:text-red-600"
                   >
                     <Icon path={mdiDelete} size={0.9} />
                   </button>

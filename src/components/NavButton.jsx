@@ -17,7 +17,7 @@ import { Link, useLocation } from "react-router-dom";
   },
 };
 
-const NavButton = ({ text, route, icon, variant = "light"}) => {
+const NavButton = ({ text, route, icon, variant = "light", font = "font-medium"}) => {
   const location = useLocation();
   const isActive = location.pathname === route;
 
@@ -27,10 +27,10 @@ const NavButton = ({ text, route, icon, variant = "light"}) => {
   return (
     <Link
       to={route}
-      className={`px-4 py-3 flex items-center justify-left ${v.base} rounded-lg ${isActive ? v.bgActive : v.bg} ${v.hover} transition-colors duration-200`}
+      className={`px-3 py-2 flex items-center justify-left ${v.base} rounded-lg ${isActive ? v.bgActive : v.bg} ${v.hover} transition-colors duration-200`}
     >
-      {icon && <span className={`mr-2 ${v.icon}`}>{icon}</span>}
-      <span className={v.base}>{text}</span>
+      {icon && <span className={`mr-3 ${v.icon}`}>{icon}</span>}
+      <span className={`${v.base} ${font} text-sm`}>{text}</span>
     </Link>
   );
 };

@@ -21,11 +21,10 @@ const UserOption = (props) => (
 );
 
 const PriorityUserSelect = ({ log, isInactive, handleAssignedChange }) => {
-  const {
-    data: users
-  } = useQuery({
+  const { data: users } = useQuery({
     queryKey: ["users"],
-    queryFn: () => getUsers({ page: 1, limit: maxLimitInteger, active: "active" }),
+    queryFn: () =>
+      getUsers({ page: 1, limit: maxLimitInteger, active: "active" }),
   });
 
   const { data: suggestedUsers } = useQuery({
@@ -57,9 +56,54 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange }) => {
       defaultValue={userOptions.find((u) => u.value === log.assigned_to)}
       onChange={handleAssignedChange}
       isSearchable
-      className="w-[13rem] cursor-pointer"
+      className="w-[264px] cursor-pointer"
       isDisabled={isInactive}
       components={{ Option: UserOption }}
+      styles={{
+        control: (provided, state) => ({
+          ...provided,
+          borderRadius: "8px",
+          borderColor: state.isFocused ? "#295ba2" : "#d1d5db",
+          backgroundColor: "#ffffff",
+          color: "black",
+          cursor: "pointer",
+        }),
+        menu: (provided) => ({
+          ...provided,
+          borderRadius: "8px",
+          backgroundColor: "#ffffff",
+          boxShadow:
+            "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)",
+          cursor: "pointer",
+        }),
+        option: (provided, state) => ({
+          backgroundColor: state.isFocused ? "#e3ebf6" : "#ffffff",
+          padding: 8,
+          paddingLeft: 16,
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          gap: 10,
+        }),
+        dropdownIndicator: (provided) => ({
+          ...provided,
+          paddingRight: 5,
+        }),
+        indicatorSeparator: () => ({
+          display: "none",
+        }),
+        singleValue: (provided) => ({
+          ...provided,
+          color: "#737373",
+          textAlign: "left",
+        }),
+        placeholder: (provided) => ({
+          ...provided,
+          color: "#737373",
+          textAlign: "left",
+        }),
+      }}
     />
   );
 };

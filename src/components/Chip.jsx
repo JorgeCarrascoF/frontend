@@ -45,6 +45,7 @@ const stylesMap = {
 const chipWidth = {
   environment: "w-[7.5rem]",
   assignee: "w-[7.5rem] 2xl:w-[9rem]",
+  status: "w-[7rem]",
   priority: "w-[6.438rem]",
   userStatus: "w-[7.3rem] 2xl:max-w-[6rem]",
   suggestedUser: "w-[4rem]"
@@ -59,7 +60,7 @@ const Chip = ({ type, value, showPoint }) => {
     <div
       className={`text-center ${
         chipWidth[type] || chipWidth.default
-      } rounded-lg py-1 ${style.bg} ${style.text} ${style.border || ""} ${
+      } rounded-lg py-[3px] ${style.bg} ${style.text} ${style.border || ""} ${
         style.border && "border"
       }`}
     >
@@ -72,7 +73,7 @@ const Chip = ({ type, value, showPoint }) => {
           <div className={`w-2 h-2 rounded-full ${style.point}`}></div>
         )}
         <span
-          className={`max-w-[12ch] 2xl:max-w-[18ch] truncate overflow-hidden`}
+          className={`max-w-[12ch] text-sm -mb-[2px] 2xl:max-w-[18ch] truncate overflow-hidden`}
         >
           {capitalizeWords(value)}
         </span>

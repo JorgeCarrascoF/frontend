@@ -7,6 +7,7 @@ import { useState } from "react";
 const CommentInput = ({ logId, inactive = false }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
   const [comment, setComment] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -16,6 +17,7 @@ const CommentInput = ({ logId, inactive = false }) => {
     },
     onSuccess: () => {
       setComment("");
+      setSuccess(true);
       queryClient.invalidateQueries(["comments", logId]);
     },
     onError: (error) => {
@@ -25,33 +27,37 @@ const CommentInput = ({ logId, inactive = false }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (comment.trim() === "") return;
 
     mutation.mutate({ logId, comment });
   };
 
   return (
-    <form className="items-center text-left my-5 ml-3  flex px-3">
+    <form className="items-center text-left  flex">
       <UserIconSmall name={userData?.fullName} />
-      <div className="flex w-full ml-4 items-center bg-[#ededed] px-2 py-1 rounded-xl">
+      <div className="flex w-full ml-4 items-center bg-[#ededed] px- py-[1px] rounded-lg">
         <input
           type="text"
           value={comment}
           minLength={50}
           disabled={inactive}
           maxLength={5000}
-          onChange={(e) => setComment(e.target.value)}
+          onChange={(e) => {
+            setComment(e.target.value);
+            setSuccess(false);
+          }}
           placeholder="Enter comment"
-          className=" flex-1 px-4 py-3 rounded-xl bg-[#ededed]"
+          className=" flex-1 px-3 py-3 rounded-xl bg-[#ededed]"
         />
-        <div className="w-fit ml-2">
+        <div className="w-fit mr-1">
           <Button
             type="submit"
             onClick={handleSubmit}
             active
             disabled={mutation.isPending || !comment.trim() || inactive}
           >
-            {mutation.isSuccess && !comment ? "Comment added" : "Send"}
+            {success && !comment ? "Comment added" : "Send"}
           </Button>
         </div>
       </div>

@@ -147,7 +147,7 @@ const UserDashboard = ({ search, setSearch }) => {
             />
           </div>
           <div className="flex justify-center items-center mt-auto gap-4">
-            <div className="w-[11rem]">
+            <div className="w-[113px]">
               <Button
                 variant="pagination"
                 onClick={() => setPage((old) => Math.max(old - 1, 1))}
@@ -155,7 +155,7 @@ const UserDashboard = ({ search, setSearch }) => {
                 active={false}
               >
                 <Icon path={mdiChevronLeft} size={1} />
-                Previous page
+                Previous
               </Button>
             </div>
             <div className="flex gap-2">
@@ -176,14 +176,14 @@ const UserDashboard = ({ search, setSearch }) => {
                 )
               )}
             </div>
-            <div className="w-[11rem]">
+            <div className="w-[93px]">
               <Button
                 onClick={() => setPage((old) => old + 1)}
                 variant="pagination"
                 active={false}
                 disabled={isPreviousData || users.data.length < USERS_PER_PAGE}
               >
-                Next page
+                Next
                 <Icon path={mdiChevronRight} size={1} />
               </Button>
             </div>

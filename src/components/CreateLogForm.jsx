@@ -1,7 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createLog } from "../queries/createLog";
-import { Link, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { getUsers } from "../queries/getUsers";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
@@ -17,7 +16,6 @@ export default function CreateLogForm() {
   const [labelMessageCount, setLabelMessageCount] = useState(0);
   const [message, setMessage] = useState("");
   const [logCreated, setLogCreated] = useState(false);
-  const navigate = useNavigate();
 
   const userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -25,6 +23,16 @@ export default function CreateLogForm() {
     queryKey: ["users"],
     queryFn: () => getUsers({ page: 1, limit: maxLimitInteger }),
   });
+
+  useEffect(() => {
+    let timer;
+    if (logCreated) {
+      timer = setTimeout(() => {
+        setLogCreated(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [logCreated]);
 
   const userOptions =
     users?.data?.map((u) => ({
@@ -36,10 +44,6 @@ export default function CreateLogForm() {
     mutationFn: (newLog) => createLog(newLog),
     onSuccess: () => {
       setLogCreated(true);
-      // setMessage("Log created successfully");
-      // setTimeout(() => {
-      //   navigate(`/dashboard/log/${data.log._id}`);
-      // }, 1000);
     },
     onError: () => {
       setMessage("Error creating log");
@@ -77,27 +81,17 @@ export default function CreateLogForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-6 w-full h-full flex flex-col justify-center"
+      className="w-full h-full flex flex-col mt-10 justify-center"
     >
-      {/* Encabezado */}
-      {/* Primera fila */}
-      <label className="block mb-2 text-sm font-medium text-left">
-        Error Message*
-      </label>
-      <div className="flex justify-between items-baseline w-[80%] gap-4 mb-10">
-        <div className="w-[70%] flex flex-col">
-          {/* <input
-            placeholder=""
-            className="border w-full border-gray-300 rounded-md px-3 py-2 text-sm"
-            onChange={(e) => setLog({ ...log, message: e.target.value })}
-            value={log.message || ""}
-            maxLength={100}
-            minLength={5}
-          /> */}
+      <label className="block mb-2 font-medium text-left">Error Message*</label>
+      <div className="flex justify-between items-start w-[80%] gap-4 mb-10">
+        <div className="w-[62%] flex flex-col">
           <div className="relative flex flex-col w-full">
             <input
               placeholder="Placeholder"
-              className="border w-full border-gray-300 rounded-md px-3 py-2 text-sm"
+              className={`border w-full border-gray-300 h-[56px] rounded-lg px-3 py-2 text-sm ${
+                !log.message && "bg-[#fafafa]"
+              }`}
               value={log.message || ""}
               maxLength={100}
               minLength={5}
@@ -106,14 +100,15 @@ export default function CreateLogForm() {
                 setLabelMessageCount(e.target.value.length);
               }}
             />
-            <span className="absolute top-10 right-3 text-xs text-gray-400">
+            <span className="absolute -bottom-5 right-3 text-xs text-gray-400">
               {labelMessageCount}/100
             </span>
           </div>
         </div>
-        <div className="w-[25%]">
+        <div className="w-[214px]">
           <SelectInput
             colorizeOnActive={false}
+            placeholder="Status"
             options={[
               { value: "unresolved", label: "Pending", default: true },
               { value: "in review", label: "In Review" },
@@ -125,15 +120,14 @@ export default function CreateLogForm() {
         </div>
       </div>
 
-      {/* Segunda fila */}
-      <label className="block mb-2 text-sm font-medium text-left">
-        Details
-      </label>
-      <div className="flex justify-between  w-[80%] gap-4 mb-10">
-        <div className="relative flex flex-col w-[70%]">
+      <label className="block mb-2 font-medium mt-6 text-left">Details</label>
+      <div className="flex justify-between  w-[82%] gap-4 mb-10">
+        <div className="relative flex flex-col w-[60%]">
           <textarea
             placeholder="Placeholder"
-            className="border rounded-md border-gray-300 px-3 py-2 text-sm w-full h-24 resize-none"
+            className={`border rounded-lg border-gray-300 px-3 py-2 text-sm w-full h-[134px] resize-none ${
+              !log.description && "bg-[#fafafa]"
+            }`}
             maxLength={5000}
             minLength={100}
             onChange={(e) => {
@@ -151,12 +145,12 @@ export default function CreateLogForm() {
           >
             Description is required and must be at least 100 characters long.
           </span> */}
-          <span className="absolute top-25 right-3 text-xs text-gray-400">
+          <span className="absolute -bottom-5 right-3 text-xs text-gray-400">
             {labelCount}/5000
           </span>
         </div>
 
-        <div className="w-[25%]">
+        <div className="w-[30%]">
           <SelectInput
             colorizeOnActive={false}
             options={[
@@ -173,9 +167,9 @@ export default function CreateLogForm() {
 
       {/* Tercera fila */}
 
-      <div className="flex justify-between w-[80%] gap-4 mb-10">
-        <div className="flex items-center justify-between w-[70%]">
-          <div className="w-[60%] flex flex-col br">
+      <div className="flex justify-between w-[85%] mt-10">
+        <div className="flex items-center justify-between w-[58%]">
+          <div className="w-[56%] flex flex-col">
             <Select
               options={userOptions}
               value={
@@ -188,27 +182,54 @@ export default function CreateLogForm() {
               placeholder="Select user*"
               className={`w-full`}
               styles={{
-                control: (base) => ({
-                  ...base,
-                  borderRadius: 8,
+                control: (provided, state) => ({
+                  ...provided,
+                  borderRadius: "8px",
+                  borderColor: state.isFocused ? "#295ba2" : "#d1d5db",
+                  backgroundColor: "#ffffff",
+                  color: "black",
+                  cursor: "pointer",
                 }),
-                singleValue: (base) => ({
-                  ...base,
+                menu: (provided) => ({
+                  ...provided,
+                  borderRadius: "8px",
+                  backgroundColor: "#ffffff",
+                  boxShadow:
+                    "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)",
+                  cursor: "pointer",
+                }),
+                option: (provided, state) => ({
+                  backgroundColor: state.isFocused ? "#e3ebf6" : "#ffffff",
+                  padding: 8,
+                  paddingLeft: 16,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  gap: 10,
+                }),
+                dropdownIndicator: (provided) => ({
+                  ...provided,
+                  paddingRight: 5,
+                }),
+                indicatorSeparator: () => ({
+                  display: "none",
+                }),
+                singleValue: (provided) => ({
+                  ...provided,
+                  color: "#737373",
+                  textAlign: "left",
+                }),
+                placeholder: (provided) => ({
+                  ...provided,
+                  color: "#737373",
+                  textAlign: "left",
                 }),
               }}
               isDisabled={mutation.isLoading || userData.role == "user"}
             />
-            {/* <span
-              className={`${
-                !log.assigned_to && userData.role != "user"
-                  ? "text-red-500 "
-                  : "text-transparent select-none"
-              }  text-sm text-left ml-2 mt-1`}
-            >
-              Asignation is required
-            </span> */}
           </div>
-          <div className="w-[35%] flex flex-col">
+          <div className="w-[40%] flex flex-col">
             <SelectInput
               colorizeOnActive={false}
               options={[
@@ -220,16 +241,9 @@ export default function CreateLogForm() {
               onChange={(e) => setLog({ ...log, priority: e.target.value })}
               value={log.priority || ""}
             />
-            {/* <span
-              className={`${
-                !log.priority ? "text-red-500 " : "text-transparent select-none"
-              }  text-sm text-left ml-2 mt-1`}
-            >
-              Priority is required
-            </span> */}
           </div>
         </div>
-        <div className="h-full w-[25%] flex flex-col">
+        <div className="h-full w-[32.5%] flex flex-col">
           <SelectInput
             colorizeOnActive={false}
             options={[
@@ -241,24 +255,15 @@ export default function CreateLogForm() {
             onChange={(e) => setLog({ ...log, environment: e.target.value })}
             value={log.environment || ""}
           />
-          {/* <span
-            className={`${
-              !log.environment
-                ? "text-red-500 "
-                : "text-transparent select-none"
-            }  text-sm text-left ml-2 mt-1`}
-          >
-            Environment is required
-          </span> */}
         </div>
       </div>
 
       {/* Botones */}
-      <div className="flex justify-end gap-3 w-[80%] mt-auto mb-10">
+      <div className="flex justify-end gap-15 w-[85%] mt-auto mb-11 ml-[5px]">
         <div className="w-[145px]">
           <Button
             type="button"
-            variant="secondary"
+            variant="terciary"
             disabled={
               !(
                 log.message ||
@@ -281,27 +286,19 @@ export default function CreateLogForm() {
           </Button>
         </div>
       </div>
-      <Modal isOpen={logCreated}>
-        <div className="flex flex-col items-center">
+      <Modal isOpen={logCreated} onClose={() => setLogCreated(false)}>
+        <div className="flex flex-col items-center p-8">
           <Icon
             path={mdiCheckCircleOutline}
-            size={4}
+            size={1.5}
             className="text-green-500 mb-4"
           />
-          <h2 className="text-lg font-semibold mb-4">
+          <h2 className="text-2xl font-semibold mb-4">
             Log created successfully
           </h2>
-          <span>You can now view it in the log list.</span>
-          <div className="mt-10">
-            <Button
-              onClick={() => {
-                setLogCreated(false);
-                navigate(`/dashboard/`);
-              }}
-            >
-              Go to list
-            </Button>
-          </div>
+          <span className="text-[16px]">
+            You can now view it in the log list.
+          </span>
         </div>
       </Modal>
       {message && (

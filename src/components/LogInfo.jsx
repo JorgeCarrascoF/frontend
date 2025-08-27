@@ -16,6 +16,7 @@ import { registerStatusChange } from "../queries/registerStatusChange";
 import DeactivateLog from "./DeactivateLog";
 import LogStatusRegister from "./LogStatusRegister";
 import PriorityUserSelect from "./PriorityUserSelect";
+import { formatDateAndHour } from "../utils/formatDateAndHour";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -104,39 +105,39 @@ const LogInfo = ({ logId }) => {
     statusMutation.mutate({ newStatus: e.target.value });
   };
 
-  console.log("Log data:", log);
-
   return (
     <>
       <div
-        className={`w-full flex flex-col gap-6 border border-gray-200 bg-white rounded-2xl py-5 px-6 mb-4 ${
+        className={`w-full flex flex-col gap-6 border border-[#DBDBDB] bg-white rounded-lg pt-3 pb-16 px-6 mb-4 ${
           isInactive ? " text-[#737373]" : " text-black"
         }`}
       >
-        <div className="flex justify-between items-center mt-5">
+        <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-left m-2 mb-1">
-              Log #{logId}
-            </h1>
+            <h1 className="text-2xl font-bold text-left mb-1">Log #{logId}</h1>
           </div>
-          {currentUser?.role === "superadmin" && (
-            <DeactivateLog logId={logId} inactive={isInactive} />
-          )}
         </div>
 
-        <div className="flex flex-col items-start mb-8 ms-5 mt-5">
-          <div className="mb-4 ml-4">
-            <h2 className="text-xl font-semibold mb-1 text-left">
-              Error message
-            </h2>
-            <p className="text-left ml-2 text-gray-500">{log.message}</p>
+        <div className="flex flex-col items-start mb-8">
+          <div className="mb-4 flex w-[80%] justify-between">
+            <div>
+              <h2 className="mb-3 text-left">Error message</h2>
+              <p className="text-left text-gray-500">{log.message}</p>
+            </div>
+
+            {currentUser?.role === "superadmin" && (
+              <DeactivateLog logId={logId} inactive={isInactive} />
+            )}
           </div>
-          <div className="w-[100%] p-0 grid grid-cols-3 gap-8">
+          <div className="w-[90%] grid grid-cols-3 gap-3">
             <InfoItem
               label="Creation date"
-              value={formatDate(log.created_at)}
+              value={formatDateAndHour(log.created_at)}
             />
-            <InfoItem label="Last seen" value={formatDate(log.last_seen_at)} />
+            <InfoItem
+              label="Last seen"
+              value={formatDateAndHour(log.last_seen_at)}
+            />
             <InfoItem
               label="Error Type"
               value={log.error_type || "Undetermined"}
@@ -152,9 +153,9 @@ const LogInfo = ({ logId }) => {
               }
             />
 
-            <div className="w-fit flex flex-col items-start ">
+            <div className="w-fit flex mt-2 flex-col items-start">
               {isAdmin ? (
-                <div className="w-30">
+                <div className="w-[184px]">
                   <SelectInput
                     options={[
                       { value: "high", label: "High", color: "#ff5252" },
@@ -173,8 +174,9 @@ const LogInfo = ({ logId }) => {
               )}
             </div>
 
-            <div className="w-fit flex flex-col items-start">
+            <div className="w-fit mt-2 flex flex-col items-start">
               {isAdmin ? (
+                <div className="w-[224px]">
                 <SelectInput
                   options={[
                     { value: "unresolved", label: "Pending" },
@@ -187,14 +189,15 @@ const LogInfo = ({ logId }) => {
                   colorizeOnActive={false}
                   isDisabled={mutation.isLoading || isInactive}
                 />
+                </div>
               ) : (
                 <InfoItem label="Status" value={log.status} />
               )}
             </div>
 
-            <div className="w-fit flex flex-col items-start ">
+            <div className="w-fit flex mt-2 flex-col items-start ">
               {isAdmin ? (
-                <div className="">
+                <div className="ml-4">
                   <PriorityUserSelect
                     log={log}
                     isInactive={mutation.isLoading || isInactive}
@@ -230,9 +233,9 @@ const InfoItem = ({ label, value, badge, colSpan }) => (
   <div
     className={`${colSpan ? "col-span-2" : ""} w-fit flex flex-col ${
       badge ? "items-center" : "items-start"
-    } p-4`}
+    } py-4`}
   >
-    <span className="text-lg font-semibold mb-1">{label}</span>
+    <span className="mb-3">{label}</span>
     {badge ? (
       <div className="w-28">
         <Chip
@@ -242,7 +245,7 @@ const InfoItem = ({ label, value, badge, colSpan }) => (
         />
       </div>
     ) : (
-      <p className="ml-2 break-all">{value}</p>
+      <p className="break-all text-gray-500">{value}</p>
     )}
   </div>
 );

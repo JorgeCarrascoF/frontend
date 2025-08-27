@@ -9,19 +9,8 @@ const LogPage = () => {
 
 
   return (
-    <div className="w-[90%]">
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold">Log detail</h1>
-        <div className="flex">
-          <NavButton
-            text="See all logs"
-            route="/dashboard"
-            variant="dark"
-            icon={<Icon path={mdiOpenInNew} size={1} />}
-          />
-        </div>
-      </div>
-      <div className="flex flex-col items-center m-2.5">
+    <div className="w-[80%] mt-5 ml-15">
+      <div className="flex flex-col items-center">
         <LogInfo logId={logId} />
       </div>
     </div>

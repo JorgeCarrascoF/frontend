@@ -1,7 +1,7 @@
 import NavButton from "../components/NavButton";
 import PaginatedLogDashboard from "../components/PaginatedLogDashboard";
 import Icon from "@mdi/react";
-import { mdiOpenInNew } from "@mdi/js";
+import { mdiFileOutline  } from "@mdi/js";
 import { mdiMagnify } from "@mdi/js";
 import { useState } from "react";
 import PageWrapper from "../components/PageWrapper";
@@ -32,7 +32,8 @@ const Logs = () => {
             text="New log"
             route="/dashboard/log/create"
             variant="dark"
-            icon={<Icon path={mdiOpenInNew} size={1} />}
+            font="font-light"
+            icon={<Icon path={mdiFileOutline } size={1} />}
           />
         </>
       }

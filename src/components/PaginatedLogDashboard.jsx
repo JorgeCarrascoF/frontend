@@ -80,7 +80,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             <SelectInput
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value)}
-              placeholder="Error priority"
+              placeholder="Priority"
               options={[
                 { value: "high", label: "High", color: "#ff5252" },
                 { value: "medium", label: "Medium", color: "#fb8c00" },
@@ -129,6 +129,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             priorityFilter) && (
             <div>
               <Button
+                variant="primary"
                 onClick={() => {
                   setSearch("");
                   setTypeFilter("");
@@ -158,7 +159,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
           <div className="mt-4">
             <LogTable data={data?.data ?? []} onRowClick={handleRowClick} />
           </div>
-          <div className="flex justify-center text-xs items-center gap-4 mt-auto pt-4">
+          <div className="flex justify-center text-xs items-center gap-3 mt-auto pt-4">
             <div className="w-[6rem]">
               <Button
                 onClick={() => setPage((old) => Math.max(old - 1, 1))}
@@ -170,7 +171,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
                 Previous
               </Button>
             </div>
-            <div className="flex gap-2 h-full items-center">
+            <div className="flex gap-[6px] h-full items-center">
               {getPageNumbers(page, totalPages).map((p, i) =>
                 p === "..." ? (
                   <span key={i} className="px-2">

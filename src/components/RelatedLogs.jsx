@@ -1,14 +1,10 @@
-import { mdiChevronDown } from "@mdi/js";
-import Icon from "@mdi/react";
-import { useState } from "react";
 import { getRelatedLogs } from "../queries/getRelatedLogs";
 import { useQuery } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
 import RelatedLogsTable from "./RelatedLogsTable";
+import Accordion from "./Accordion";
 
 const RelatedLogs = ({ log, inactive = false }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const errorSignature = log.error_signature;
   const {
     data: relatedLogs,
@@ -24,56 +20,36 @@ const RelatedLogs = ({ log, inactive = false }) => {
   const noErrorSignature = !errorSignature;
 
   return (
-    <div
-      className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${
-        inactive ? "text-[#737373]" : "text-black"
-      }`}
-    >
-      <button
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-        className="w-full p-4 px-6 cursor-pointer flex justify-between items-center"
-      >
-        <h2 className="text-xl text-left font-semibold ml-2">Related Log</h2>
-        <Icon
-          path={mdiChevronDown}
-          size={1.5}
-          className={`ml-2 transition-transform ${isOpen ? "rotate-180" : ""}`}
-        />
-      </button>
-      {isOpen && (
-        <div className="border-t mx-4 pb-4 border-gray-200 overflow-x-auto">
-          {!noErrorSignature ? (
-            <div className="mt-4 w-[90%]">
-              {isLoading && (
-                <div className="flex items-center justify-center p-4">
-                  <ClipLoader color="#000000" size={20} />
-                </div>
-              )}
-              {isError && (
-                <p className="text-left my-5 ml-3">
-                  Error fetching related logs: {error?.message}
-                </p>
-              )}
-              {relatedLogs?.data.length === 0 && !isLoading && (
-                <p className="text-left my-5 ml-3 text-gray-500">
-                  No related logs found.
-                </p>
-              )}
-
-              {relatedLogs?.data.length > 0 && (
-                <RelatedLogsTable relatedLogs={relatedLogs} />
-              )}
-            </div>
-          ) : (
-            <p className="text-left my-5 ml-3 text-gray-500">
-              No related logs found.
-            </p>
-          )}
-        </div>
-      )}
-    </div>
+    <Accordion title="Related Log" inactive={inactive}>
+      <div className="pb-4overflow-x-auto">
+        {!noErrorSignature ? (
+          <div className="mt-4 w-[90%]">
+            {isLoading && (
+              <div className="flex items-center justify-center p-4">
+                <ClipLoader color="#000000" size={20} />
+              </div>
+            )}
+            {isError && (
+              <p className="text-left my-5 ml-3">
+                Error fetching related logs: {error?.message}
+              </p>
+            )}
+            {relatedLogs?.data.length === 0 && !isLoading && (
+              <p className="text-left my-5 ml-3 text-gray-500">
+                No related logs found.
+              </p>
+            )}
+            {relatedLogs?.data.length > 0 && (
+              <RelatedLogsTable relatedLogs={relatedLogs} />
+            )}
+          </div>
+        ) : (
+          <p className="text-left my-5 ml-3 text-gray-500">
+            No related logs found.
+          </p>
+        )}
+      </div>
+    </Accordion>
   );
 };
 

@@ -14,6 +14,8 @@ const UserComment = ({ comment, currentUserId }) => {
   const [editing, setEditing] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
+  console.log(comment)
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -27,7 +29,7 @@ const UserComment = ({ comment, currentUserId }) => {
     },
   });
 
-  // Duplicado para gestionar correctamente el spinner en dos iconos diferentes
+  // !! Duplicado para gestionar correctamente el spinner en dos iconos diferentes
   const editMutation = useMutation({
     mutationFn: (params) => updateComment(comment.id, params),
     onSuccess: (data) => {

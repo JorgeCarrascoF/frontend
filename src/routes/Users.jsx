@@ -1,6 +1,6 @@
 import UserDashboard from "../components/UserDashboard";
 import Icon from "@mdi/react";
-import { mdiOpenInNew } from "@mdi/js";
+import { mdiPlus } from '@mdi/js';
 import { mdiMagnify } from "@mdi/js";
 import NavButton from "../components/NavButton";
 import { useState } from "react";
@@ -29,10 +29,11 @@ const Users = () => {
             />
           </div>
           <NavButton
-            text="Create user"
+            text="New user"
             route="/users/register"
             variant="dark"
-            icon={<Icon path={mdiOpenInNew} size={1} />}
+            font="font-light"
+            icon={<Icon path={mdiPlus} size={1} />}
           />
         </>
       }

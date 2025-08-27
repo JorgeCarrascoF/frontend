@@ -101,7 +101,13 @@ const SelectInput = ({
         singleValue: (provided) => ({
           ...provided,
           color: selectedOption && colorizeOnActive ? "#ffffff" : "#737373",
+          textAlign: "left"
         }),
+        placeholder: (provided) => ({
+          ...provided,
+          color: "#737373",
+          textAlign: "left"
+        })
       }}
     />
   );
