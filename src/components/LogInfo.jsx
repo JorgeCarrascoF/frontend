@@ -3,12 +3,10 @@ import { getLogById } from "../queries/getLogById";
 import { getUsers } from "../queries/getUsers";
 import { updateLog } from "../queries/updateLog";
 import { ClipLoader } from "react-spinners";
-import { formatDate } from "../utils/formatDate";
 import LogDescription from "./LogDescription";
 import LogComments from "./LogComments";
 import LogAISuggestion from "./LogAISuggestion";
 import Chip from "./Chip";
-import Select from "react-select";
 import SelectInput from "./SelectInput";
 import { maxLimitInteger } from "../utils/maxLimitInteger";
 import RelatedLogs from "./RelatedLogs";
@@ -17,10 +15,13 @@ import DeactivateLog from "./DeactivateLog";
 import LogStatusRegister from "./LogStatusRegister";
 import PriorityUserSelect from "./PriorityUserSelect";
 import { formatDateAndHour } from "../utils/formatDateAndHour";
+import useToast from "../hooks/useToast";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
   let currentUser = JSON.parse(localStorage.getItem("userData"));
+
+  const { showToast, ToastContainer } = useToast();
 
   const {
     data: log,
@@ -47,6 +48,7 @@ const LogInfo = ({ logId }) => {
     onSuccess: (response) => {
       console.log("Log updated successfully", response);
       queryClient.invalidateQueries(["log", logId]);
+      showToast("Log updated successfully");
     },
   });
 
@@ -99,10 +101,19 @@ const LogInfo = ({ logId }) => {
   };
 
   const handleStatusChange = (e) => {
-    mutation.mutate({
-      updates: { status: e.target.value },
-    });
-    statusMutation.mutate({ newStatus: e.target.value });
+    statusMutation.mutate(
+      { newStatus: e.target.value },
+      {
+        onSuccess: () => {
+          mutation.mutate(
+            { updates: { status: e.target.value } },
+            {
+              onSuccess: () => showToast("Status updated successfully"),
+            }
+          );
+        },
+      }
+    );
   };
 
   return (
@@ -177,18 +188,18 @@ const LogInfo = ({ logId }) => {
             <div className="w-fit mt-2 flex flex-col items-start">
               {isAdmin ? (
                 <div className="w-[224px]">
-                <SelectInput
-                  options={[
-                    { value: "unresolved", label: "Pending" },
-                    { value: "in review", label: "In Review" },
-                    { value: "solved", label: "Resolved" },
-                  ]}
-                  value={log.status}
-                  onChange={handleStatusChange}
-                  className="w-48"
-                  colorizeOnActive={false}
-                  isDisabled={mutation.isLoading || isInactive}
-                />
+                  <SelectInput
+                    options={[
+                      { value: "unresolved", label: "Pending" },
+                      { value: "in review", label: "In Review" },
+                      { value: "solved", label: "Resolved" },
+                    ]}
+                    value={log.status}
+                    onChange={handleStatusChange}
+                    className="w-48"
+                    colorizeOnActive={false}
+                    isDisabled={mutation.isLoading || isInactive}
+                  />
                 </div>
               ) : (
                 <InfoItem label="Status" value={log.status} />
@@ -225,6 +236,7 @@ const LogInfo = ({ logId }) => {
       <RelatedLogs log={log} inactive={isInactive} />
       <LogStatusRegister logId={logId} inactive={isInactive} />
       <LogAISuggestion logId={logId} inactive={isInactive} />
+      <ToastContainer />
     </>
   );
 };
