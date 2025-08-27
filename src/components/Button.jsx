@@ -5,7 +5,7 @@ const variants = {
   secondary: {
     base: "text-black bg-white hover:bg-[#DBDBDB] disabled:bg-[#DBDBDB] text-[#74797F]",
   },
-  terciary: {
+  tertiary: {
     base: "text-black bg-[#FAFAFA] hover:bg-[#DBDBDB] disabled:bg-[#DBDBDB] border border-[#DBDBDB]",
   },
   pagination: {

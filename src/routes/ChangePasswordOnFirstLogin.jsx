@@ -173,7 +173,7 @@ const ChangePasswordOnFirstLogin = () => {
           </div>
           <div className="ml-auto flex mt-10 gap-7">
             <div className="w-[170px]">
-              <Button variant="terciary" onClick={() => clearFields()}>
+              <Button variant="tertiary" onClick={() => clearFields()}>
                 Cancel
               </Button>
             </div>

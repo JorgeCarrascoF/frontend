@@ -336,7 +336,7 @@ const RegisterForm = () => {
             <div className="flex gap-4">
               <div className="w-[10.5rem]">
                 <Button
-                  variant="terciary"
+                  variant="tertiary"
                   type="button"
                   onClick={() =>
                     setForm({

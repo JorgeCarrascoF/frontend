@@ -21,7 +21,7 @@ const RecoverPassword = ({ setForgotPassword }) => {
     onSuccess: () => {
       setErrorMessage("");
       showToast(
-        "We’ve sent a randomly generated password to your email.",
+        "A new password has been generated and sent to your email.",
         "success"
       );
       userMutation.mutate({

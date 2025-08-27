@@ -115,7 +115,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
         </div>
         <div className="ml-auto flex mt-25 gap-4">
           <div className="w-[170px]">
-            <Button variant="terciary" onClick={() => setChangingEmail(false)}>
+            <Button variant="tertiary" onClick={() => setChangingEmail(false)}>
               Cancel
             </Button>
           </div>

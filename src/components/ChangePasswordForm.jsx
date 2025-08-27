@@ -169,7 +169,7 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
           {setChangingPassword && (
             <div className="w-[170px]">
               <Button
-                variant="terciary"
+                variant="tertiary"
                 onClick={() => setChangingPassword(false)}
               >
                 Cancel

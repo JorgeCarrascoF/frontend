@@ -263,7 +263,7 @@ export default function CreateLogForm() {
         <div className="w-[145px]">
           <Button
             type="button"
-            variant="terciary"
+            variant="tertiary"
             disabled={
               !(
                 log.message ||

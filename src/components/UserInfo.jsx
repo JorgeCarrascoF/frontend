@@ -246,7 +246,7 @@ const UserInfo = ({ userId }) => {
               <div className="flex w-fit gap-4 mt-auto ml-auto mr-5">
                 <div className="w-[170px]">
                   <Button
-                    variant="terciary"
+                    variant="tertiary"
                     disabled={
                       newStatus === null || newStatus === userData.isActive
                     }
@@ -302,7 +302,7 @@ const UserInfo = ({ userId }) => {
           <div className="flex mt-12 w-[70%] justify-evenly">
             <div className="w-[40%]">
               <Button
-                variant="terciary"
+                variant="tertiary"
                 onClick={() => {
                   setChangingUserStatus(false);
                   setNewStatus(null);

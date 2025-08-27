@@ -53,7 +53,7 @@ const DeactivateLog = ({ logId, inactive }) => {
             <div className="w-[9rem]">
               <Button
                 active={true}
-                variant="terciary"
+                variant="tertiary"
                 onClick={() => setChangingActive(false)}
               >
                 Cancel
