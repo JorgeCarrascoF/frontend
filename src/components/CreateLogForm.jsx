@@ -254,8 +254,8 @@ export default function CreateLogForm() {
       </div>
 
       {/* Botones */}
-      <div className="flex justify-end gap-3 w-full mt-4">
-        <div>
+      <div className="flex justify-end gap-3 w-[80%] mt-auto mb-10">
+        <div className="w-[145px]">
           <Button
             type="button"
             variant="secondary"
@@ -275,7 +275,7 @@ export default function CreateLogForm() {
             Cancel
           </Button>
         </div>
-        <div>
+        <div className="w-[131px]">
           <Button type="submit" disabled={isButtonDisabled}>
             Save
           </Button>

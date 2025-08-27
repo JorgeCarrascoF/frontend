@@ -129,7 +129,7 @@ const UserInfo = ({ userId }) => {
               </h2>
               <div className="grid grid-cols-2 gap-6">
                 <div className="mb-10 mt-5">
-                  <label className="flex justify-start block text-md text-gray-600 mb-2">
+                  <label className="flex justify-start text-md text-gray-600 mb-2">
                     First Name
                   </label>
                   <input
@@ -140,7 +140,7 @@ const UserInfo = ({ userId }) => {
                   />
                 </div>
                 <div className="mb-10 mt-5">
-                  <label className="flex justify-start block text-md text-gray-600 mb-2">
+                  <label className="flex justify-start text-md text-gray-600 mb-2">
                     Last Name
                   </label>
                   <input
@@ -151,7 +151,7 @@ const UserInfo = ({ userId }) => {
                   />
                 </div>
                 <div className="mb-10">
-                  <label className="flex justify-start block text-md text-gray-600 mb-2">
+                  <label className="flex justify-start text-md text-gray-600 mb-2">
                     Email
                   </label>
                   <input
@@ -162,7 +162,7 @@ const UserInfo = ({ userId }) => {
                   />
                 </div>
                 <div className="mb-10">
-                  <label className="flex justify-start block text-md text-gray-600 mb-2">
+                  <label className="flex justify-start text-md text-gray-600 mb-2">
                     Date
                   </label>
                   <input
@@ -173,7 +173,7 @@ const UserInfo = ({ userId }) => {
                   />
                 </div>
                 <div className="mb-10">
-                  <label className="flex justify-start block text-md text-gray-600 mb-2">
+                  <label className="flex justify-start text-md text-gray-600 mb-2">
                     Status
                   </label>
                   <input

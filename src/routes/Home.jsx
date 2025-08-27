@@ -5,9 +5,9 @@ const Home = () => {
     <div className="flex flex-col justify-center items-center w-full h-full">
       <h1 className="mb-4 text-5xl">Buggle</h1>
       <div
-        className="border border-gray-300 rounded-lg"
+        className=" border-gray-300 rounded-lg"
       >
-        <Loader />
+        {/* <Loader /> */}
       </div>
     </div>
   );

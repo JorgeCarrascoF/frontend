@@ -1,12 +1,13 @@
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NavButton from "../components/NavButton";
 import Icon from "@mdi/react";
-import { mdiOpenInNew } from "@mdi/js";
 import AllLogComments from "../components/AllLogComments";
+import { mdiArrowLeft } from "@mdi/js";
+
+<Icon path={mdiArrowLeft} size={1} />;
 
 const LogCommentsPage = () => {
   const { id: logId } = useParams();
-
 
   return (
     <div className="w-[90%]">
@@ -17,7 +18,7 @@ const LogCommentsPage = () => {
             text="Return to log"
             route={`/dashboard/log/${logId}`}
             variant="dark"
-            icon={<Icon path={mdiOpenInNew} size={1} />}
+            icon={<Icon path={mdiArrowLeft} size={1} />}
           />
         </div>
       </div>

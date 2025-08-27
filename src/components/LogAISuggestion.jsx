@@ -6,7 +6,11 @@ import { mdiCreation } from "@mdi/js";
 const LogAISuggestion = ({ logId, inactive = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${inactive ? "text-[#737373]" : "text-black"}`}>
+    <div
+      className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${
+        inactive ? "text-[#737373]" : "text-black"
+      }`}
+    >
       <div className="w-full p-4 px-6 cursor-pointer flex justify-between items-center">
         <h2 className="text-xl text-left font-semibold ml-2">
           Automated support with AI
@@ -16,7 +20,7 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
             <Button onClick={() => setIsOpen(false)}>Hide suggestion</Button>
           ) : (
             <Button onClick={() => setIsOpen(true)}>
-              <Icon path={mdiCreation} size={1} />
+              <Icon path={mdiCreation} size={1} className="mr-2" />
               Generate suggestion with AI
             </Button>
           )}

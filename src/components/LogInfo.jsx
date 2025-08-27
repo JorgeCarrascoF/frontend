@@ -15,7 +15,6 @@ import RelatedLogs from "./RelatedLogs";
 import { registerStatusChange } from "../queries/registerStatusChange";
 import DeactivateLog from "./DeactivateLog";
 import LogStatusRegister from "./LogStatusRegister";
-import splitDate from "../utils/splitDate";
 import PriorityUserSelect from "./PriorityUserSelect";
 
 const LogInfo = ({ logId }) => {
@@ -155,28 +154,6 @@ const LogInfo = ({ logId }) => {
 
             <div className="w-fit flex flex-col items-start ">
               {isAdmin ? (
-                <div className="">
-                  <PriorityUserSelect
-                    log={log}
-                    isInactive={mutation.isLoading || isInactive}
-                    handleAssignedChange={handleAssignedChange}
-                  />
-                </div>
-              ) : (
-                <InfoItem
-                  label="Assigned to"
-                  value={
-                    userOptions.find((u) => u.value === log.assigned_to)
-                      ?.label ||
-                    log.assigned_to ||
-                    "Unassigned"
-                  }
-                />
-              )}
-            </div>
-
-            <div className="w-fit flex flex-col items-start ">
-              {isAdmin ? (
                 <div className="w-30">
                   <SelectInput
                     options={[
@@ -212,6 +189,28 @@ const LogInfo = ({ logId }) => {
                 />
               ) : (
                 <InfoItem label="Status" value={log.status} />
+              )}
+            </div>
+
+            <div className="w-fit flex flex-col items-start ">
+              {isAdmin ? (
+                <div className="">
+                  <PriorityUserSelect
+                    log={log}
+                    isInactive={mutation.isLoading || isInactive}
+                    handleAssignedChange={handleAssignedChange}
+                  />
+                </div>
+              ) : (
+                <InfoItem
+                  label="Assigned to"
+                  value={
+                    userOptions.find((u) => u.value === log.assigned_to)
+                      ?.label ||
+                    log.assigned_to ||
+                    "Unassigned"
+                  }
+                />
               )}
             </div>
           </div>

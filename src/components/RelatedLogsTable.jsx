@@ -9,14 +9,13 @@ const columns = [
 ];
 
 const RelatedLogsTable = ({ relatedLogs }) => {
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const onRowClick = (logId) => {
     navigate(`/dashboard/log/${logId}`);
   };
 
   return (
-    <div className="flex flex-col w-full max-h-[333px] border border-gray-200 rounded-md overflow-auto">
+    <div className="flex flex-col max-h-[333px] border border-gray-200 rounded-md">
       <div className="flex-1 w-full overflow-y-auto">
         <table className="min-w-max table-fixed w-full">
           <thead className="bg-[#fafafa]">

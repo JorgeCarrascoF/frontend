@@ -1,5 +1,6 @@
 import Icon from "@mdi/react";
 import { mdiChevronDown } from "@mdi/js";
+// eslint-disable-next-line no-unused-vars
 import { components } from "react-select";
 import Select from "react-select";
 

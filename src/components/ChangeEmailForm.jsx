@@ -13,7 +13,6 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
   const [confirmEmail, setConfirmEmail] = useState("");
   const [message, setMessage] = useState("");
 
-
   const [validNewEmail, setValidNewEmail] = useState(false);
 
   useEffect(() => {
@@ -63,29 +62,15 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
             onChange={(e) => setNewEmail(e.target.value)}
           />
           <div className="w-full ml-4 mt-1 flex flex-col">
-            <span className="text-sm w-full text-left mt-0">
-              Please add all necessary character to change email:
+            <span
+              className={`text-sm w-full text-left mt-0 ${
+                !newEmail || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)
+                  ? "text-transparent"
+                  : "text-red-500"
+              }`}
+            >
+              Enter a valid email
             </span>
-            <ul className="flex flex-col list-disc ml-5">
-              <li
-                className={`text-sm w-full text-left ${
-                  newEmail &&
-                  (newEmail.includes("@") ? "text-green-500" : "text-red-500")
-                }`}
-              >
-                Must include @
-              </li>
-              <li
-                className={`text-sm w-full text-left ${
-                  newEmail &&
-                  (/\.[^\s@]+$/.test(newEmail)
-                    ? "text-green-500"
-                    : "text-red-500")
-                }`}
-              >
-                Must include a valid domain
-              </li>
-            </ul>
           </div>
         </div>
         <div className="w-full">
@@ -97,11 +82,12 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
           <div className="w-full ml-4 mt-1 flex flex-col">
             <span
               className={`text-sm w-full text-left mt-0 ${
-                confirmEmail &&
-                (confirmEmail === newEmail ? "text-green-500" : "text-red-500")
+                !confirmEmail || confirmEmail === newEmail
+                  ? "text-transparent"
+                  : "text-red-500"
               }`}
             >
-              Please confirm your new email.
+              Email addresses do not match
             </span>
           </div>
         </div>
@@ -121,13 +107,14 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
             </Button>
           </div>
         </div>
-      <div
-        className={`mt-4 text-sm text-red-500 ${mutation.isError ? "block" : "hidden"}`}
-      >
-        {message}
-      </div>
+        <div
+          className={`mt-4 text-sm text-red-500 ${
+            mutation.isError ? "block" : "hidden"
+          }`}
+        >
+          {message}
+        </div>
       </form>
-
 
       <Modal
         isOpen={mutation.isSuccess}

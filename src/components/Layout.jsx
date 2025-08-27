@@ -38,10 +38,10 @@ const Layout = () => {
                 <UserIconSmall name={userData.fullName} />
               </div>
               <div className="flex flex-col">
-                <span className="font-semibold text-xs text-black">
+                <span className="font-semibold text-sm text-black">
                   {userData.fullName} - {userData.role}
                 </span>
-                <span className="text-xs text-gray-500">{userData.email}</span>
+                <span className="text-sm text-gray-500">{userData.email}</span>
               </div>
             </div>
           )}
