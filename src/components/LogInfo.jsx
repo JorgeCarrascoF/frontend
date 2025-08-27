@@ -257,7 +257,7 @@ const InfoItem = ({ label, value, badge, colSpan }) => (
         />
       </div>
     ) : (
-      <p className="break-all text-gray-500">{value}</p>
+      <p className="break-all text-gray-500 text-left">{value}</p>
     )}
   </div>
 );

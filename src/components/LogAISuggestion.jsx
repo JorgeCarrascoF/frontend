@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import Icon from "@mdi/react";
 import { mdiCreation } from "@mdi/js";
 import { useQuery } from "@tanstack/react-query";
 import { getLogReport } from "../queries/getLogReport";
-import ReactMarkdowm from "react-markdown";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import 'highlight.js/styles/atom-one-dark.css';
 
 const LogAISuggestion = ({ logId, inactive = false }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [report, setReport] = useState("");
 
   const {
     data: logReport,
@@ -15,11 +18,15 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
     isError: isErrorLogReport,
     isSuccess: isSuccessLogReport,
   } = useQuery({
-    queryKey: ["log", logId],
+    queryKey: ["logReport", logId],
     queryFn: () => getLogReport(logId),
   });
 
-  console.log(logReport);
+  useEffect(() => {
+    if (isSuccessLogReport && logReport?.result?.report) {
+      setReport(logReport?.result?.report);
+    }
+  }, [isSuccessLogReport, logReport]);
 
   return (
     <div
@@ -44,9 +51,9 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
       </div>
       {isOpen && (
         <div className="border-t mx-4 border-gray-200">
-          <div className="text-left my-5 px-10 prose min-w-full">
-            {isSuccessLogReport && (
-              <ReactMarkdowm>{logReport?.result?.report}</ReactMarkdowm>
+          <div className="text-left my-5 px-10 prose min-w-full prose-code:text-[16px]">
+            {report && (
+              <ReactMarkdown rehypePlugins={rehypeHighlight}>{report}</ReactMarkdown>
             )}
           </div>
         </div>

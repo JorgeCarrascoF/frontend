@@ -23,6 +23,7 @@
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.12",
+    "highlight.js": "^11.11.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.541.0",
     "react": "^19.1.0",
@@ -33,6 +34,7 @@
     "react-router-dom": "^7.7.1",
     "react-select": "^5.10.2",
     "react-spinners": "^0.17.0",
+    "rehype-highlight": "^7.0.2",
     "vite-plugin-svgr": "^4.5.0"
   },
   "devDependencies": {
