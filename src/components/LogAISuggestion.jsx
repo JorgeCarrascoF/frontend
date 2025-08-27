@@ -2,9 +2,25 @@ import { useState } from "react";
 import Button from "./Button";
 import Icon from "@mdi/react";
 import { mdiCreation } from "@mdi/js";
+import { useQuery } from "@tanstack/react-query";
+import { getLogReport } from "../queries/getLogReport";
+import ReactMarkdowm from "react-markdown";
 
 const LogAISuggestion = ({ logId, inactive = false }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    data: logReport,
+    isLoading: isLoadingLogReport,
+    isError: isErrorLogReport,
+    isSuccess: isSuccessLogReport,
+  } = useQuery({
+    queryKey: ["log", logId],
+    queryFn: () => getLogReport(logId),
+  });
+
+  console.log(logReport);
+
   return (
     <div
       className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${
@@ -28,12 +44,11 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
       </div>
       {isOpen && (
         <div className="border-t mx-4 border-gray-200">
-          <p className="text-left my-5 ml-3 text-gray-500 leading-relaxed">
-            This is a placeholder for AI suggestions related to the log. It can
-            include recommendations for actions, insights based on the log data,
-            or any other relevant information that can assist in resolving the
-            issue.
-          </p>
+          <div className="text-left my-5 px-10 prose min-w-full">
+            {isSuccessLogReport && (
+              <ReactMarkdowm>{logReport?.result?.report}</ReactMarkdowm>
+            )}
+          </div>
         </div>
       )}
     </div>

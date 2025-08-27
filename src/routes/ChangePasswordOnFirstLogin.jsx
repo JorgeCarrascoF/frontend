@@ -84,14 +84,17 @@ const ChangePasswordOnFirstLogin = () => {
   return (
     <div className="flex flex-col justify-center items-center m-auto">
       <div className="flex flex-col items-center rounded-2xl border-[1px] border-gray-200 bg-white w-[50%] h-[90%] py-16 px-10">
-        <h1 className="text-3xl font-bold mb-4 text-center">
+        <h1 className="text-2xl font-bold mb-2 text-center">
           Change your Password
         </h1>
+        <p className="text-[#737373] text-center mb-16">
+          For your security, please create a new password before continuing.
+        </p>
         <form
-          className="flex flex-col gap-5 items-center mt-10 w-[95%]"
+          className="flex flex-col gap-8 items-center mt-10 w-[95%]"
           onSubmit={handleSubmit}
         >
-          <div className="w-[70%]">
+          <div className="w-[75%]">
             <PasswordInput
               label="Current Password"
               placeholder={"Enter your current password"}
@@ -99,10 +102,10 @@ const ChangePasswordOnFirstLogin = () => {
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
           </div>
-          <div className="w-[70%] mt-4">
+          <div className="w-[75%] mt-4">
             <PasswordInput
               label="New Password"
-              placeholder={"Enter new password"}
+              placeholder={"Enter password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
@@ -162,23 +165,23 @@ const ChangePasswordOnFirstLogin = () => {
             </div>
           </div>
 
-          <div className="w-[70%] mt-6">
+          <div className="w-[75%] mt-6">
             <PasswordInput
               label="Confirm New Password"
-              placeholder={"Confirm new password"}
+              placeholder={"Confirm password"}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <div className="w-full ml-4 -mt-2 flex flex-col"></div>
           </div>
-          <div className="ml-auto flex mt-10 gap-7">
-            <div className="w-[170px]">
+          <div className="w-[80%] ml-4 -mb-4 justify-end flex mt-12 gap-5">
+            <div className="w-[140px]">
               <Button variant="tertiary" onClick={() => clearFields()}>
                 Cancel
               </Button>
             </div>
 
-            <div className="w-[170px]">
+            <div className="w-[140px]">
               <Button
                 type="submit"
                 disabled={newPassword !== confirmPassword || !validNewPassword}
