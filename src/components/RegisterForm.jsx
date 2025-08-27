@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { registerUser } from "../queries/createUser";
 import { useMutation } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
-import NavButton from "../components/NavButton";
 import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
 import Button from "./Button";
 import Modal from "./Modal";
-
-const inputBaseStyle =
-  "w-full border text-sm px-4 py-3 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500";
+import UserIcon from "./UserIcon";
+import TextInput from "./TextInput";
+import PasswordInput from "./PasswordInput";
+import SelectInput from "./SelectInput";
 
 const RegisterForm = () => {
   const [form, setForm] = useState({
@@ -25,6 +25,27 @@ const RegisterForm = () => {
   const [errors, setErrors] = useState({});
   const [responseError, setResponseError] = useState("");
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (success) {
+      timer = setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [success]);
+
+  const isButtonDisabled = useMemo(() => {
+    return !(
+      form.firstName &&
+      form.lastName &&
+      form.displayName &&
+      form.username &&
+      form.roleId &&
+      form.password
+    );
+  }, [form]);
 
   const mutation = useMutation({
     mutationFn: registerUser,
@@ -59,10 +80,10 @@ const RegisterForm = () => {
     const newErrors = {};
     if (!form.firstName) newErrors.firstName = "First name is required";
     if (/\d/.test(form.firstName))
-      newErrors.firstName = "First name must not contain numbers";
+      newErrors.firstName = "2-50 characters, letters and spaces only";
     if (!form.lastName) newErrors.lastName = "Last name is required";
     if (/\d/.test(form.lastName))
-      newErrors.lastName = "Last name must not contain numbers";
+      newErrors.lastName = "2-50 characters, letters and spaces only";
     if (form.displayName.length < 5)
       newErrors.displayName = "Display name must be at least 5 characters long";
     if (!form.username) newErrors.username = "Email is required";
@@ -98,16 +119,19 @@ const RegisterForm = () => {
     <>
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-2 gap-6 w-full mt-3 h-full"
+        className="grid grid-cols-2 gap-10 w-full mt-3 h-full px-4 py-5"
       >
-        <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-left">
-            First name
-          </label>
+        <div className="col-span-2 -mb-8">
+          <div className="w-20 h-20 ">
+            <UserIcon name="B" />
+          </div>
+        </div>
+        {/* <div className="mb-5">
+          <label className="block mb-2 font-medium text-left">First name</label>
           <input
             type="text"
             name="firstName"
-            placeholder="Jane"
+            placeholder="Enter user's name"
             value={form.firstName}
             onChange={handleChange}
             minLength={2}
@@ -119,16 +143,25 @@ const RegisterForm = () => {
           {errors.firstName && (
             <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
           )}
-        </div>
+        </div> */}
 
+        <TextInput
+          label="First name"
+          name="firstName"
+          value={form.firstName}
+          onChange={handleChange}
+          placeholder="Enter user's name"
+          error={errors.firstName}
+        />
+        {/* 
         <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-left">
+          <label className="block mb-2 font-medium text-left">
             Second name
           </label>
           <input
             type="text"
             name="lastName"
-            placeholder="Doe"
+            placeholder="Enter user's last name"
             value={form.lastName}
             onChange={handleChange}
             minLength={2}
@@ -140,9 +173,18 @@ const RegisterForm = () => {
           {errors.lastName && (
             <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
           )}
-        </div>
+        </div> */}
 
-        <div className="mb-5">
+        <TextInput
+          label="Last name"
+          name="lastName"
+          value={form.lastName}
+          onChange={handleChange}
+          placeholder="Enter user's last name"
+          error={errors.lastName}
+        />
+
+        {/* <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-left">
             Username
           </label>
@@ -159,47 +201,16 @@ const RegisterForm = () => {
           {errors.displayName && (
             <p className="text-red-500 text-xs mt-1">{errors.displayName}</p>
           )}
-        </div>
+        </div> */}
 
-        <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-left">
-            Role
-          </label>
-          <select
-            name="roleId"
-            value={form.roleId}
-            onChange={(e) => {
-              handleChange(e);
-              const roleName =
-                e.target.options[e.target.selectedIndex]?.value || "";
-              setForm((prev) => ({ ...prev, role: roleName }));
-            }}
-            className={`${inputBaseStyle} ${
-              errors.roleId ? "border-red-500" : "border-gray-300"
-            }`}
-          >
-            <option value="" selected disabled hidden>
-              Select role
-            </option>
-            <option key="admin" value="688abe5c6ad4e846fbdb0189">
-              Admin
-            </option>
-            <option key="user" value="688e3fa51825b4d54f064ccc">
-              Dev
-            </option>
-          </select>
-          {errors.roleId && (
-            <p className="text-red-500 text-xs mt-1">{errors.roleId}</p>
-          )}
-        </div>
-        <div className="mb-5">
+        {/* <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-left">
             User
           </label>
           <input
             type="text"
             name="username"
-            placeholder="Email username"
+            placeholder=" Enter user's email"
             value={form.username}
             onChange={handleChange}
             className={`${inputBaseStyle} ${
@@ -209,8 +220,17 @@ const RegisterForm = () => {
           {errors.username && (
             <p className="text-red-500 text-xs mt-1">{errors.username}</p>
           )}
-        </div>
-        <div className="flex w-full">
+        </div> */}
+
+        <TextInput
+          label="Username"
+          name="username"
+          value={form.username}
+          onChange={handleChange}
+          placeholder="Enter user's email"
+          error={errors.username}
+        />
+        {/* <div className="flex w-full">
           <div className="mb-5 w-full">
             <label className="block mb-2 text-sm font-medium text-left">
               Domain
@@ -229,9 +249,17 @@ const RegisterForm = () => {
               <p className="text-red-500 text-xs mt-1">{errors.domain}</p>
             )}
           </div>
-        </div>
+        </div> */}
+        <TextInput
+          label="Domain"
+          name="domain"
+          value={form.domain}
+          onChange={handleChange}
+          placeholder="buggle.com"
+          error={errors.domain}
+        />
 
-        <div className="col-span-1">
+        {/* <div className="col-span-1">
           <label className="block mb-2 text-sm font-medium text-left">
             Password
           </label>
@@ -239,7 +267,7 @@ const RegisterForm = () => {
           <input
             type="password"
             name="password"
-            placeholder="*****************************"
+            placeholder="Enter a password"
             value={form.password}
             onChange={handleChange}
             className={`${inputBaseStyle} ${
@@ -249,7 +277,50 @@ const RegisterForm = () => {
           {errors.password && (
             <p className="text-red-500 text-xs mt-1">{errors.password}</p>
           )}
+        </div> */}
+        <div>
+          <PasswordInput
+            label="Password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Enter a password"
+            error={errors.password}
+          />
+          {errors.password && (
+            <ul className=" text-sm text-[#737373] -mt-2 list-disc list-inside text-left ml-4">
+              <li>Minimun 8 characters</li>
+              <li>At least one uppercase letter</li>
+              <li>At least one number</li>
+              <li>At least one special character (!@#$%&*)</li>
+            </ul>
+          )}
         </div>
+
+        <div className="mb-5">
+          <label className="block mb-2 text-sm font-medium text-left">
+            Role
+          </label>
+          <SelectInput
+            value={form.roleId}
+            onChange={(e) => {
+              setForm((prev) => ({ ...prev, roleId: e.target.value }));
+            }}
+            colorizeOnActive={false}
+            options={[
+              { value: "688abe5c6ad4e846fbdb0189", label: "Admin" },
+              { value: "688e3fa51825b4d54f064ccc", label: "Dev" },
+            ]}
+            placeholder="Select role"
+            isDisabled={mutation.isPending}
+          />
+          {errors.roleId && (
+            <p className="text-red-500 w-full text-left ml-4 text-sm mt-1">
+              {errors.roleId}
+            </p>
+          )}
+        </div>
+
         {responseError && (
           <div className="col-span-2">
             <p className="text-red-500 text-md mt-1">{responseError}</p>
@@ -260,26 +331,46 @@ const RegisterForm = () => {
             <ClipLoader color="#36d7b7" />
           ) : (
             <div className="flex gap-4">
-              <Button variant="secondary">Cancel</Button>
-              <Button type="submit">
-                Register
-              </Button>
+              <div className="w-[10.5rem]">
+                <Button
+                  variant="terciary"
+                  type="button"
+                  onClick={() =>
+                    setForm({
+                      firstName: "",
+                      lastName: "",
+                      displayName: "",
+                      username: "",
+                      domain: "",
+                      password: "",
+                      roleId: "",
+                      role: "",
+                    })
+                  }
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="w-[10.5rem]">
+                <Button type="submit" disabled={isButtonDisabled}>
+                  Register
+                </Button>
+              </div>
             </div>
           )}
         </div>
       </form>
       <Modal isOpen={success} onClose={() => setSuccess(false)}>
-        <div className="h-full w-full flex flex-col items-center justify-center">
-          <Icon path={mdiCheckCircleOutline} size={5} color={"green"} />
-          <span className="text-xl m-8 text-[#008000]">
+        <div className="h-full w-full px-4 flex flex-col items-center justify-center">
+          <Icon path={mdiCheckCircleOutline} size={2} color={"green"} />
+          <span className="text-2xl text-black font-semibold m-2">
             Registration completed successfully
           </span>
-          <span className="mb-6">
+          <span className="mb-6 px-4 text-[#737373]">
             The user has been successfully created. An email has been sent to
             the newly created user with a link to verify their account before
             they can access the platform.
           </span>
-          <NavButton text={"Go to Users"} variant="dark" route={"/users"} />
         </div>
       </Modal>
     </>

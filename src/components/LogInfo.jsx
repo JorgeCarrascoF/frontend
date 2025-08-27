@@ -48,7 +48,7 @@ const LogInfo = ({ logId }) => {
     onSuccess: (response) => {
       console.log("Log updated successfully", response);
       queryClient.invalidateQueries(["log", logId]);
-      showToast("Log updated successfully");
+      showToast("Log updated successfully", "success");
     },
   });
 
@@ -108,7 +108,7 @@ const LogInfo = ({ logId }) => {
           mutation.mutate(
             { updates: { status: e.target.value } },
             {
-              onSuccess: () => showToast("Status updated successfully"),
+              onSuccess: () => showToast("Status updated successfully", "success"),
             }
           );
         },
@@ -130,8 +130,8 @@ const LogInfo = ({ logId }) => {
         </div>
 
         <div className="flex flex-col items-start mb-8">
-          <div className="mb-4 flex w-[80%] justify-between">
-            <div>
+          <div className="mb-4 flex w-[90%] justify-between">
+            <div className="w-[75%]">
               <h2 className="mb-3 text-left">Error message</h2>
               <p className="text-left text-gray-500">{log.message}</p>
             </div>

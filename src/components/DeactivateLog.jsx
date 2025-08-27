@@ -39,7 +39,7 @@ const DeactivateLog = ({ logId, inactive }) => {
   return (
     <div className="relative">
       {changingActive && !inactive && (
-        <div className="absolute border-1 px-4 py-6 flex flex-col items-center justify-center border-[#DBDBDB] w-100 -top-6 right-0 bg-white rounded-md">
+        <div className="absolute border-1 px-14 py-10 flex flex-col  items-center justify-center [&>span]:text-[#737373] border-[#DBDBDB] -top-6 right-0 bg-white rounded-md">
           <WarningAmberRoundedIcon
             className="text-yellow-500 mb-2"
             fontSize="large"
@@ -49,31 +49,35 @@ const DeactivateLog = ({ logId, inactive }) => {
           </h2>
           <span>This action will mark the log as inactive.</span>
           <span>It can be reactivated later if needed.</span>
-          <div className="flex gap-2 mt-4">
-            <Button
-              active={true}
-              variant="terciary"
-              onClick={() => setChangingActive(false)}
-            >
-              Cancel
-            </Button>
-            <Button active={true} onClick={handleInactive}>
-              Confirm
-            </Button>
+          <div className="flex gap-4 mt-10">
+            <div className="w-[9rem]">
+              <Button
+                active={true}
+                variant="terciary"
+                onClick={() => setChangingActive(false)}
+              >
+                Cancel
+              </Button>
+            </div>
+            <div className="w-[9rem]">
+              <Button active={true} font="font-normal" onClick={handleInactive}>
+                Saved
+              </Button>
+            </div>
           </div>
         </div>
       )}
       {showingConfirmation && (
-        <div className="absolute border-1 px-4 py-10 flex flex-col items-center justify-center border-[#DBDBDB] w-100 -top-6 right-0 bg-white rounded-md">
+        <div className="absolute border-1 px-6 py-16 flex flex-col items-center justify-center border-[#DBDBDB] w-100 -top-6 right-0 bg-white rounded-md">
           <Icon
             path={mdiCheckCircleOutline}
             size={1.5}
             className="text-green-500 mb-2"
           />
-          <h2 className="text-2xl mb-2 font-medium text-black">
+          <h2 className="text-2xl mb-4 font-medium text-black">
             Log reactivated
           </h2>
-          <span>This log is now active and ready for tracking</span>
+          <span className="text-[#737373]">This log is now active and ready for tracking</span>
         </div>
       )}
       <Button

@@ -9,34 +9,32 @@ const Profile = () => {
   const [changingPassword, setChangingPassword] = useState(false);
 
   return (
-    <div className=" w-full h-full">
-      <div className="flex items-center justify-between mb-4 mt-4">
-        <h1 className="text-2xl font-bold">
-          Edit profile
-        </h1>
+    <div className=" w-full -ml-4 h-[82%]">
+      <div className="flex items-center justify-between mb-4 mt-8">
+        <h1 className="text-2xl font-bold ml-6">Edit profile</h1>
       </div>
       <div className="flex items-center justify-between m-2.5 rounded-2xl h-[90%]">
-        <div className="border border-gray-200 bg-white rounded-2xl h-full w-[27%] flex flex-col items-center justify-start gap-20 py-20">
+        <div className="border border-gray-200 bg-white rounded-2xl h-full w-[27%] flex flex-col items-center justify-start gap-16 py-10">
           <div className="w-full flex items-center flex-col">
-            <div className=" rounded-full w-[40%] aspect-square flex items-center justify-center">
+            <div className=" rounded-full w-[30%] aspect-square flex items-center justify-center">
               <UserIcon name={userData?.fullName} />
             </div>
-            <div className="text-center mt-2 flex flex-col items-center gap-1">
-              <p className="text-2xl font-medium">
+            <div className="text-center mt-8 flex flex-col items-center gap-1">
+              <p className="text-2xl font-semibold">
                 {userData?.fullName || "Default Username"}
               </p>
-              <p className="text-md text-gray-500">{userData?.email}</p>
-              <p className="text-md text-black">{userData?.role}</p>
+              <p className="text-sm text-black">{userData?.email}</p>
+              <p className="text-md text-black font-bold">{userData?.role}</p>
             </div>
           </div>
-          <div className="flex flex-col w-[75%] gap-5 items-center">
+          <div className="flex flex-col w-[85%] gap-3 items-center">
             <Button
               active={!changingPassword}
               variant="section"
               align="left"
               onClick={() => setChangingPassword(false)}
             >
-              Personal information
+              Account information
             </Button>
             <Button
               active={changingPassword}
@@ -48,9 +46,11 @@ const Profile = () => {
             </Button>
           </div>
         </div>
-        <div className="border border-gray-200 bg-white rounded-2xl h-full w-[72%]">
+        <div className="border border-gray-200 bg-white rounded-2xl -mr-2 h-full w-[72%]">
           {changingPassword ? (
-            <div className="ms-15 mt-20"><ChangePasswordForm setChangingPassword={setChangingPassword} /></div>
+            <div className="ms-15 mt-20">
+              <ChangePasswordForm setChangingPassword={setChangingPassword} />
+            </div>
           ) : (
             <PersonalInformation data={userData} />
           )}

@@ -13,7 +13,7 @@ export default function TextInput({
       {label && (
         <label
           htmlFor={id}
-          className="block text-xl text-left font-medium mb-2"
+          className="block text-left font-medium mb-2"
         >
           {label}
         </label>
@@ -26,7 +26,7 @@ export default function TextInput({
         placeholder={placeholder}
         aria-invalid={!!error}
         aria-describedby={error ? `error-${id}` : undefined}
-        className={`w-full px-3 py-2 border text-lg rounded-md focus:outline-none focus:ring ${
+        className={`w-full px-3 py-3 border text-lg rounded-md placeholder:text-sm focus:outline-none focus:ring ${
           error ? "border-red-500" : "border-gray-300"
         }`}
       />

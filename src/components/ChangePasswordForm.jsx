@@ -36,7 +36,10 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
       setConfirmPassword("");
       let credentials = localStorage.getItem("credentials");
       credentials = JSON.parse(credentials);
-      localStorage.setItem("credentials", JSON.stringify({ ...credentials, password: newPassword }));
+      localStorage.setItem(
+        "credentials",
+        JSON.stringify({ ...credentials, password: newPassword })
+      );
     },
     onError: (error) => {
       console.log("Error changing password:", error);
@@ -53,7 +56,7 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
   return (
     <div className="p-5 mt-10 flex flex-col w-full h-[90%] items-start justify-start">
       <h2 className="text-2xl font-semibold mb-10">Change Password</h2>
-      <form className="flex flex-col gap-5 w-[60%]" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-5 w-[95%]" onSubmit={handleSubmit}>
         <PasswordInput
           label="Current Password"
           placeholder={"Enter current password"}
@@ -131,20 +134,25 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
             </span>
           </div>
         </div>
-        <div className="m-auto flex mt-4 gap-4">
+        <div className="ml-auto flex mt-4 gap-4">
           {setChangingPassword && (
-            <div className="">
-              <Button variant="secondary" onClick={() => setChangingPassword(false)}>
+            <div className="w-[170px]">
+              <Button
+                variant="terciary"
+                onClick={() => setChangingPassword(false)}
+              >
                 Cancel
               </Button>
             </div>
           )}
-          <Button
-            type="submit"
-            disabled={newPassword !== confirmPassword || !validNewPassword}
-          >
-            Change password
-          </Button>
+          <div className="w-[170px]">
+            <Button
+              type="submit"
+              disabled={newPassword !== confirmPassword || !validNewPassword}
+            >
+              Change password
+            </Button>
+          </div>
         </div>
       </form>
       {mutation.isLoading ? (

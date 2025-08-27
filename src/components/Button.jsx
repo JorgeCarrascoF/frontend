@@ -31,6 +31,7 @@ const Button = ({
   variant = "primary",
   type = "button",
   align = "center",
+  font = "font-normal"
 }) => {
   const v = variants[variant];
   return (
@@ -38,8 +39,8 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`cursor-pointer rounded-md flex ${justifyMap[align]} 
-w-full items-center 
+      className={`cursor-pointer ${font} rounded-md flex ${justifyMap[align]} 
+w-full items-center
 ${active && v.active ? v.active : v.base} ${
         variant == "pagination" ? "px-[0.7rem] py-[0.2rem] h-full" : "p-2 px-5"
       }

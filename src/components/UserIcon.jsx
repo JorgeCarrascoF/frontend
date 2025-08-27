@@ -8,12 +8,12 @@ const UserIcon = ({ name = "Default User" }) => {
   return (
     <div
       className={`rounded-full h-full w-full flex items-center justify-center`}
-      style={{ fontSize: "80%", backgroundColor: bgColor }}
+      style={{ fontSize: "60%", backgroundColor: bgColor }}
     >
       <span
         className={`${
           lightColors.includes(bgColor) ? "text-[#1F365B]" : "text-white"
-        } font-bold select-none text-6xl`}
+        } font-bold select-none text-5xl`}
       >
         {initials}
       </span>
