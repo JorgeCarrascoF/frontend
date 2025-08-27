@@ -1,8 +1,5 @@
 import { useParams } from "react-router-dom";
 import LogInfo from "../components/LogInfo";
-import NavButton from "../components/NavButton";
-import Icon from "@mdi/react";
-import { mdiOpenInNew } from "@mdi/js";
 
 const LogPage = () => {
   const { id: logId } = useParams();

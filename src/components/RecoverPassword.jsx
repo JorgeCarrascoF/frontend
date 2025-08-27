@@ -4,6 +4,7 @@ import Button from "./Button";
 import useToast from "../hooks/useToast";
 import { useMutation } from "@tanstack/react-query";
 import { recoverPassword } from "../queries/recoverPassword";
+import { changeUserFirstLoginStatus } from "../queries/changeUserFirstLoginStatus";
 
 const RecoverPassword = ({ setForgotPassword }) => {
   const [email, setEmail] = useState("");
@@ -19,12 +20,29 @@ const RecoverPassword = ({ setForgotPassword }) => {
     mutationFn: recoverPassword,
     onSuccess: () => {
       setErrorMessage("");
-      showToast("We’ve sent a password reset link to your email.", "success");
+      showToast(
+        "We’ve sent a randomly generated password to your email.",
+        "success"
+      );
+      userMutation.mutate({
+        userId: localStorage.getItem("userId"),
+        isFirstLogin: true,
+      });
       return;
     },
     onError: (error) => {
       console.log("Error sending link", error.message);
       setErrorMessage(error.message);
+    },
+  });
+
+  const userMutation = useMutation({
+    mutationFn: changeUserFirstLoginStatus,
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log("Error changing user first login status:", error);
     },
   });
 
@@ -36,7 +54,13 @@ const RecoverPassword = ({ setForgotPassword }) => {
     }
   };
   return (
-    <div className="w-full flex flex-col items-center py-6">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleRecover();
+      }}
+      className="w-full flex flex-col items-center py-6"
+    >
       <h1 className=" text-4xl font-semibold">Recover your password</h1>
       <div className="flex flex-col justify-center w-[75%] p-10 rounded-md gap-10 ">
         <TextInput
@@ -45,11 +69,13 @@ const RecoverPassword = ({ setForgotPassword }) => {
           type="email"
           placeholder="Enter your email"
           value={email}
+          onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
           onChange={(e) => setEmail(e.target.value)}
           error={errorMessage}
         />
         <div className="w-[50%] self-center">
           <Button
+            type="button"
             disabled={!email || !isEmailValid(email) || mutation.isLoading}
             onClick={handleRecover}
           >
@@ -64,7 +90,7 @@ const RecoverPassword = ({ setForgotPassword }) => {
         </span>
         <ToastContainer />
       </div>
-    </div>
+    </form>
   );
 };
 

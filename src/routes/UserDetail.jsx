@@ -5,7 +5,7 @@ const UserDetails = () => {
   const { id } = useParams();
 
   return (
-    <div className="w-[90%] h-full">
+    <div className="w-full h-full">
       <UserInfo userId={id} />
     </div>
   );

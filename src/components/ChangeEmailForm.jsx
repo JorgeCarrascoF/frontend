@@ -59,16 +59,25 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
   };
 
   return (
-    <div className="p-10 flex flex-col w-full h-[90%] items-start justify-start border pt-0 ms-10">
-      <h2 className="text-2xl font-semibold mb-10">Change Email</h2>
-      <form className="flex flex-col gap-5 w-[60%]" onSubmit={handleSubmit}>
-        <TextInput
-          label="Current Email"
-          placeholder={"Enter your current email"}
-          onChange={(e) => setCurrentEmail(e.target.value)}
-          error={currentEmail && (currentEmailMismatch()) && "Email does not match with this account's email"}
-        />
-        <div className="w-full">
+    <div className="p-10 flex flex-col w-full h-[90%] items-start justify-start pt-0 ms-10">
+      <h2 className="text-2xl font-bold mb-10">Change Email</h2>
+      <form
+        className="flex flex-col gap-5 ml-0 w-[95%]"
+        onSubmit={handleSubmit}
+      >
+        <div className="w-[70%]">
+          <TextInput
+            label="Current Email"
+            placeholder={"Enter your current email"}
+            onChange={(e) => setCurrentEmail(e.target.value)}
+            error={
+              currentEmail &&
+              currentEmailMismatch() &&
+              "Email does not match with this account's email"
+            }
+          />
+        </div>
+        <div className=" mt-10 w-[70%]">
           <TextInput
             label="New Email"
             placeholder={"Enter new email"}
@@ -86,7 +95,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
             </span>
           </div>
         </div>
-        <div className="w-full">
+        <div className="mt-8 w-[70%]">
           <TextInput
             label="Confirm New Email"
             placeholder={"Confirm new email"}
@@ -104,19 +113,23 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
             </span>
           </div>
         </div>
-        <div className="m-auto flex mt-4 gap-4">
-          <div>
-            <Button variant="secondary" onClick={() => setChangingEmail(false)}>
+        <div className="ml-auto flex mt-25 gap-4">
+          <div className="w-[170px]">
+            <Button variant="terciary" onClick={() => setChangingEmail(false)}>
               Cancel
             </Button>
           </div>
-          <div>
+          <div className="w-[170px]">
             <Button
               type="submit"
               variant="primary"
-              disabled={!validNewEmail || confirmEmail !== newEmail || currentEmailMismatch()}
+              disabled={
+                !validNewEmail ||
+                confirmEmail !== newEmail ||
+                currentEmailMismatch()
+              }
             >
-              Change email
+              Saved
             </Button>
           </div>
         </div>
@@ -141,11 +154,6 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
           <p className="text-sm text-gray-600 mb-5">
             You can now log in using your new email address.
           </p>
-          <div>
-            <Button variant="secondary" onClick={() => setChangingEmail(false)}>
-              Go back
-            </Button>
-          </div>
         </div>
       </Modal>
     </div>

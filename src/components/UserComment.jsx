@@ -6,7 +6,6 @@ import Icon from "@mdi/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import updateComment from "../queries/updateComment";
 import { ClipLoader } from "react-spinners";
-import { mdiContentSaveOutline } from "@mdi/js";
 import { mdiClose } from "@mdi/js";
 
 const UserComment = ({ comment, currentUserId }) => {
@@ -14,7 +13,7 @@ const UserComment = ({ comment, currentUserId }) => {
   const [editing, setEditing] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
-  console.log(comment)
+  console.log(comment);
 
   const queryClient = useQueryClient();
 
@@ -99,7 +98,7 @@ const UserComment = ({ comment, currentUserId }) => {
                 <Icon path={mdiClose} size={1} />
               </button>
             )}
-            {isOwner && canEdit && (
+            {isOwner && (
               <button
                 onClick={() => {
                   if (!editMutation.isPending) {
@@ -113,10 +112,7 @@ const UserComment = ({ comment, currentUserId }) => {
                 {editMutation.isPending ? (
                   <ClipLoader size={15} />
                 ) : (
-                  <Icon
-                    path={editing ? mdiContentSaveOutline : mdiPencil}
-                    size={1}
-                  />
+                  <Icon path={editing ? mdiCheck : mdiPencil} size={1} />
                 )}
               </button>
             )}

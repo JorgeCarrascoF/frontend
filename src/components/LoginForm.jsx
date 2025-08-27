@@ -33,6 +33,7 @@ const LoginForm = () => {
     onSuccess: (data) => {
       setSuccess("Login successful!");
       login(data.token, data.user.id, data.user, remember);
+      console.log("User logged in:", data.token, data.user);
 
       if (remember) {
         saveCredentials(email, password);
@@ -44,7 +45,7 @@ const LoginForm = () => {
       setPassword("");
 
       setTimeout(() => {
-        if (data.user.firstLogin) {
+        if (data.user.isFirstLogin) {
           navigate("/change-password-first"); 
         } else {
           navigate("/");
@@ -71,6 +72,7 @@ const LoginForm = () => {
   }, []);
 
   const handleSubmit = (e) => {
+    if (forgotPassword) return;
     e.preventDefault();
     setError("");
     setEmailError("");
@@ -94,14 +96,13 @@ const LoginForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
+    <div
       className="flex flex-col items-center p-4 mt-2 w-full"
     >
       {forgotPassword ? (
         <RecoverPassword setForgotPassword={setForgotPassword} />
       ) : (
-        <>
+        <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
           <h1 className="mb-4 text-4xl font-bold">Log in to Buggle</h1>
           <div className="flex flex-col items-center justify-center w-[80%] p-10 rounded-md gap-10 ">
             <div className="flex flex-col items-center w-full">
@@ -155,9 +156,9 @@ const LoginForm = () => {
             )}
             {error && <p className="text-red-500">{error}</p>}
           </div>
-        </>
+        </form>
       )}
-    </form>
+    </div>
   );
 };
 

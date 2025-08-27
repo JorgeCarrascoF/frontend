@@ -19,15 +19,15 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
 
   const [validNewPassword, setValidNewPassword] = useState(false);
 
-    useEffect(() => {
-      let timer;
-      if (success) {
-        timer = setTimeout(() => {
-          setSuccess(false);
-        }, 3000);
-      }
-      return () => clearTimeout(timer);
-    }, [success]);
+  useEffect(() => {
+    let timer;
+    if (success) {
+      timer = setTimeout(() => {
+        setSuccess(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [success]);
 
   useEffect(() => {
     const isValid =
@@ -45,13 +45,14 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
-      setSuccess(true)
-      let credentials = localStorage.getItem("credentials");
-      credentials = JSON.parse(credentials);
-      localStorage.setItem(
-        "credentials",
-        JSON.stringify({ ...credentials, password: newPassword })
-      );
+      setSuccess(true);
+      let credentials = JSON.parse(localStorage.getItem("credentials"));
+      if (credentials) {
+        localStorage.setItem(
+          "credentials",
+          JSON.stringify({ ...credentials, password: newPassword })
+        );
+      }
     },
     onError: (error) => {
       console.log("Error changing password:", error);
@@ -97,9 +98,10 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
                 passwordIsSafe() ? "text-green-500" : "text-red-500"
               }`}
             >
-              {newPassword && (passwordIsSafe()
-                ? "✓ Secure password."
-                : "Please add all necessary character to create safe password:")}
+              {newPassword &&
+                (passwordIsSafe()
+                  ? "✓ Secure password."
+                  : "Please add all necessary character to create safe password:")}
             </span>
             <ul className="flex flex-col list-disc ml-5 gap-1 text-[#737373]">
               <li
