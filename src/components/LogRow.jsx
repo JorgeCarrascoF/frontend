@@ -40,7 +40,16 @@ const LogRow = ({ log, onRowClick }) => {
         <Chip type="priority" value={log.priority || "low"} showPoint />
       </td>
       <td>
-        <Chip type="status" value={(log.status == "unresolved" ? "Pending" : log.status == "solved" ? "Resolved" : log.status) || "Pending"} />
+        <Chip
+          type="status"
+          value={
+            (log.status == "unresolved"
+              ? "Pending"
+              : log.status == "solved"
+              ? "Resolved"
+              : log.status) || "Pending"
+          }
+        />
       </td>
       {userData.role != "user" && (
         <td>
@@ -49,7 +58,7 @@ const LogRow = ({ log, onRowClick }) => {
             value={
               userOptions.find((u) => u.value === log.assigned_to)?.label ||
               log.assigned_to ||
-              "Jane Doe"
+              "Unassigned"
             }
           />
         </td>
