@@ -49,7 +49,7 @@ const LogInfo = ({ logId }) => {
     onSuccess: (response) => {
       console.log("Log updated successfully", response);
       queryClient.invalidateQueries(["log", logId]);
-      showToast("Log updated successfully", "success");
+      showToast("Log has been updated successfully", "success");
     },
   });
 
@@ -128,7 +128,7 @@ const LogInfo = ({ logId }) => {
             { updates: { status: e.target.value } },
             {
               onSuccess: () =>
-                showToast("Status updated successfully", "success"),
+                showToast("Log has been updated successfully", "success"),
             }
           );
         },
