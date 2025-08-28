@@ -4,13 +4,11 @@ import UserIcon from "./UserIcon";
 import { getUserById } from "../queries/getUserById";
 import NavButton from "./NavButton";
 import Icon from "@mdi/react";
-import { mdiOpenInNew } from "@mdi/js";
+import { mdiOpenInNew, mdiAlertOutline, mdiCheckCircleOutline } from "@mdi/js";
 import { useEffect, useState } from "react";
 import Modal from "./Modal";
 import Button from "./Button";
 import { changeUserStatus } from "../queries/changeUserStatus";
-import { mdiAlertOutline } from "@mdi/js";
-import { mdiCheckCircleOutline } from "@mdi/js";
 import SelectInput from "./SelectInput";
 import useToast from "../hooks/useToast";
 

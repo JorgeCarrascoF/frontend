@@ -10,7 +10,6 @@ import DeleteCommentButton from "./DeleteCommentButton";
 import splitDate from "../utils/splitDate";
 import Linkify from "linkify-react";
 
-
 const UserComment = ({ comment, currentUserId }) => {
   const [copied, setCopied] = useState(false);
   const [editing, setEditing] = useState(false);

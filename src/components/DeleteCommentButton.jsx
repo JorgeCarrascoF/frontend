@@ -1,14 +1,16 @@
 import Icon from "@mdi/react";
 import { mdiDelete } from "@mdi/js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import deleteComment from "../queries/deleteComment";
 import { ClipLoader } from "react-spinners";
-import { useState } from "react";
-
-<Icon path={mdiDelete} size={1} />;
+import { useEffect, useRef, useState } from "react";
+import Button from "./Button";
 
 const DeleteCommentButton = ({ logId, commentId }) => {
   const [deleting, setDeleting] = useState(false);
+  const [showingModal, setShowingModal] = useState(false);
+  const modalRef = useRef(null);
 
   const queryClient = useQueryClient();
 
@@ -24,19 +26,84 @@ const DeleteCommentButton = ({ logId, commentId }) => {
     },
   });
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowingModal(false);
+      }
+    };
+
+    if (showingModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showingModal]);
+
   const handleDelete = () => {
+    setShowingModal(true);
+  };
+
+  const confirmDelete = () => {
     setDeleting(true);
+    setShowingModal(false);
     mutation.mutate(commentId);
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className="hover:text-gray-700 hover:cursor-pointer flex items-center"
-      title="Delete comment"
-    >
-      {deleting ? <ClipLoader size={15} /> : <Icon path={mdiDelete} size={1} />}
-    </button>
+    <div className="relative inline-block">
+      <button
+        onClick={handleDelete}
+        className="hover:text-gray-700 hover:cursor-pointer h-full flex items-center"
+        title="Delete comment"
+      >
+        {deleting ? (
+          <ClipLoader size={15} />
+        ) : (
+          <Icon path={mdiDelete} size={1} />
+        )}
+      </button>
+
+      {showingModal && (
+        <div
+          ref={modalRef}
+          className="absolute z-10 py-6 bg-white flex flex-col border border-gray-300 rounded-md shadow-lg -top-30 right-20 p-10  "
+        >
+          <div className="w-full flex justify-center">
+            <WarningAmberRoundedIcon
+              className="text-yellow-500 mb-2"
+              fontSize="large"
+            />
+          </div>
+          <h2 className="text-2xl text-black font-semibold mb-4 text-center">
+            Are you sure you want to delete this message?
+          </h2>
+          <span className="text-[#737373] mb-4 text-center">
+            Deleted messages will no longer be accessible in the system
+          </span>
+          <div className="flex justify-center w-full gap-2">
+            <div className="w-[145px]">
+              <Button onClick={() => setShowingModal(false)} variant="tertiary">
+                Cancel
+              </Button>
+            </div>
+            <div className="w-[145px]">
+              <Button
+                className="px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-700"
+                onClick={confirmDelete}
+                disabled={deleting}
+              >
+                {deleting ? "Deleting..." : "Delete"}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

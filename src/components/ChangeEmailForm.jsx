@@ -6,7 +6,9 @@ import TextInput from "./TextInput";
 import Modal from "./Modal";
 import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
-import getToken from "../utils/getToken";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import useToast from "../hooks/useToast";
 
 const ChangeEmailForm = ({ setChangingEmail }) => {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -16,6 +18,10 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
   const [message, setMessage] = useState("");
 
   const [validNewEmail, setValidNewEmail] = useState(false);
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const { showToast, ToastContainer } = useToast();
 
   useEffect(() => {
     const isValid =
@@ -29,31 +35,39 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
       setMessage(data.msg);
       setNewEmail("");
       setConfirmEmail("");
-      let credentials = getToken("credentials");
-      credentials = JSON.parse(credentials);
-      localStorage.setItem(
-        "credentials",
-        JSON.stringify({ ...credentials, email: newEmail })
-      );
+      let credentials = JSON.parse(localStorage.getItem("credentials"));
+      if (credentials)
+        localStorage.setItem(
+          "credentials",
+          JSON.stringify({ ...credentials, email: newEmail })
+        );
       let userData = localStorage.getItem("userData");
       userData = JSON.parse(userData);
       localStorage.setItem(
         "userData",
         JSON.stringify({ ...userData, email: newEmail })
       );
+      logout();
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     },
     onError: (error) => {
-      console.log("Error changing email:", error.message);
+      console.log("Error changing email:", error);
       setMessage(error.message);
     },
   });
 
   const currentEmailMismatch = () => {
-    return currentEmail !== userData.email;
+    return currentEmail !== userData?.email;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (currentEmail === newEmail){
+      showToast("New email cannot be the same as current email", "error");
+      return;
+    }
     mutation.mutate({ newEmail });
   };
 
@@ -155,6 +169,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
           </p>
         </div>
       </Modal>
+      <ToastContainer />
     </div>
   );
 };

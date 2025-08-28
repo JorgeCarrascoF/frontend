@@ -24,7 +24,7 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange }) => {
   const { data: users } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
-      getUsers({ page: 1, limit: maxLimitInteger }),
+      getUsers({ page: 1, limit: maxLimitInteger, isActive: "true" }),
   });
 
   const { data: suggestedUsers } = useQuery({

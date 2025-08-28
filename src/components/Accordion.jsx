@@ -37,7 +37,7 @@ const Accordion = ({
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2, ease: "linear" }}
-            className="border-t mx-8 border-[#DBDBDB] overflow-hidden"
+            className="border-t mx-8 border-[#DBDBDB]"
           >
             <div className="text-left my-5 mx-3 text-gray-500 leading-relaxed break-words">
               {children}

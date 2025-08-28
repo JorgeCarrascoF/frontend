@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import Icon from "@mdi/react";
-import { mdiInformationOutline } from "@mdi/js";
-import { mdiCheck } from '@mdi/js';
-import { mdiAlertOutline } from '@mdi/js';
+import { mdiInformationOutline, mdiCheck, mdiAlertOutline } from "@mdi/js";
+import { motion } from "framer-motion";
 
 const Toast = ({ message, onClose, type = "info", duration = 3000 }) => {
   useEffect(() => {
@@ -16,16 +15,21 @@ const Toast = ({ message, onClose, type = "info", duration = 3000 }) => {
   const typeIcon = {
     info: mdiInformationOutline,
     success: mdiCheck,
-    error: mdiAlertOutline
-  }
+    error: mdiAlertOutline,
+  };
 
   return (
-    <div
-      className={`fixed flex gap-4 bottom-10 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded shadow text-white bg-[#295ba2] transition-transform`}
-    >
-      {" "}
-      <Icon path={typeIcon[type]} size={1} />
-      {message}
+    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+      <motion.div
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 16, scale: 0.98 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+        className={`pointer-events-auto flex gap-3 px-4 py-2 rounded shadow text-white bg-[#295ba2]`}
+      >
+        <Icon path={typeIcon[type]} size={1} />
+        {message}
+      </motion.div>
     </div>
   );
 };
