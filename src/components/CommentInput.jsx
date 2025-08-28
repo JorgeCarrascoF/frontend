@@ -4,6 +4,7 @@ import UserIconSmall from "./UserIconSmall";
 import { createComment } from "../queries/createComment";
 import { useState } from "react";
 import useToast from "../hooks/useToast";
+import checkUrl from "../queries/checkUrl";
 
 const CommentInput = ({ logId, inactive = false }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
@@ -33,24 +34,25 @@ const CommentInput = ({ logId, inactive = false }) => {
 
     // Mantener este código comentado hasta que tengamos el endpoint de check-url
 
-    // const urlRegex =
-    //   /\b((https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/\S*)?\b/g;
+    const urlRegex =
+      /\b((https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/\S*)?\b/g;
 
-    // const urls = comment.match(urlRegex) || [];
+    const urls = comment.match(urlRegex) || [];
 
-    // if (urls.length > 0) {
-    //   let urlsValid = true;
-    //   for (let url of urls) {
-    //     const isValid = await checkLink(url);
-    //     if (!isValid) {
-    //       urlsValid = false;
-    //     }
-    //   }
-    //   if (!urlsValid) {
-    //     showToast("Your comments include broken links", "error");
-    //     return;
-    //   }
-    // }
+    if (urls.length > 0) {
+      let urlsValid = true;
+      for (let url of urls) {
+        const response = await checkUrl(url);
+
+        if (!response.isValid) {
+          urlsValid = false;
+        }
+      }
+      if (!urlsValid) {
+        showToast("Your comments include broken links", "error");
+        return;
+      }
+    }
 
     if (comment.trim() === "") return;
 
