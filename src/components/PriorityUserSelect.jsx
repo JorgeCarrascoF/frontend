@@ -12,7 +12,7 @@ const UserOption = (props) => (
     <div className="text-left w-full flex align-center justify-between">
       <span className="w-[100%] truncate">{props.data.label}</span>
       {props.data.isSuggested && (
-        <div className="ml-auto font-semibold text-[10px] text-blue-500">
+        <div className=" font-semibold text-[10px] text-blue-500">
           <Chip type="suggestedUser" value={"suggested"} />
         </div>
       )}

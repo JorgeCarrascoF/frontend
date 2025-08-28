@@ -48,7 +48,7 @@ const chipWidth = {
   status: "w-[7rem]",
   priority: "w-[6.438rem]",
   userStatus: "w-[7.3rem] 2xl:max-w-[6rem]",
-  suggestedUser: "w-[4rem]"
+  suggestedUser: "w-[5rem]"
 };
 
 const Chip = ({ type, value, showPoint }) => {
