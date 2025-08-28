@@ -77,8 +77,14 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
                 createLogReportMutation.mutate({ logId });
               }}
             >
-              <Icon path={mdiCreation} size={1} className="mr-2" />
-              Generate suggestion with AI
+              {createLogReportMutation.isLoading ? (
+                <ClipLoader color="white" size={15} />
+              ) : (
+                <div className="flex">
+                  <Icon path={mdiCreation} size={1} className="mr-2" />
+                  Generate suggestion with AI
+                </div>
+              )}
             </Button>
           </div>
         )}
