@@ -284,7 +284,7 @@ const LogInfo = ({ logId }) => {
       <LogStatusRegister logId={logId} inactive={isInactive} />
       <LogAISuggestion
         log={log}
-        inactive={isInactive || !log.culprit || !/\(.*?\)/.test(log.culprit)}
+        inactive={isInactive || !log.culprit}
       />
       <ToastContainer />
     </>

@@ -8,6 +8,7 @@ import Modal from "./Modal";
 import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const ChangePasswordForm = ({ setChangingPassword }) => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -18,6 +19,8 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
   const navigate = useNavigate();
 
   const [validNewPassword, setValidNewPassword] = useState(false);
+
+  const { logout } = useAuth();
 
   useEffect(() => {
     let timer;
@@ -53,7 +56,13 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
           JSON.stringify({ ...credentials, password: newPassword })
         );
       }
+
+      logout();
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     },
+
     onError: (error) => {
       console.log("Error changing password:", error);
       setMessage(error.message);

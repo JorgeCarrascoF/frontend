@@ -25,7 +25,7 @@ const RelatedLogsTable = ({ relatedLogs }) => {
                   key={col.key}
                   className={`${col.width ?? ""} ${
                     i === 0 ? "rounded-tl-md" : ""
-                  } ${i === columns.length - 1 ? "rounded-tr-md" : ""} border`}
+                  } ${i === columns.length - 1 ? "rounded-tr-md" : ""}`}
                 >
                   {col.label}
                 </th>
