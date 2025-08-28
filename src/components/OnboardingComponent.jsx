@@ -172,7 +172,9 @@ const OnboardingComponent = () => {
                 />
                 <div className=" flex justify-center ">
                   <div className="w-[30%]">
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" disabled={!ghToken || !repoLink}>
+                      Submit
+                    </Button>
                   </div>
                 </div>
               </form>

@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"; 
+import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { api } from "../api";
@@ -8,6 +8,7 @@ import Button from "./Button";
 import TextInput from "./TextInput";
 import PasswordInput from "./PasswordInput";
 import RecoverPassword from "./RecoverPassword";
+import Logo from "./Logo";
 
 const loginUser = async (data) => {
   const response = await api.post(`/auth/login`, data);
@@ -46,7 +47,7 @@ const LoginForm = () => {
 
       setTimeout(() => {
         if (data.user.isFirstLogin) {
-          navigate("/change-password-first"); 
+          navigate("/change-password-first");
         } else {
           navigate("/");
         }
@@ -96,14 +97,17 @@ const LoginForm = () => {
   };
 
   return (
-    <div
-      className="flex flex-col items-center p-4 mt-2 w-full"
-    >
+    <div className="flex flex-col items-center p-4 mt-2 w-full">
       {forgotPassword ? (
         <RecoverPassword setForgotPassword={setForgotPassword} />
       ) : (
-        <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
-          <h1 className="mb-4 text-4xl font-bold">Log in to Buggle</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full flex flex-col items-center"
+        >
+          <div className="w-[200px]">
+            <Logo showText orientation="vertical" iconHeight={60} />
+          </div>
           <div className="flex flex-col items-center justify-center w-[80%] p-10 rounded-md gap-10 ">
             <div className="flex flex-col items-center w-full">
               <div className="flex flex-col w-full gap-2 mb-10">

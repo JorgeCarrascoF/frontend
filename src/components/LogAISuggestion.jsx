@@ -9,8 +9,9 @@ import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-dark.css";
 import { ClipLoader } from "react-spinners";
 import { createLogReport } from "../queries/createLogReport";
+import { motion, AnimatePresence } from "framer-motion";
 
-const LogAISuggestion = ({ logId, inactive = false }) => {
+const LogAISuggestion = ({ log, inactive = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [report, setReport] = useState("");
   const [loadingReport, setLoadingReport] = useState(false);
@@ -23,15 +24,15 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
     isError: isErrorLogReport,
     isSuccess: isSuccessLogReport,
   } = useQuery({
-    queryKey: ["logReport", logId],
-    queryFn: () => getLogReport(logId),
+    queryKey: ["logReport", log.id],
+    queryFn: () => getLogReport(log.id),
   });
 
   const createLogReportMutation = useMutation({
     mutationFn: createLogReport,
     onSuccess: (data) => {
       console.log("Log report created:", data);
-      queryClient.invalidateQueries({ queryKey: ["logReport", logId] });
+      queryClient.invalidateQueries({ queryKey: ["logReport", log.id] });
     },
     onError: (error) => {
       console.error("Error creating log report:", error);
@@ -47,8 +48,6 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
   useEffect(() => {
     setLoadingReport(createLogReportMutation.isLoading);
   }, [createLogReportMutation.isLoading]);
-
-  console.log("logReport", logReport);
 
   return (
     <div
@@ -81,65 +80,49 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                // TODO: post /api/suggestions to generate a report
                 setLoadingReport(true);
-                createLogReportMutation.mutate({ logId });
+                createLogReportMutation.mutate({ logId: log.id });
               }}
+              disabled={inactive}
             >
               {loadingReport ? (
                 <ClipLoader color="white" size={15} />
               ) : (
                 <div className="flex">
-                  <Icon path={mdiCreation} size={1} className="mr-2" />
-                  Generate suggestion with AI
+                  <Icon path={mdiCreation} size={1} className="mr-3" />
+                  {inactive
+                    ? "Not suitable for AI report"
+                    : "Generate suggestion with AI"}
                 </div>
               )}
             </Button>
           </div>
         )}
       </div>
-      {isOpen && (
-        <div className="border-t mx-8 border-[#DBDBDB]">
-          <div className="text-left my-5 pb-5 px-10 prose min-w-full prose-code:text-[16px]">
-            {report && (
-              <ReactMarkdown rehypePlugins={rehypeHighlight}>
-                {report}
-              </ReactMarkdown>
-            )}
-          </div>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: "linear" }}
+            className="border-t mx-8 border-[#DBDBDB] overflow-hidden"
+          >
+            <div className="text-left my-5 pb-5 px-10 prose min-w-full prose-code:text-[16px]">
+              {inactive ? (
+                <span className="text-[#737373]">This log is not suitable for AI reports</span>
+              ) : (
+                report && (
+                  <ReactMarkdown rehypePlugins={rehypeHighlight}>
+                    {report}
+                  </ReactMarkdown>
+                )
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
-    // <div
-    //   className={`w-full m-2 border border-gray-200 bg-white rounded-2xl ${
-    //     inactive ? "text-[#737373]" : "text-black"
-    //   }`}
-    // >
-    //   <div className="w-full p-4 px-6 cursor-pointer flex justify-between items-center">
-    //     <h2 className="text-xl text-left font-semibold ml-2">
-    //       Automated support with AI
-    //     </h2>
-    //     <div>
-    //       {isOpen ? (
-    //         <Button onClick={() => setIsOpen(false)}>Hide suggestion</Button>
-    //       ) : (
-    //         <Button onClick={() => setIsOpen(true)}>
-    //           <Icon path={mdiCreation} size={1} className="mr-2" />
-    //           Generate suggestion with AI
-    //         </Button>
-    //       )}
-    //     </div>
-    //   </div>
-    //   {isOpen && (
-    //     <div className="border-t mx-4 border-gray-200">
-    //       <div className="text-left my-5 px-10 prose min-w-full prose-code:text-[16px]">
-    //         {report && (
-    //           <ReactMarkdown rehypePlugins={rehypeHighlight}>{report}</ReactMarkdown>
-    //         )}
-    //       </div>
-    //     </div>
-    //   )}
-    // </div>
   );
 };
 

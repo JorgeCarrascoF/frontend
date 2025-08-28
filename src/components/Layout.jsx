@@ -9,6 +9,7 @@ import LogoIsotipo from "../assets/Buggle_Isotipo.svg";
 import LogoTipografia from "../assets/Buggle_tipografia_curvas.svg";
 import UserIconVerySmall from "./UserIconVerySmall.jsx";
 import { mdiAccountCogOutline } from "@mdi/js";
+import Logo from "./Logo.jsx";
 
 const Layout = () => {
   const { isLoggedIn } = useAuth();
@@ -20,17 +21,10 @@ const Layout = () => {
       <nav className="w-[20rem] h-screen fixed left-0 flex flex-col justify-between pt-0 pb-4">
         <div className="mx-7 flex flex-col items-center">
           <span
-            className="font-semibold self-start text-left text-black text-2xl cursor-pointer"
+            className="font-semibold self-start text-left w-[116px] h-[29px] mt-8 mb-10  text-black cursor-pointer"
             onClick={() => navigate("/")}
           >
-            <div className="flex w-[116px] items-center">
-              <img src={LogoIsotipo} alt="Isotipo" className="h-8" />
-              <img
-                src={LogoTipografia}
-                alt="Tipografía"
-                className="h-[100px] relative"
-              />
-            </div>
+            <Logo showText={true} orientation={"horizontal"} iconHeight={30} />
           </span>
           {userData && (
             <div className="flex items-center gap-3 self-start">
@@ -73,7 +67,12 @@ const Layout = () => {
             <LogoutButton />
           </div>
           <div className="w-full flex justify-start">
-            <button className="w-fit cursor-pointer text-left text-[#737373] text-sm ml-5 tracking-tighter" onClick={() => navigate("/onboarding")}>Need Help?</button>
+            <button
+              className="w-fit cursor-pointer text-left text-[#737373] text-sm ml-5 tracking-tighter"
+              onClick={() => navigate("/onboarding")}
+            >
+              Need Help?
+            </button>
           </div>
         </div>
       </nav>

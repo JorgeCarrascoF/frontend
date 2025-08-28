@@ -7,13 +7,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import updateComment from "../queries/updateComment";
 import { ClipLoader } from "react-spinners";
 import { mdiClose } from "@mdi/js";
+import DeleteCommentButton from "./DeleteCommentButton";
 
 const UserComment = ({ comment, currentUserId }) => {
   const [copied, setCopied] = useState(false);
   const [editing, setEditing] = useState(false);
   const [newCommentText, setNewCommentText] = useState("");
 
-  console.log(comment);
+  const userData = JSON.parse(localStorage.getItem("userData"));
+  const isSuperAdmin = userData?.role === "superadmin";
+  console.log("isSuperAdmin", isSuperAdmin);
 
   const queryClient = useQueryClient();
 
@@ -66,9 +69,10 @@ const UserComment = ({ comment, currentUserId }) => {
   const handleEdit = async () => {
     editMutation.mutate({ text: newCommentText });
   };
-
   const isOwner = comment.user?.id === currentUserId;
-  const canEdit = canEditComment(comment.create_at);
+  const canEdit = canEditComment(comment.created_at);
+
+  console.log("comment", comment);
 
   return (
     <div className="p-3 flex items-center">
@@ -82,10 +86,10 @@ const UserComment = ({ comment, currentUserId }) => {
               {comment.user?.fullName || "Default User"}
             </span>
             <span className="text-gray-500 text-sm">
-              {formatDate(comment.create_at) || "Unknown Date"}
+              {formatDate(comment.created_at) || "Unknown Date"}
             </span>
           </div>
-          <div className="flex gap-2 text-gray-500 mt-3">
+          <div className="flex gap-1 text-gray-500 mt-3">
             {isOwner && editing && (
               <button
                 onClick={() => {
@@ -98,7 +102,7 @@ const UserComment = ({ comment, currentUserId }) => {
                 <Icon path={mdiClose} size={1} />
               </button>
             )}
-            {isOwner && (
+            {isOwner && canEdit && (
               <button
                 onClick={() => {
                   if (!editMutation.isPending) {
@@ -127,6 +131,12 @@ const UserComment = ({ comment, currentUserId }) => {
                 <Icon path={mdiContentCopy} size={1} />
               )}
             </button>
+            {isSuperAdmin && (
+              <DeleteCommentButton
+                logId={comment.log._id}
+                commentId={comment.id}
+              />
+            )}
             <button
               onClick={() => handlePin(!comment.pinned)}
               className="hover:text-gray-700 hover:cursor-pointer"

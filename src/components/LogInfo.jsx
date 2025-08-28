@@ -89,6 +89,11 @@ const LogInfo = ({ logId }) => {
   const isInactive = log.active === false;
 
   const handleAssignedChange = (selected) => {
+    console.log(log.assigned_to, selected.value);
+    if(log.assigned_to === selected.value) {
+      showToast("The log is already assigned to that user", "error");
+      return;
+    }
     mutation.mutate({
       updates: { assigned_to: selected.value },
     });
@@ -108,7 +113,8 @@ const LogInfo = ({ logId }) => {
           mutation.mutate(
             { updates: { status: e.target.value } },
             {
-              onSuccess: () => showToast("Status updated successfully", "success"),
+              onSuccess: () =>
+                showToast("Status updated successfully", "success"),
             }
           );
         },
@@ -235,7 +241,10 @@ const LogInfo = ({ logId }) => {
       <LogComments logId={logId} inactive={isInactive} />
       <RelatedLogs log={log} inactive={isInactive} />
       <LogStatusRegister logId={logId} inactive={isInactive} />
-      <LogAISuggestion logId={logId} inactive={isInactive} />
+      <LogAISuggestion
+        log={log}
+        inactive={isInactive || !log.culprit || !/\(.*?\)/.test(log.culprit)}
+      />
       <ToastContainer />
     </>
   );

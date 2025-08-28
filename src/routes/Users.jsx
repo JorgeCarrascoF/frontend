@@ -1,6 +1,6 @@
 import UserDashboard from "../components/UserDashboard";
 import Icon from "@mdi/react";
-import { mdiPlus } from '@mdi/js';
+import { mdiPlus } from "@mdi/js";
 import { mdiMagnify } from "@mdi/js";
 import NavButton from "../components/NavButton";
 import { useState } from "react";

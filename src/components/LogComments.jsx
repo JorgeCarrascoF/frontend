@@ -21,6 +21,8 @@ const LogComments = ({ logId, inactive }) => {
 
   const sortedComments = sortComments(comments?.data || []).slice(0, 5);
 
+  console.log("sortedComments", sortedComments)
+
   return (
     <Accordion title="Notes and comments" inactive={inactive}>
       <CommentInput logId={logId} inactive={inactive} />

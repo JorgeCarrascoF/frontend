@@ -24,7 +24,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
 
   const navigate = useNavigate();
 
-  let userData = JSON.parse(localStorage.getItem("userData"));
+  let userData = JSON.parse(localStorage.getItem("userData")); // For filtrating logs assigned to me (future versions)
 
   const { data, isLoading, error, isPreviousData } = useQuery({
     queryKey: [
@@ -63,7 +63,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
     <div className="flex flex-col h-full w-full self-start">
       <div className="w-full">
         <div className="flex flex-wrap items-center gap-4">
-          <div>
+          <div className="w-[8rem]">
             <SelectInput
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
@@ -76,7 +76,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             />
           </div>
 
-          <div>
+          <div className="w-[7.5rem]">
             <SelectInput
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value)}
@@ -89,7 +89,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             />
           </div>
 
-          <div>
+          <div className="w-[10rem]">
             <SelectInput
               value={environmentFilter}
               onChange={(e) => setEnvironmentFilter(e.target.value)}
@@ -102,7 +102,7 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
             />
           </div>
 
-          <div>
+          <div className="w-[8rem]">
             <SelectInput
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
