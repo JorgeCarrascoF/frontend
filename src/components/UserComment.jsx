@@ -8,6 +8,7 @@ import updateComment from "../queries/updateComment";
 import { ClipLoader } from "react-spinners";
 import { mdiClose } from "@mdi/js";
 import DeleteCommentButton from "./DeleteCommentButton";
+import splitDate from "../utils/splitDate";
 
 const UserComment = ({ comment, currentUserId }) => {
   const [copied, setCopied] = useState(false);
@@ -73,6 +74,8 @@ const UserComment = ({ comment, currentUserId }) => {
   const canEdit = canEditComment(comment.created_at);
 
   console.log("comment", comment);
+  const dateAndHour = splitDate(comment.created_at);
+  console.log("dateAndHour", dateAndHour);
 
   return (
     <div className="p-3 flex items-center">
@@ -86,7 +89,9 @@ const UserComment = ({ comment, currentUserId }) => {
               {comment.user?.fullName || "Default User"}
             </span>
             <span className="text-gray-500 text-sm">
-              {formatDate(comment.created_at) || "Unknown Date"}
+              {comment?.created_at
+                ? `${dateAndHour.day}, ${dateAndHour.hour}`
+                : "Unknown Date"}
             </span>
           </div>
           <div className="flex gap-1 text-gray-500 mt-3">

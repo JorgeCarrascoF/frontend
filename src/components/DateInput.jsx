@@ -86,7 +86,6 @@ const DateInput = ({ value, onChange, placeholder = "Select date" }) => {
     const utcDate = new Date(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
     );
-    console.log(utcDate);
     onChange && onChange(utcDate?.toISOString().slice(0, 10));
     setOpen(false);
   };

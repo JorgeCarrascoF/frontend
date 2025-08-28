@@ -6,10 +6,13 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { changeUserStatus } from "../queries/changeUserStatus";
 import Button from "./Button";
+import useToast from "../hooks/useToast";
 
 const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
   const [changingUserStatus, setChangingUserStatus] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const { showToast, ToastContainer} = useToast();
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -102,6 +105,11 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
                 <td className="px-4 py-2 text-center">
                   <button
                     onClick={() => {
+                      console.log(row)
+                      if(row.role == "superadmin"){
+                        showToast("Superadmin cannot be changed to inactive", "error");
+                        return
+                      }
                       setSelectedUser(row.id);
                       setChangingUserStatus(true);
                     }}
@@ -126,7 +134,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
         <div className="flex mt-12 w-[70%] justify-evenly">
           <div className="w-[40%]">
             <Button
-              variant="secondary"
+              variant="tertiary"
               onClick={() => {
                 setChangingUserStatus(false);
               }}
@@ -157,6 +165,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
           ""
         )}
       </Modal>
+      <ToastContainer />
     </div>
   );
 };

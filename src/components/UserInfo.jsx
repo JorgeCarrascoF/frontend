@@ -12,6 +12,7 @@ import { changeUserStatus } from "../queries/changeUserStatus";
 import { mdiAlertOutline } from "@mdi/js";
 import { mdiCheckCircleOutline } from "@mdi/js";
 import SelectInput from "./SelectInput";
+import useToast from "../hooks/useToast";
 
 const UserInfo = ({ userId }) => {
   const [activeTab, setActiveTab] = useState("info");
@@ -28,6 +29,8 @@ const UserInfo = ({ userId }) => {
       return () => clearTimeout(timer);
     }
   }, [statusChangeConfirmed]);
+
+  const { showToast, ToastContainer } = useToast();
 
   const queryClient = useQueryClient();
 
@@ -260,7 +263,16 @@ const UserInfo = ({ userId }) => {
                     disabled={
                       newStatus === userData.isActive || newStatus === null
                     }
-                    onClick={() => setChangingUserStatus(true)}
+                    onClick={() => {
+                      if (userData.role == "superadmin") {
+                        showToast(
+                          "Superadmin cannot be changed to inactive",
+                          "error"
+                        );
+                        return;
+                      }
+                      setChangingUserStatus(true);
+                    }}
                   >
                     Save
                   </Button>
@@ -279,9 +291,7 @@ const UserInfo = ({ userId }) => {
           color={statusChangeConfirmed ? "green" : "#ffa60a"}
           size={1.5}
         />
-        <h2
-          className={`text-2xl mb-2 mt-3 px-8 text-black font-semibold`}
-        >
+        <h2 className={`text-2xl mb-2 mt-3 px-8 text-black font-semibold`}>
           {statusChangeConfirmed
             ? "User status changed succesfully"
             : `Are you sure you want to change this user's status to ${
@@ -336,6 +346,7 @@ const UserInfo = ({ userId }) => {
           ""
         )}
       </Modal>
+      <ToastContainer />
     </div>
   );
 };

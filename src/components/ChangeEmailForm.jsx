@@ -10,7 +10,6 @@ import getToken from "../utils/getToken";
 
 const ChangeEmailForm = ({ setChangingEmail }) => {
   const userData = JSON.parse(localStorage.getItem("userData"));
-  console.log("userData", userData);
   const [currentEmail, setCurrentEmail] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
