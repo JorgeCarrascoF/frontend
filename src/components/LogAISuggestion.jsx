@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import Icon from "@mdi/react";
 import { mdiChevronDown, mdiCreation } from "@mdi/js";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getLogReport } from "../queries/getLogReport";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
@@ -13,6 +13,9 @@ import { createLogReport } from "../queries/createLogReport";
 const LogAISuggestion = ({ logId, inactive = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [report, setReport] = useState("");
+  const [loadingReport, setLoadingReport] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const {
     data: logReport,
@@ -28,6 +31,7 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
     mutationFn: createLogReport,
     onSuccess: (data) => {
       console.log("Log report created:", data);
+      queryClient.invalidateQueries({ queryKey: ["logReport", logId] });
     },
     onError: (error) => {
       console.error("Error creating log report:", error);
@@ -39,6 +43,10 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
       setReport(logReport?.result?.report);
     }
   }, [isSuccessLogReport, logReport]);
+
+  useEffect(() => {
+    setLoadingReport(createLogReportMutation.isLoading);
+  }, [createLogReportMutation.isLoading]);
 
   console.log("logReport", logReport);
 
@@ -74,10 +82,11 @@ const LogAISuggestion = ({ logId, inactive = false }) => {
               onClick={(e) => {
                 e.stopPropagation();
                 // TODO: post /api/suggestions to generate a report
+                setLoadingReport(true);
                 createLogReportMutation.mutate({ logId });
               }}
             >
-              {createLogReportMutation.isLoading ? (
+              {loadingReport ? (
                 <ClipLoader color="white" size={15} />
               ) : (
                 <div className="flex">
