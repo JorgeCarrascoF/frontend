@@ -225,7 +225,7 @@ const LogInfo = ({ logId }) => {
 
             <div className="w-fit mt-2 flex flex-col items-start">
               {isAdmin || currentUserId === log.assigned_to ? (
-                <div className="w-[224px]">
+                <div className="w-[224px] h-full flex items-center">
                   <SelectInput
                     options={[
                       { value: "unresolved", label: "Pending" },
