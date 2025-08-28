@@ -1,6 +1,6 @@
 import NavButton from "./NavButton";
 import Icon from "@mdi/react";
-import { mdiFileOutline  } from "@mdi/js";
+import { mdiFileOutline } from "@mdi/js";
 import { mdiAccountMultipleOutline } from "@mdi/js";
 import LogoutButton from "./LogoutButton";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -8,8 +8,7 @@ import { useAuth } from "../hooks/useAuth";
 import LogoIsotipo from "../assets/Buggle_Isotipo.svg";
 import LogoTipografia from "../assets/Buggle_tipografia_curvas.svg";
 import UserIconVerySmall from "./UserIconVerySmall.jsx";
-import { mdiAccountCogOutline } from '@mdi/js';
-
+import { mdiAccountCogOutline } from "@mdi/js";
 
 const Layout = () => {
   const { isLoggedIn } = useAuth();
@@ -50,7 +49,7 @@ const Layout = () => {
             <NavButton
               text={"Logs"}
               route={"/dashboard"}
-              icon={<Icon path={mdiFileOutline } size={1} />}
+              icon={<Icon path={mdiFileOutline} size={1} />}
             />
             {(userData?.role === "admin" ||
               userData?.role === "superadmin") && (
@@ -69,9 +68,12 @@ const Layout = () => {
             )}
           </div>
         </div>
-        <div className="mx-8 mt-4 flex flex-col items-center">
-          <div className="flex flex-col mt-10 w-full -ml-8 mb-2 gap-2">
+        <div className="mx-[22px] mt-4 flex flex-col items-center justify-start mb-7">
+          <div className="flex flex-col mt-10 w-full mb-2 gap-2">
             <LogoutButton />
+          </div>
+          <div className="w-full flex justify-start">
+            <button className="w-fit cursor-pointer text-left text-[#737373] text-sm ml-5 tracking-tighter" onClick={() => navigate("/onboarding")}>Need Help?</button>
           </div>
         </div>
       </nav>

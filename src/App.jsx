@@ -17,14 +17,17 @@ import Logs from "./routes/Logs";
 import Profile from "./routes/Profile";
 import UserDetail from "./routes/UserDetail";
 import ChangePasswordOnFirstLogin from "./routes/ChangePasswordOnFirstLogin";
-
+import Onboarding from "./routes/Onboarding";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/change-password-first" element={<ChangePasswordOnFirstLogin />} />
+        <Route
+          path="/change-password-first"
+          element={<ChangePasswordOnFirstLogin />}
+        />
         <Route element={<Layout />}>
           <Route
             path="/"
@@ -65,6 +68,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Logs />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/onboarding"
+            element={
+              <PrivateRoute>
+                <Onboarding />
               </PrivateRoute>
             }
           />

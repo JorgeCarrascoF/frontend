@@ -14,10 +14,10 @@ const LogoutButton = () => {
 
   return (
     <button
-      className={`px-5  font-semibold cursor-pointer text-gray-900 py-3 flex items-center justify-left rounded-lg hover:bg-[#f0f2f5] transition-colors duration-200`}
+      className={`px-5  font-semibold  cursor-pointer text-gray-900 py-3 flex items-center justify-left rounded-lg hover:bg-[#f0f2f5] transition-colors duration-200`}
       onClick={handleLogout}
     >
-      <Icon path={mdiLogout} size={1} /> <span className="ml-2">Log out</span>
+      <Icon path={mdiLogout} size={1} /> <span className="ml-3 font-normal text-sm">Log out</span>
     </button>
   );
 };
