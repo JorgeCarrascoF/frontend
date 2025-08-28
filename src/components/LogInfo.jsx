@@ -89,6 +89,9 @@ const LogInfo = ({ logId }) => {
 
   const isInactive = log.active === false;
 
+    const currentUserId = localStorage.getItem("userId");
+
+  console.log("log",log)
   const handleAssignedChange = (selected) => {
     if (log.assigned_to === selected.value) {
       showToast("The log is already assigned to that user", "error");
@@ -200,7 +203,7 @@ const LogInfo = ({ logId }) => {
             />
 
             <div className="w-fit flex mt-2 flex-col items-start">
-              {isAdmin ? (
+              {isAdmin  ? (
                 <div className="w-[184px]">
                   <SelectInput
                     options={[
@@ -221,7 +224,7 @@ const LogInfo = ({ logId }) => {
             </div>
 
             <div className="w-fit mt-2 flex flex-col items-start">
-              {isAdmin ? (
+              {isAdmin || currentUserId === log.assigned_to ? (
                 <div className="w-[224px]">
                   <SelectInput
                     options={[

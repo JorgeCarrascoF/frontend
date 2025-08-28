@@ -127,7 +127,6 @@ const RegisterForm = () => {
           </div>
         </div>
 
-
         <TextInput
           label="First name"
           name="firstName"
@@ -145,7 +144,6 @@ const RegisterForm = () => {
           placeholder="Enter user's last name"
           error={errors.lastName}
         />
-
 
         <TextInput
           label="Username"
