@@ -25,6 +25,7 @@
     "framer-motion": "^12.23.12",
     "highlight.js": "^11.11.1",
     "jwt-decode": "^4.0.0",
+    "linkify-react": "^4.3.2",
     "lucide-react": "^0.541.0",
     "react": "^19.1.0",
     "react-datepicker": "^8.7.0",

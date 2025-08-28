@@ -1,6 +1,5 @@
 import { useState } from "react";
 import UserIconSmall from "./UserIconSmall";
-import { formatDate } from "../utils/formatDate";
 import { mdiPencil, mdiContentCopy, mdiCheck, mdiPin } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +8,8 @@ import { ClipLoader } from "react-spinners";
 import { mdiClose } from "@mdi/js";
 import DeleteCommentButton from "./DeleteCommentButton";
 import splitDate from "../utils/splitDate";
+import Linkify from "linkify-react";
+
 
 const UserComment = ({ comment, currentUserId }) => {
   const [copied, setCopied] = useState(false);
@@ -73,9 +74,7 @@ const UserComment = ({ comment, currentUserId }) => {
   const isOwner = comment.user?.id === currentUserId;
   const canEdit = canEditComment(comment.created_at);
 
-  console.log("comment", comment);
   const dateAndHour = splitDate(comment.created_at);
-  console.log("dateAndHour", dateAndHour);
 
   return (
     <div className="p-3 flex items-center">
@@ -172,7 +171,9 @@ const UserComment = ({ comment, currentUserId }) => {
           />
         ) : (
           <p className="text-gray-700 border border-transparent px-1 text-left mt-1 whitespace-pre-wrap">
-            {comment.text || "No comment text available"}
+            <Linkify options={{ target: "_blank", rel: "noopener noreferrer" }}>
+              {comment.text || "No comment text available"}
+            </Linkify>
           </p>
         )}
       </div>
