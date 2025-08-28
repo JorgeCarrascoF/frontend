@@ -4,23 +4,7 @@ import CodeFragment from "./CodeFragment";
 import Stepper from "./Stepper";
 import TextInput from "./TextInput";
 import { useState } from "react";
-
-// const Accordion = ({ title, children, isOpen, onToggle }) => {
-//   return (
-//     <div className="border border-gray-300 rounded-lg bg-white shadow-sm">
-//       <button
-//         className="flex justify-between items-center w-full p-4 text-sm font-medium text-left hover:bg-gray-50 transition"
-//         onClick={onToggle}
-//       >
-//         <span>{title}</span>
-//         {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-//       </button>
-//       {isOpen && (
-//         <div className="px-6 pb-6 pt-2 text-sm text-gray-700">{children}</div>
-//       )}
-//     </div>
-//   );
-// };
+import Button from "./Button";
 
 const stepsData = [
   { title: "Log into Github", description: "Access into your Github Account" },
@@ -77,8 +61,15 @@ const OnboardingComponent = () => {
   const [ghToken, setGhToken] = useState("");
   const [repoLink, setRepoLink] = useState("");
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("data sent", { ghToken, repoLink });
+    setGhToken("");
+    setRepoLink("");
+  };
+
   return (
-    <div className="w-full h-full mt-20 pb-20 flex flex-col  items-center">
+    <div className="w-full h-full flex flex-col  items-center">
       <div className="text-center w-[55rem] flex flex-col items-center">
         <h2 className="text-4xl font-bold mb-2 leading-snug">
           Start with Buggle, <br></br> manage your logs easily
@@ -165,7 +156,10 @@ const OnboardingComponent = () => {
                 suggestion based in the commits. Please provide them in the
                 fields below.
               </span>
-              <form className="mt-4 flex flex-col gap-4">
+              <form
+                onSubmit={handleSubmit}
+                className="mt-4 flex flex-col gap-4"
+              >
                 <TextInput
                   label="GitHub Token"
                   value={ghToken}
@@ -176,6 +170,11 @@ const OnboardingComponent = () => {
                   value={repoLink}
                   onChange={(e) => setRepoLink(e.target.value)}
                 />
+                <div className=" flex justify-center ">
+                  <div className="w-[30%]">
+                    <Button type="submit">Submit</Button>
+                  </div>
+                </div>
               </form>
             </Accordion>
           </Accordion>

@@ -7,7 +7,7 @@ import Register from "./routes/Register";
 import Users from "./routes/Users";
 import PrivateRoute from "./components/PrivateRoute";
 import LogPage from "./routes/LogPage";
-import LogEditPage from "./routes/LogEditPage";
+// import LogEditPage from "./routes/LogEditPage";
 import LogCreatePage from "./routes/LogCreatePage";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
 import LogCommentsPage from "./routes/LogCommentsPage";
@@ -95,14 +95,14 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/dashboard/log/:id/edit"
             element={
               <PrivateRoute>
                 <LogEditPage />
               </PrivateRoute>
             }
-          />
+          /> */}
           <Route
             path="/dashboard/log/create"
             element={

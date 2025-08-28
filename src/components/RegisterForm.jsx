@@ -126,24 +126,7 @@ const RegisterForm = () => {
             <UserIcon name="B" />
           </div>
         </div>
-        {/* <div className="mb-5">
-          <label className="block mb-2 font-medium text-left">First name</label>
-          <input
-            type="text"
-            name="firstName"
-            placeholder="Enter user's name"
-            value={form.firstName}
-            onChange={handleChange}
-            minLength={2}
-            maxLength={50}
-            className={`${inputBaseStyle} ${
-              errors.firstName ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.firstName && (
-            <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
-          )}
-        </div> */}
+
 
         <TextInput
           label="First name"
@@ -153,27 +136,6 @@ const RegisterForm = () => {
           placeholder="Enter user's name"
           error={errors.firstName}
         />
-        {/* 
-        <div className="mb-5">
-          <label className="block mb-2 font-medium text-left">
-            Second name
-          </label>
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Enter user's last name"
-            value={form.lastName}
-            onChange={handleChange}
-            minLength={2}
-            maxLength={50}
-            className={`${inputBaseStyle} ${
-              errors.lastName ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.lastName && (
-            <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
-          )}
-        </div> */}
 
         <TextInput
           label="Last name"
@@ -184,43 +146,6 @@ const RegisterForm = () => {
           error={errors.lastName}
         />
 
-        {/* <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-left">
-            Username
-          </label>
-          <input
-            type="text"
-            name="displayName"
-            placeholder="JaneDoe"
-            value={form.displayName}
-            onChange={handleChange}
-            className={`${inputBaseStyle} ${
-              errors.displayName ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.displayName && (
-            <p className="text-red-500 text-xs mt-1">{errors.displayName}</p>
-          )}
-        </div> */}
-
-        {/* <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-left">
-            User
-          </label>
-          <input
-            type="text"
-            name="username"
-            placeholder=" Enter user's email"
-            value={form.username}
-            onChange={handleChange}
-            className={`${inputBaseStyle} ${
-              errors.username ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.username && (
-            <p className="text-red-500 text-xs mt-1">{errors.username}</p>
-          )}
-        </div> */}
 
         <TextInput
           label="Username"
@@ -233,26 +158,6 @@ const RegisterForm = () => {
           placeholder="Enter user's email"
           error={errors.username}
         />
-        {/* <div className="flex w-full">
-          <div className="mb-5 w-full">
-            <label className="block mb-2 text-sm font-medium text-left">
-              Domain
-            </label>
-            <input
-              type="text"
-              name="domain"
-              placeholder="buggle.com"
-              value={form.domain}
-              onChange={handleChange}
-              className={`${inputBaseStyle} ${
-                errors.domain ? "border-red-500" : "border-gray-300"
-              }`}
-            />
-            {errors.domain && (
-              <p className="text-red-500 text-xs mt-1">{errors.domain}</p>
-            )}
-          </div>
-        </div> */}
         <TextInput
           label="Domain"
           name="domain"
@@ -261,26 +166,6 @@ const RegisterForm = () => {
           placeholder="buggle.com"
           error={errors.domain}
         />
-
-        {/* <div className="col-span-1">
-          <label className="block mb-2 text-sm font-medium text-left">
-            Password
-          </label>
-          <div></div>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter a password"
-            value={form.password}
-            onChange={handleChange}
-            className={`${inputBaseStyle} ${
-              errors.password ? "border-red-500" : "border-gray-300"
-            }`}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-          )}
-        </div> */}
         <div>
           <PasswordInput
             label="Password"

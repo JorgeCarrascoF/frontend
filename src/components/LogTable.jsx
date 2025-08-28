@@ -18,7 +18,6 @@ export default function LogTable({ data, onRowClick }) {
 
   return (
     <div className="flex flex-col w-full h-full border border-gray-200 rounded-md overflow-hidden">
-      {/* Contenedor scrollable */}
       <div className="flex-1 w-full overflow-y-auto">
         <table className="min-w-max table-fixed w-full">
           <thead className="bg-[#fafafa]">

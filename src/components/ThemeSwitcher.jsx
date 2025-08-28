@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+// Not used
 export default function ThemeSwitcher() {
   const [dark, setDark] = useState(() => localStorage.getItem("theme") === "dark");
 
