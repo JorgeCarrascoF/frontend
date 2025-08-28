@@ -90,7 +90,7 @@ const UserComment = ({ comment, currentUserId }) => {
             </span>
             <span className="text-gray-500 text-sm">
               {comment?.created_at
-                ? `${dateAndHour.day}, ${dateAndHour.hour}`
+                ? `${dateAndHour.day}, ${dateAndHour.hour} UTC`
                 : "Unknown Date"}
             </span>
           </div>
