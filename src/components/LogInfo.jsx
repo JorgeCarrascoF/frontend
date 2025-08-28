@@ -16,6 +16,7 @@ import LogStatusRegister from "./LogStatusRegister";
 import PriorityUserSelect from "./PriorityUserSelect";
 import { formatDateAndHour } from "../utils/formatDateAndHour";
 import useToast from "../hooks/useToast";
+import { getComments } from "../queries/getComments";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -89,8 +90,7 @@ const LogInfo = ({ logId }) => {
   const isInactive = log.active === false;
 
   const handleAssignedChange = (selected) => {
-    console.log(log.assigned_to, selected.value);
-    if(log.assigned_to === selected.value) {
+    if (log.assigned_to === selected.value) {
       showToast("The log is already assigned to that user", "error");
       return;
     }
@@ -105,7 +105,21 @@ const LogInfo = ({ logId }) => {
     });
   };
 
-  const handleStatusChange = (e) => {
+  const handleStatusChange = async (e) => {
+    const newStatus = e.target.value;
+
+    if (newStatus === "solved") {
+      const hasComments = await checkIfLogHasComments(logId);
+
+      if (!hasComments) {
+        showToast(
+          "Cannot mark as solved without at least one comment",
+          "error"
+        );
+        return;
+      }
+    }
+
     statusMutation.mutate(
       { newStatus: e.target.value },
       {
@@ -120,6 +134,21 @@ const LogInfo = ({ logId }) => {
         },
       }
     );
+  };
+
+  const checkIfLogHasComments = async (logId) => {
+    try {
+      let comments = queryClient.getQueryData(["comments", logId]);
+
+      if (!comments) {
+        comments = await getComments(logId, { limit: maxLimitInteger });
+      }
+
+      return comments?.data?.length > 0;
+    } catch (error) {
+      console.error("Error checking comments:", error);
+      return false;
+    }
   };
 
   return (

@@ -3,6 +3,7 @@ import Button from "./Button";
 import UserIconSmall from "./UserIconSmall";
 import { createComment } from "../queries/createComment";
 import { useState } from "react";
+import useToast from "../hooks/useToast";
 
 const CommentInput = ({ logId, inactive = false }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
@@ -11,9 +12,11 @@ const CommentInput = ({ logId, inactive = false }) => {
 
   const queryClient = useQueryClient();
 
+  const { showToast, ToastContainer } = useToast();
+
   const mutation = useMutation({
     mutationFn: ({ logId, comment }) => {
-      createComment(logId, comment);
+      return createComment(logId, comment);
     },
     onSuccess: () => {
       setComment("");
@@ -25,13 +28,44 @@ const CommentInput = ({ logId, inactive = false }) => {
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Mantener este código comentado hasta que tengamos el endpoint de check-url
+
+    // const urlRegex =
+    //   /\b((https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/\S*)?\b/g;
+
+    // const urls = comment.match(urlRegex) || [];
+
+    // if (urls.length > 0) {
+    //   let urlsValid = true;
+    //   for (let url of urls) {
+    //     const isValid = await checkLink(url);
+    //     if (!isValid) {
+    //       urlsValid = false;
+    //     }
+    //   }
+    //   if (!urlsValid) {
+    //     showToast("Your comments include broken links", "error");
+    //     return;
+    //   }
+    // }
 
     if (comment.trim() === "") return;
 
     mutation.mutate({ logId, comment });
   };
+
+  // const checkLink = async (url) => {
+  //   try {
+  //     const response = await fetch(url, { method: "HEAD" });
+  //     return response.ok;
+  //   } catch (error) {
+  //     console.log("Error checking link:", error);
+  //     return false;
+  //   }
+  // };
 
   return (
     <form className="items-center text-left  flex">
@@ -61,6 +95,7 @@ const CommentInput = ({ logId, inactive = false }) => {
           </Button>
         </div>
       </div>
+      <ToastContainer />
     </form>
   );
 };
