@@ -20,7 +20,7 @@ const UserOption = (props) => (
   </components.Option>
 );
 
-const PriorityUserSelect = ({ log, isInactive, handleAssignedChange }) => {
+const PriorityUserSelect = ({ log, isInactive, handleAssignedChange, selectedUser }) => {
   const { data: users } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
@@ -53,7 +53,7 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange }) => {
   return (
     <Select
       options={userOptions}
-      defaultValue={userOptions.find((u) => u.value === log.assigned_to)}
+      value={selectedUser || userOptions.find((u) => u.value === log.assigned_to) || null}
       onChange={handleAssignedChange}
       isSearchable
       className="w-[264px] cursor-pointer"

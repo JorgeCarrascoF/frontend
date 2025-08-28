@@ -17,12 +17,15 @@ import PriorityUserSelect from "./PriorityUserSelect";
 import { formatDateAndHour } from "../utils/formatDateAndHour";
 import useToast from "../hooks/useToast";
 import { getComments } from "../queries/getComments";
+import { useState } from "react";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
   let currentUser = JSON.parse(localStorage.getItem("userData"));
 
   const { showToast, ToastContainer } = useToast();
+
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const {
     data: log,
@@ -97,6 +100,15 @@ const LogInfo = ({ logId }) => {
       showToast("The log is already assigned to that user", "error");
       return;
     }
+    const selectedUserData = users?.data?.find((u) => u.id === selected.value);
+
+    if (selectedUserData && !selectedUserData.isActive) {
+      showToast("The user is in the inactive state, unable to assign", "error");
+      setSelectedUser(null);
+      return;
+    }
+
+    setSelectedUser(selected);
     mutation.mutate({
       updates: { assigned_to: selected.value },
     });
@@ -260,6 +272,7 @@ const LogInfo = ({ logId }) => {
                     log={log}
                     isInactive={mutation.isLoading || isInactive}
                     handleAssignedChange={handleAssignedChange}
+                    selectedUser={selectedUser}
                   />
                 </div>
               ) : (
