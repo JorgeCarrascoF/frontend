@@ -59,6 +59,7 @@ const LoginForm = () => {
     },
   });
 
+  // SÓLO PARA EL DESARROLLO! Borrar después de la implementación
   const saveCredentials = (email, password) => {
     localStorage.setItem("credentials", JSON.stringify({ email, password }));
   };
