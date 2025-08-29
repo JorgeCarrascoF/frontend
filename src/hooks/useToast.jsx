@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Toast from "../components/Toast";
-import { AnimatePresence } from "framer-motion";
 
 const useToast = () => {
   const [toasts, setToasts] = useState([]);
@@ -17,7 +16,6 @@ const useToast = () => {
   const ToastContainer = () => {
     return (
       <div className="fixed top-4 right-4 flex flex-col gap-2 z-50">
-        <AnimatePresence>
           {toasts.map((toast) => (
             <Toast
               key={toast.id}
@@ -27,7 +25,6 @@ const useToast = () => {
               onClose={() => removeToast(toast.id)}
             />
           ))}
-        </AnimatePresence>
       </div>
     );
   };

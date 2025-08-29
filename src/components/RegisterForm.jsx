@@ -79,10 +79,10 @@ const RegisterForm = () => {
   const validate = () => {
     const newErrors = {};
     if (!form.firstName) newErrors.firstName = "First name is required";
-    if (/^[A-Za-zÀ-ÿ\s]{2,50}$/.test(form.firstName))
+    if (!/^[A-Za-zÀ-ÿ\s]{2,50}$/.test(form.firstName))
       newErrors.firstName = "2-50 characters, letters and spaces only";
     if (!form.lastName) newErrors.lastName = "Last name is required";
-    if (/^[A-Za-zÀ-ÿ\s]{2,50}$/.test(form.lastName))
+    if (!/^[A-Za-zÀ-ÿ\s]{2,50}$/.test(form.lastName))
       newErrors.lastName = "2-50 characters, letters and spaces only";
     if (form.displayName.length < 5)
       newErrors.displayName = "Display name must be at least 5 characters long";
