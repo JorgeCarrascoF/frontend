@@ -2,7 +2,7 @@ export default function Modal({ isOpen, onClose, title, children, footer, width 
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className={`bg-white rounded-lg w-[${width}] shadow-lg relative pb-10 pt-5`}>
+      <div className={`bg-white rounded-lg w-[${width}] 2xl:w-[25%] shadow-lg relative pb-10 pt-5`}>
         <div className="flex justify-between items-center mb-8 ">
           {title && (
             <h2 className="mt-2 text-2xl w-fit font-semibold">{title}</h2>

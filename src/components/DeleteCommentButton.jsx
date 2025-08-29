@@ -6,10 +6,12 @@ import deleteComment from "../queries/deleteComment";
 import { ClipLoader } from "react-spinners";
 import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
+import { createPortal } from "react-dom";
 
 const DeleteCommentButton = ({ logId, commentId }) => {
   const [deleting, setDeleting] = useState(false);
   const [showingModal, setShowingModal] = useState(false);
+  const [coords, setCoords] = useState(null);
   const modalRef = useRef(null);
 
   const queryClient = useQueryClient();
@@ -44,7 +46,12 @@ const DeleteCommentButton = ({ logId, commentId }) => {
     };
   }, [showingModal]);
 
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCoords({
+      top: rect.bottom + window.scrollY,
+      left: rect.left + window.scrollX,
+    });
     setShowingModal(true);
   };
 
@@ -68,41 +75,52 @@ const DeleteCommentButton = ({ logId, commentId }) => {
         )}
       </button>
 
-      {showingModal && (
-        <div
-          ref={modalRef}
-          className="absolute z-10 py-6 bg-white flex flex-col border border-gray-300 rounded-md shadow-lg -top-30 right-20 p-10  "
-        >
-          <div className="w-full flex justify-center">
-            <WarningAmberRoundedIcon
-              className="text-yellow-500 mb-2"
-              fontSize="large"
-            />
-          </div>
-          <h2 className="text-2xl text-black font-semibold mb-4 text-center">
-            Are you sure you want to delete this message?
-          </h2>
-          <span className="text-[#737373] mb-4 text-center">
-            Deleted messages will no longer be accessible in the system
-          </span>
-          <div className="flex justify-center w-full gap-2">
-            <div className="w-[145px]">
-              <Button onClick={() => setShowingModal(false)} variant="tertiary">
-                Cancel
-              </Button>
+      {showingModal &&
+        createPortal(
+          <div
+            ref={modalRef}
+            style={{
+              position: "absolute",
+              top: coords?.top,
+              left: coords?.left - 200,
+              zIndex: 9999,
+            }}
+            className="absolute z-10 py-6 bg-white flex flex-col border border-gray-300 rounded-md shadow-lg -top-30 right-20 p-10 2xl:w-[400px]"
+          >
+            <div className="w-full flex justify-center">
+              <WarningAmberRoundedIcon
+                className="text-yellow-500 mb-2"
+                fontSize="large"
+              />
             </div>
-            <div className="w-[145px]">
-              <Button
-                className="px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-700"
-                onClick={confirmDelete}
-                disabled={deleting}
-              >
-                {deleting ? "Deleting..." : "Delete"}
-              </Button>
+            <h2 className="text-2xl text-black font-semibold mb-4 text-center">
+              Are you sure you want to delete this message?
+            </h2>
+            <span className="text-[#737373] mb-4 text-center">
+              Deleted messages will no longer be accessible in the system
+            </span>
+            <div className="flex justify-center w-full gap-2">
+              <div className="w-[145px]">
+                <Button
+                  onClick={() => setShowingModal(false)}
+                  variant="tertiary"
+                >
+                  Cancel
+                </Button>
+              </div>
+              <div className="w-[145px]">
+                <Button
+                  className="px-3 py-1 rounded-md bg-red-600 text-white hover:bg-red-700"
+                  onClick={confirmDelete}
+                  disabled={deleting}
+                >
+                  {deleting ? "Deleting..." : "Delete"}
+                </Button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

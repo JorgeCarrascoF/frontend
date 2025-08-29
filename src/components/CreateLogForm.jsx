@@ -105,7 +105,7 @@ export default function CreateLogForm() {
             </span>
           </div>
         </div>
-        <div className="w-[214px]">
+        <div className="w-[214px] border 2xl:w-[20rem]">
           <SelectInput
             colorizeOnActive={false}
             placeholder="Status"
@@ -136,15 +136,6 @@ export default function CreateLogForm() {
             }}
             value={log.description || ""}
           />
-          {/* <span
-            className={`${
-              log.description && log.description.length < 100
-                ? "text-red-500 "
-                : "text-transparent select-none"
-            }  text-sm text-left ml-2 mt-1`}
-          >
-            Description is required and must be at least 100 characters long.
-          </span> */}
           <span className="absolute -bottom-5 right-3 text-xs text-gray-400">
             {labelCount}/5000
           </span>
