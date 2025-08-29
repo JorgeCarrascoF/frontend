@@ -79,17 +79,17 @@ const RegisterForm = () => {
   const validate = () => {
     const newErrors = {};
     if (!form.firstName) newErrors.firstName = "First name is required";
-    if (/\d/.test(form.firstName))
+    if (/^[A-Za-zÀ-ÿ\s]{2,50}$/.test(form.firstName))
       newErrors.firstName = "2-50 characters, letters and spaces only";
     if (!form.lastName) newErrors.lastName = "Last name is required";
-    if (/\d/.test(form.lastName))
+    if (/^[A-Za-zÀ-ÿ\s]{2,50}$/.test(form.lastName))
       newErrors.lastName = "2-50 characters, letters and spaces only";
     if (form.displayName.length < 5)
       newErrors.displayName = "Display name must be at least 5 characters long";
     if (!form.username) newErrors.username = "Email is required";
     if (!form.domain.includes("@")) newErrors.domain = "Invalid email domain";
     if (!form.roleId) newErrors.roleId = "Role is required";
-    if (!form.password)
+    if (!form.password || form.password.length < 8)
       newErrors.password = "Password must be at least 8 characters long";
     if (!/[A-Z]/.test(form.password))
       newErrors.password =
