@@ -4,7 +4,7 @@ const columns = [
   { key: "edited-by", label: "Edited by", width: "w-[30%]" },
   { key: "status", label: "Log Status", width: "w-[20%]" },
   { key: "date", label: "Date", width: "w-[21%]" },
-  { key: "hours", label: "Hours", width: "w-[18%]" },
+  { key: "hours", label: "Hour", width: "w-[18%]" },
 ];
 
 const StatusRegisterTable = ({ statusRegister }) => {
