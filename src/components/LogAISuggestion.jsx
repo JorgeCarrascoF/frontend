@@ -110,13 +110,17 @@ const LogAISuggestion = ({ log, inactive = false }) => {
           >
             <div className="text-left my-5 pb-5 px-10 prose min-w-full prose-code:text-[16px]">
               {inactive ? (
-                <span className="text-[#737373]">This log is not suitable for AI reports</span>
+                <span className="text-[#737373]">
+                  This log is not suitable for AI reports
+                </span>
+              ) : report ? (
+                <ReactMarkdown rehypePlugins={rehypeHighlight}>
+                  {report}
+                </ReactMarkdown>
               ) : (
-                report && (
-                  <ReactMarkdown rehypePlugins={rehypeHighlight}>
-                    {report}
-                  </ReactMarkdown>
-                )
+                <span className="text-[#737373]">
+                  There is no report generated for this log.
+                </span>
               )}
             </div>
           </motion.div>
