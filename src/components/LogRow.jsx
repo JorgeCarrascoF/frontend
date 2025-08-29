@@ -28,13 +28,17 @@ const LogRow = ({ log, onRowClick }) => {
                  [&>td]:px-4 [&>td]:py-1 [&>td]:border-t [&>td]:border-gray-200"
       onClick={() => onRowClick(log)}
     >
-      <td className="w-[10ch] truncate">{log.id}</td>
+      {/*<td className="w-[10ch] truncate">{log.id}</td>*/}
+      <td className="w-[10ch] truncate" title={log.id}>{log.id}
+      </td>
       <td>
         <Chip type="environment" value={log.environment || "Unknown"} />
       </td>
       <td className={`truncate max-w-[200px]`}>
         {" "}
-        <div className="truncate overflow-hidden">{log.message}</div>
+        {/*<div className="truncate overflow-hidden">{log.message}</div>*/}
+        <div className="truncate overflow-hidden" title={log.message}>{log.message}
+        </div>
       </td>
       <td>
         <Chip type="priority" value={log.priority || "low"} showPoint />
