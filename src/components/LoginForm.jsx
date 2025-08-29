@@ -97,18 +97,21 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-4 mt-2 w-full">
+    <div className="flex flex-col py-2 items-center mt-8 w-full">
       {forgotPassword ? (
         <RecoverPassword setForgotPassword={setForgotPassword} />
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col items-center"
+          className="w-[83%] flex flex-col items-center"
         >
-          <div className="w-[200px]">
-            <Logo showText orientation="vertical" iconHeight={60} />
+          <div className="w-[200px] -mb-10">
+            <Logo showText orientation="vertical" iconHeight={55} />
           </div>
-          <div className="flex flex-col items-center justify-center w-[80%] p-10 rounded-md gap-10 ">
+          <div className="flex flex-col items-center justify-center w-[85%] p-10 rounded-md gap-8 mt-2 ">
+            <h2 className="text-2xl text-[#2A2A2A] w-full text-left font-bold mt-6 -mb-2">
+              Log in
+            </h2>
             <div className="flex flex-col items-center w-full">
               <div className="flex flex-col w-full gap-2 mb-10">
                 <TextInput
@@ -131,14 +134,14 @@ const LoginForm = () => {
                   error={passwordError}
                 />
               </div>
-              <div className="flex items-center w-full px-4">
+              <div className="flex items-center w-full px-2">
                 <input
                   type="checkbox"
                   checked={remember}
                   className="rounded-full mr-2 h-5 w-5"
                   onChange={(e) => setRemember(e.target.checked)}
                 />
-                <label>Remember me</label>
+                <label className="text-sm text-[#737373]">Remember me</label>
               </div>
             </div>
             {mutation.isPending ? (
@@ -147,12 +150,14 @@ const LoginForm = () => {
               success && <p className="text-green-500">{success}</p>
             ) : (
               <div className="flex flex-col items-center w-[40%] gap-4">
-                <Button type="submit" disabled={!email || !password}>
-                  Log in
-                </Button>
+                <div className="w-[75%]">
+                  <Button type="submit" disabled={!email || !password}>
+                    Log in
+                  </Button>
+                </div>
                 <span
                   onClick={() => setForgotPassword(true)}
-                  className="text-[#737373] cursor-pointer underline"
+                  className="text-[#737373] cursor-pointer text-sm"
                 >
                   Forgot your password?
                 </span>
