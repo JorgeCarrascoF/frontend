@@ -110,6 +110,7 @@ export default function CreateLogForm() {
             colorizeOnActive={false}
             placeholder="Status"
             options={[
+              { value: "", label: "" },
               { value: "unresolved", label: "Pending", default: true },
               { value: "in review", label: "In Review" },
               { value: "solved", label: "Resolved" },
@@ -154,6 +155,7 @@ export default function CreateLogForm() {
           <SelectInput
             colorizeOnActive={false}
             options={[
+              { value: "", label: "" },
               { value: "info", label: "Info" },
               { value: "warning", label: "Warning" },
               { value: "error", label: "Error" },
@@ -233,6 +235,7 @@ export default function CreateLogForm() {
             <SelectInput
               colorizeOnActive={false}
               options={[
+                { value: "", label: "" },
                 { value: "high", label: "High" },
                 { value: "medium", label: "Medium" },
                 { value: "low", label: "Low" },
@@ -247,6 +250,7 @@ export default function CreateLogForm() {
           <SelectInput
             colorizeOnActive={false}
             options={[
+              { value: "", label: "" },
               { value: "production", label: "Production" },
               { value: "development", label: "Development" },
               { value: "testing", label: "Testing" },
