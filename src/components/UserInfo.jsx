@@ -64,7 +64,7 @@ const UserInfo = ({ userId }) => {
     return <div className="text-red-500">Error: {error.message}</div>;
 
   return (
-    <div className="w-full h-full -ml-4">
+    <div className="w-full h-[99%] -ml-4">
       <div className="flex items-center justify-between mt-8 mb-4">
         <h1 className="text-2xl font-bold ms-6">Profile</h1>
         <div className="me-6">
@@ -77,7 +77,7 @@ const UserInfo = ({ userId }) => {
         </div>
       </div>
 
-      <div className="flex gap-6 m-2.5 h-[65%]">
+      <div className="flex gap-6 m-2.5 h-[65%] 2xl:h-[70%]">
         <div className="border border-gray-200 bg-white rounded-[10px] h-full w-[27%] flex flex-col items-center py-12">
           <div className="flex flex-col items-center">
             <div className="rounded-full w-24 h-24 flex items-center justify-center">

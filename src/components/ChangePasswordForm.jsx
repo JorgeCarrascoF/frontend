@@ -85,7 +85,7 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
   };
 
   return (
-    <div className="mt-15 flex flex-col w-full h-full items-start justify-start">
+    <div className="mt-15 2xl:mt-5 flex flex-col w-full h-full items-start justify-start">
       <h2 className="text-2xl font-semibold mb-10">Change password</h2>
       <form className="flex flex-col gap-5 w-[95%]" onSubmit={handleSubmit}>
         <div className="w-[70%]">

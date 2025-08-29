@@ -72,7 +72,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
   };
 
   return (
-    <div className="p-10 flex flex-col w-full h-[90%] items-start justify-start pt-0 ms-10">
+    <div className="p-10 flex flex-col w-full h-[90%] items-start justify-start pt-0 2xl:-mt-15 ms-10">
       <h2 className="text-2xl font-bold mb-10">Change Email</h2>
       <form
         className="flex flex-col gap-5 ml-0 w-[95%]"
