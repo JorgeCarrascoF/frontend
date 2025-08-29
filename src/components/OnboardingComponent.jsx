@@ -19,7 +19,7 @@ const stepsData = [
   {
     title: "Configure and generate the token",
     description:
-      "Add a descriptive name, the repo it will access, and the permissions it needs (generally repo).",
+      "Add a descriptive name, the repository it will access, and the permissions it needs (generally repo)",
   },
   {
     title: "Save the token",
@@ -71,15 +71,15 @@ const OnboardingComponent = () => {
   return (
     <div className="w-full h-full flex flex-col  items-center">
       <div className="text-center w-[55rem] flex flex-col items-center">
-        <h2 className="text-4xl font-bold mb-2 leading-snug">
+        <h2 className="text-[40px] font-bold mb-2 leading-snug">
           Start with Buggle, <br></br> manage your logs easily
         </h2>
-        <p className="text-gray-500 text-sm mb-8">
+        <p className="text-gray-500 text-xl mb-14">
           Learn how to set up Buggle and explore everything you need to start
           using it!
         </p>
 
-        <div className="w-[80%] flex flex-col gap-3">
+        <div className="w-[95%] flex flex-col gap-3">
           <Accordion title="Integration setup: Connecting Buggle to your System">
             <span className="text-sm text-black">
               To start using Buggle, the first step is to link it with your
@@ -137,40 +137,50 @@ const OnboardingComponent = () => {
           </Accordion>
 
           <Accordion title="AI Assistant Configuration">
-            <span className="text-sm text-black">
+            <span className="text-sm text-[#737373]">
               We offer a AI Assistant that can help you resolve bugs. To set it
               up, you'll need to provide a GitHub repository link and a GitHub
               token to access it.
             </span>
-            <div className="my-4"></div>
-            <Accordion title="1. Getting a Github Token">
-              <Stepper steps={stepsData} />
-            </Accordion>
-            <Accordion title="2. Getting the Repository Link">
+            <h3 className="mb-7 mt-12 text-black font-semibold">
+              1. Getting a Github Token
+            </h3>
+            <Stepper steps={stepsData} />
+
+            <h3 className="mb-7 mt-12 text-black font-semibold">
+              2. Getting the Repository Link{" "}
+            </h3>
+            <span className="text-sm text-[#737373]">
               Navigate to the main page of the repository you want to use, and
               copy the URL from the address bar.
-            </Accordion>
-            <Accordion title="3. Provide both items">
-              <span className="mb-20">
-                We will use both the token and the repository link to generate
-                suggestion based in the commits. Please provide them in the
-                fields below.
-              </span>
+            </span>
+
+            <h3 className="mb-7 mt-12 text-black font-semibold">
+              3. Provide both items{" "}
+            </h3>
+            <span className="text-sm text-[#737373]">
+              We will use both the token and the repository link to generate
+              suggestions based on the commits. Please provide them in the
+              fields below:
+            </span>
+            <div className="w-full flex justify-center">
               <form
                 onSubmit={handleSubmit}
-                className="mt-4 flex flex-col gap-4"
+                className="mt-4 flex flex-col gap-4 bg-[#FAFAFA] border border-[#E5E8EB] p-6 w-[65%] rounded-lg"
               >
                 <TextInput
                   label="GitHub Token"
+                  placeholder={"Enter your GitHub Token..."}
                   value={ghToken}
                   onChange={(e) => setGhToken(e.target.value)}
                 />
                 <TextInput
                   label="Repository Link"
+                  placeholder={"Enter your Repository Link..."}
                   value={repoLink}
                   onChange={(e) => setRepoLink(e.target.value)}
                 />
-                <div className=" flex justify-center ">
+                <div className=" flex justify-end ">
                   <div className="w-[30%]">
                     <Button type="submit" disabled={!ghToken || !repoLink}>
                       Submit
@@ -178,7 +188,7 @@ const OnboardingComponent = () => {
                   </div>
                 </div>
               </form>
-            </Accordion>
+            </div>
           </Accordion>
         </div>
       </div>

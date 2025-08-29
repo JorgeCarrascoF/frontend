@@ -26,7 +26,7 @@ export default function TextInput({
         placeholder={placeholder}
         aria-invalid={!!error}
         aria-describedby={error ? `error-${id}` : undefined}
-        className={`w-full px-3 py-3 border text-lg rounded-md placeholder:text-sm focus:outline-none focus:ring ${
+        className={`w-full px-3 py-3 border text-lg rounded-lg placeholder:text-sm focus:outline-none focus:ring ${
           error ? "border-red-500" : "border-gray-300"
         }`}
       />
