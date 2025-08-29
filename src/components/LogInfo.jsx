@@ -295,10 +295,7 @@ const LogInfo = ({ logId }) => {
       <LogComments logId={logId} inactive={isInactive} />
       <RelatedLogs log={log} inactive={isInactive} />
       <LogStatusRegister logId={logId} inactive={isInactive} />
-      <LogAISuggestion
-        log={log}
-        inactive={isInactive || !log.culprit}
-      />
+      <LogAISuggestion log={log} inactive={isInactive || !log.culprit} />
       <ToastContainer />
     </>
   );
