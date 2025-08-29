@@ -24,7 +24,7 @@ const LogRow = ({ log, onRowClick }) => {
 
   return (
     <tr
-      className="cursor-pointer h-[4.6rem] 2xl:h-[5rem] border-t text-left border-gray-200 text-sm hover:bg-gray-50
+      className="cursor-pointer h-[4.6rem] 2xl:h-[4rem] border-t text-left border-gray-200 text-sm hover:bg-gray-50
                  [&>td]:px-4 [&>td]:py-1 [&>td]:border-t [&>td]:border-gray-200"
       onClick={() => onRowClick(log)}
     >

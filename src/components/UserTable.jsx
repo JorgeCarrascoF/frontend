@@ -59,7 +59,7 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
           {data.map((row, idx) => (
             <tr
               key={idx}
-              className="hover:bg-gray-50 h-[4.6rem] 2xl:h-[4.9rem] cursor-pointer border-t border-b-gray-200"
+              className="hover:bg-gray-50 h-[4.6rem] 2xl:h-[4rem] cursor-pointer border-t border-b-gray-200"
             >
               <td
                 className="px-4 py-2 text-left text-[#737373] truncate whitespace-nowrap overflow-hidden"
