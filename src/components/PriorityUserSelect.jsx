@@ -14,6 +14,7 @@ const UserOption = (props) => (
       {props.data.isSuggested && (
         <div className=" font-semibold text-[10px] text-blue-500">
           <Chip type="suggestedUser" value={"suggested"} />
+          {props.data.resolved_count} solved
         </div>
       )}
     </div>
@@ -33,12 +34,32 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange, selectedUse
     enabled: !!log.error_signature,
   });
 
-  const suggestedIds = suggestedUsers?.suggestions?.map((u) => u.userId) || [];
+  const sortedSuggestedUsers = [...(suggestedUsers?.suggestions || [])]
+    .sort((a, b) => b.resolved_count - a.resolved_count);
 
-  const suggested = [];
-  const normal = [];
+  //const suggestedIds = suggestedUsers?.suggestions?.map((u) => u.userId) || [];
+  const suggestedIds = new Set(sortedSuggestedUsers.map(s => s.userId));
 
-  users?.data?.forEach((u) => {
+  //const suggested = [];
+  //const normal = [];
+
+  const suggested = sortedSuggestedUsers.map(s => ({
+    value: s.userId,
+    label: users?.data?.find((u) => u.id === s.userId)?.username || s.userId,
+    isSuggested: true,
+    resolved_count: s.resolved_count,
+  }));
+
+  const normal = (users?.data || [])
+    .filter((u) => !suggestedIds.has(u.id))
+    .map((u) => ({
+      value: u.id,
+      label: u.username,
+      isSuggested: false,
+      resolved_count: 0,
+    }));
+
+  /*users?.data?.forEach((u) => {
     const option = {
       value: u.id,
       label: u.username,
@@ -46,14 +67,18 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange, selectedUse
     };
     if (option.isSuggested) suggested.push(option);
     else normal.push(option);
-  });
+  });*/
 
-  const userOptions = [...suggested, ...normal];
+  //const userOptions = [...suggested, ...normal];
+  const finalOptions = [...suggested, ...normal];
+
 
   return (
     <Select
-      options={userOptions}
-      value={selectedUser || userOptions.find((u) => u.value === log.assigned_to) || null}
+      //options={userOptions}
+      options={finalOptions}
+      //value={selectedUser || userOptions.find((u) => u.value === log.assigned_to) || null}
+      value={selectedUser || finalOptions.find((u) => u.value === log.assigned_to) || null}
       onChange={handleAssignedChange}
       isSearchable
       className="w-[264px] cursor-pointer"
