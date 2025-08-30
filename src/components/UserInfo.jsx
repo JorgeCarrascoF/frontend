@@ -291,7 +291,7 @@ const UserInfo = ({ userId }) => {
         />
         <h2 className={`text-2xl mb-2 mt-3 px-8 text-black font-semibold`}>
           {statusChangeConfirmed
-            ? "User status changed succesfully"
+            ? "User status changed successfully"
             : `Are you sure you want to change this user's status to ${
                 newStatus ? "Active" : "Inactive"
               }?`}

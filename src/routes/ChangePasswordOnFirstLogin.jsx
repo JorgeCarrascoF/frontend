@@ -118,7 +118,7 @@ const ChangePasswordOnFirstLogin = () => {
                 {newPassword &&
                   (passwordIsSafe()
                     ? "✓ Secure password."
-                    : "Please add all necessary character to create safe password:")}
+                    : "Please add all necessary characters to create a safe password:")}
               </span>
               <ul className="flex flex-col list-disc ml-5 gap-1 text-[#737373]">
                 <li

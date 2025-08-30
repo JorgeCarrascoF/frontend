@@ -94,7 +94,6 @@ const LogInfo = ({ logId }) => {
 
   const currentUserId = localStorage.getItem("userId");
 
-  console.log("log", log);
   const handleAssignedChange = (selected) => {
     if (log.assigned_to === selected.value) {
       showToast("The log is already assigned to that user", "error");

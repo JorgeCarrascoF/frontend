@@ -175,7 +175,7 @@ const RegisterForm = () => {
           />
           {errors.password && (
             <ul className=" text-sm text-[#737373] -mt-2 list-disc list-inside text-left ml-4">
-              <li>Minimun 8 characters</li>
+              <li>Minimum 8 characters</li>
               <li>At least one uppercase letter</li>
               <li>At least one number</li>
               <li>At least one special character (!@#$%&*)</li>

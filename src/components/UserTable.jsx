@@ -105,7 +105,6 @@ const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
                 <td className="px-4 py-2 text-center">
                   <button
                     onClick={() => {
-                      console.log(row)
                       if(row.role == "superadmin"){
                         showToast("Superadmin cannot be changed to inactive", "error");
                         return
