@@ -35,12 +35,6 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
       setMessage(data.msg);
       setNewEmail("");
       setConfirmEmail("");
-      let credentials = JSON.parse(localStorage.getItem("credentials"));
-      if (credentials)
-        localStorage.setItem(
-          "credentials",
-          JSON.stringify({ ...credentials, email: newEmail })
-        );
       let userData = localStorage.getItem("userData");
       userData = JSON.parse(userData);
       localStorage.setItem(

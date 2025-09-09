@@ -49,14 +49,6 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
       setNewPassword("");
       setConfirmPassword("");
       setSuccess(true);
-      let credentials = JSON.parse(localStorage.getItem("credentials"));
-      if (credentials) {
-        localStorage.setItem(
-          "credentials",
-          JSON.stringify({ ...credentials, password: newPassword })
-        );
-      }
-
       logout();
       setTimeout(() => {
         navigate("/login");

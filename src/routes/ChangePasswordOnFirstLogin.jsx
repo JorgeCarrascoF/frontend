@@ -46,13 +46,6 @@ const ChangePasswordOnFirstLogin = () => {
       setMessage(data.msg);
       setNewPassword("");
       setConfirmPassword("");
-      let credentials = JSON.parse(localStorage.getItem("credentials"));
-      if (credentials) {
-        localStorage.setItem(
-          "credentials",
-          JSON.stringify({ ...credentials, password: newPassword })
-        );
-      }
       userMutation.mutate({
         userId: localStorage.getItem("userId"),
         isFirstLogin: false,

@@ -36,11 +36,6 @@ const LoginForm = () => {
       login(data.token, data.user.id, data.user, remember);
       console.log("User logged in:", data.token, data.user);
 
-      if (remember) {
-        saveCredentials(email, password);
-      } else {
-        localStorage.removeItem("credentials");
-      }
 
       setEmail("");
       setPassword("");
@@ -58,20 +53,6 @@ const LoginForm = () => {
       setPassword("");
     },
   });
-
-  // SÓLO PARA EL DESARROLLO! Borrar después de la implementación
-  const saveCredentials = (email, password) => {
-    localStorage.setItem("credentials", JSON.stringify({ email, password }));
-  };
-
-  useEffect(() => {
-    const credentials = JSON.parse(localStorage.getItem("credentials"));
-    if (credentials) {
-      setEmail(credentials.email);
-      setPassword(credentials.password);
-      setRemember(true);
-    }
-  }, []);
 
   const handleSubmit = (e) => {
     if (forgotPassword) return;
