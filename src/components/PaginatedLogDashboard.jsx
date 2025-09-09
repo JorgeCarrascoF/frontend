@@ -24,8 +24,6 @@ const PaginatedLogDashboard = ({ search, setSearch }) => {
 
   const navigate = useNavigate();
 
-  let userData = JSON.parse(localStorage.getItem("userData")); // For filtrating logs assigned to me (future versions)
-
   const { data, isLoading, error, isPreviousData } = useQuery({
     queryKey: [
       "logs",

@@ -94,14 +94,6 @@ function App() {
               </PrivateRoute>
             }
           />
-          {/* <Route
-            path="/dashboard/log/:id/edit"
-            element={
-              <PrivateRoute>
-                <LogEditPage />
-              </PrivateRoute>
-            }
-          /> */}
           <Route
             path="/dashboard/log/create"
             element={

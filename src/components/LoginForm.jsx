@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { api } from "../api";
 import { useAuth } from "../hooks/useAuth";
@@ -35,7 +35,6 @@ const LoginForm = () => {
       setSuccess("Login successful!");
       login(data.token, data.user.id, data.user, remember);
       console.log("User logged in:", data.token, data.user);
-
 
       setEmail("");
       setPassword("");

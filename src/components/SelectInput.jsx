@@ -31,18 +31,6 @@ const CustomOption = (props) => (
   </components.Option>
 );
 
-// const SingleValue = (props) => (
-//   <components.SingleValue {...props}>
-//     {props.data.color && (
-//       <div
-//         className="w-3 h-3 rounded-full mr-2"
-//         style={{ backgroundColor: props.data.color }}
-//       ></div>
-//     )}
-//     {props.data.label}
-//   </components.SingleValue>
-// );
-
 const SelectInput = ({
   value,
   onChange,

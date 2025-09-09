@@ -74,11 +74,6 @@ const UserDashboard = ({ search, setSearch }) => {
     navigate(`/users/${row.id}`);
   };
 
-  const handleFakeDelete = (user) => {
-    // setVisibleUsers((prev) => prev.filter((u) => u.id !== user.id));
-    console.log("User deleted:", user);
-  };
-
   return (
     <div className="flex flex-col h-full w-full self-start">
       <div className=" mr-auto flex gap-5">
@@ -141,7 +136,6 @@ const UserDashboard = ({ search, setSearch }) => {
             <UserTable
               columns={columns}
               data={users.data}
-              onDelete={handleFakeDelete}
               onRowClick={handleRowClick}
               currentUser={userRole}
             />

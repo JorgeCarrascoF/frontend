@@ -9,6 +9,7 @@ import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/atom-one-dark.css";
 import { ClipLoader } from "react-spinners";
 import { createLogReport } from "../queries/createLogReport";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 
 const LogAISuggestion = ({ log, inactive = false }) => {
@@ -21,7 +22,6 @@ const LogAISuggestion = ({ log, inactive = false }) => {
   const {
     data: logReport,
     isLoading: isLoadingLogReport,
-    isError: isErrorLogReport,
     isSuccess: isSuccessLogReport,
   } = useQuery({
     queryKey: ["logReport", log.id],

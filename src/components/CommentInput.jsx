@@ -32,8 +32,6 @@ const CommentInput = ({ logId, inactive = false }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Mantener este código comentado hasta que tengamos el endpoint de check-url
-
     const urlRegex =
       /\b((https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/\S*)?\b/g;
 
@@ -59,15 +57,6 @@ const CommentInput = ({ logId, inactive = false }) => {
     mutation.mutate({ logId, comment });
   };
 
-  // const checkLink = async (url) => {
-  //   try {
-  //     const response = await fetch(url, { method: "HEAD" });
-  //     return response.ok;
-  //   } catch (error) {
-  //     console.log("Error checking link:", error);
-  //     return false;
-  //   }
-  // };
 
   return (
     <form className="items-center text-left  flex">

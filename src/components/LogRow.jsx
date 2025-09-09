@@ -7,10 +7,7 @@ import { maxLimitInteger } from "../utils/maxLimitInteger";
 const LogRow = ({ log, onRowClick }) => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const {
-    data: users,
-    isLoading: isLoadingUsers,
-    isError: isErrorUsers,
-    error: usersError,
+    data: users
   } = useQuery({
     queryKey: ["users"],
     queryFn: () => getUsers({ page: 1, limit: maxLimitInteger }),

@@ -8,7 +8,7 @@ import { changeUserStatus } from "../queries/changeUserStatus";
 import Button from "./Button";
 import useToast from "../hooks/useToast";
 
-const UserTable = ({ data, onDelete, onRowClick, currentUser }) => {
+const UserTable = ({ data, onRowClick, currentUser }) => {
   const [changingUserStatus, setChangingUserStatus] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
