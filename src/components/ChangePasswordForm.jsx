@@ -154,16 +154,6 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <div className="w-full ml-4 -mt-2 flex flex-col">
-            {/* <span
-              className={`text-sm w-full text-left mt-0 ${
-                confirmPassword &&
-                (confirmPassword === newPassword
-                  ? "text-green-500"
-                  : "text-red-500")
-              }`}
-            >
-              Please confirm your new password.
-            </span> */}
           </div>
         </div>
         <div className="ml-auto flex mt-20 gap-7">

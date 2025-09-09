@@ -204,23 +204,6 @@ const UserInfo = ({ userId }) => {
                   </div>
 
                   <div className="mt-21">
-                    {/* <label className="flex justify-start font-semibold text-md text-gray-600 mb-2">
-                      Status
-                    </label>
-                    <select
-                      value={
-                        newStatus === null
-                          ? userData.isActive
-                            ? "true"
-                            : "false"
-                          : newStatus.toString()
-                      }
-                      onChange={(e) => setNewStatus(e.target.value === "true")}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 bg-white text-[#737373] h-[90%]"
-                    >
-                      <option value="true">Active</option>
-                      <option value="false">Inactive</option>
-                    </select> */}
                     <label className="flex justify-start font-semibold text-md text-gray-600 mb-2">
                       Status
                     </label>
