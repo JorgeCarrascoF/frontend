@@ -18,6 +18,7 @@ import { formatDateAndHour } from "../utils/formatDateAndHour";
 import useToast from "../hooks/useToast";
 import { getComments } from "../queries/getComments";
 import { useState } from "react";
+import ErrorMessage from "./ErrorMessage";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
@@ -168,7 +169,7 @@ const LogInfo = ({ logId }) => {
   return (
     <>
       <div
-        className={`w-full flex flex-col gap-6 border border-[#DBDBDB] bg-white rounded-lg pt-3 pb-16 px-6 mb-4 ${
+        className={`w-full flex flex-col gap-6 border border-[#DBDBDB] bg-white rounded-lg pt-8 pb-16 px-12 mb-4 ${
           isInactive ? " text-[#737373]" : " text-black"
         }`}
       >
@@ -178,43 +179,48 @@ const LogInfo = ({ logId }) => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start mb-8">
-          <div className="mb-4 flex w-[90%] justify-between">
-            <div className="w-[75%]">
-              <h2 className="mb-3 text-left">Error message</h2>
-              <p className="text-left text-gray-500">{log.message}</p>
-            </div>
+        <div className="flex flex-col items-start mb-">
+          <div className="mb-4 flex w-[80%] justify-between">
+            <ErrorMessage message={log.message} inactive={isInactive} />
 
-            {currentUser?.role === "superadmin" && (
-              <DeactivateLog logId={logId} inactive={isInactive} />
+            {currentUser?.role === "superadmin" ? (
+              <div className="mt-4">
+                <DeactivateLog logId={logId} inactive={isInactive} />
+              </div>
+            ) : currentUser?.role === "user" ? (
+              <div className="mt-6">
+                <InfoItem label="Priority" value={log.priority} badge />
+              </div>
+            ) : (
+              ""
             )}
           </div>
-          <div className="w-[90%] grid grid-cols-3 gap-3">
-            <InfoItem
-              label="Creation date"
-              value={formatDateAndHour(log.created_at)}
-            />
-            <InfoItem
-              label="Last seen"
-              value={formatDateAndHour(log.last_seen_at)}
-            />
+          <div className="w-[90%] mt-7 grid grid-cols-3 gap-3 gap-y-12">
+            <InfoItem label="Environment" value={log.environment} />
             <InfoItem
               label="Error Type"
               value={log.error_type || "Undetermined"}
             />
-            <InfoItem label="Environment" value={log.environment} />
             <InfoItem
               label="Location"
-              colSpan={2}
               value={
                 log.culprit === "error culprit" || !log.culprit
                   ? "Undetermined"
                   : log.culprit
               }
             />
+            <InfoItem
+              label="Creation date"
+              value={formatDateAndHour(log.created_at)}
+            />
+            <InfoItem
+              label="Last seen"
+              colSpan={isAdmin ? 1 : 0}
+              value={formatDateAndHour(log.last_seen_at)}
+            />
 
-            <div className="w-fit flex mt-2 flex-col items-start">
-              {isAdmin ? (
+            {isAdmin && (
+              <div className="w-fit flexflex-col items-start">
                 <div className="w-[184px]">
                   <SelectInput
                     options={[
@@ -222,6 +228,7 @@ const LogInfo = ({ logId }) => {
                       { value: "medium", label: "Medium", color: "#fb8c00" },
                       { value: "low", label: "Low", color: "#4CAF50" },
                     ]}
+                    label="Priority"
                     value={log.priority}
                     onChange={handlePriorityChange}
                     className="w-48"
@@ -229,15 +236,14 @@ const LogInfo = ({ logId }) => {
                     isDisabled={mutation.isLoading || isInactive}
                   />
                 </div>
-              ) : (
-                <InfoItem label="Priority" value={log.priority} badge />
-              )}
-            </div>
+              </div>
+            )}
 
-            <div className="w-fit mt-2 flex flex-col items-start">
+            <div className="w-fit flex flex-col items-start">
               {isAdmin || currentUserId === log.assigned_to ? (
-                <div className="w-[224px] h-full flex items-center">
+                <div className="w-[224px] max-w-[70%] h-full">
                   <SelectInput
+                    label="Status"
                     options={[
                       { value: "unresolved", label: "Pending" },
                       { value: "in review", label: "In Review" },
@@ -245,7 +251,6 @@ const LogInfo = ({ logId }) => {
                     ]}
                     value={log.status}
                     onChange={handleStatusChange}
-                    className="w-48"
                     colorizeOnActive={false}
                     isDisabled={mutation.isLoading || isInactive}
                   />
@@ -264,11 +269,12 @@ const LogInfo = ({ logId }) => {
               )}
             </div>
 
-            <div className="w-fit flex mt-2 flex-col items-start ">
+            <div className="w-fit flex flex-col items-start ">
               {isAdmin ? (
-                <div className="ml-4">
+                <div className="ml-0">
                   <PriorityUserSelect
                     log={log}
+                    label="Assigned user"
                     isInactive={mutation.isLoading || isInactive}
                     handleAssignedChange={handleAssignedChange}
                     selectedUser={selectedUser}
@@ -304,9 +310,9 @@ const InfoItem = ({ label, value, badge, colSpan }) => (
   <div
     className={`${colSpan ? "col-span-2" : ""} w-fit flex flex-col ${
       badge ? "items-center" : "items-start"
-    } py-4`}
+    }`}
   >
-    <span className="mb-3">{label}</span>
+    <span className="mb-3 w-full text-left">{label}</span>
     {badge ? (
       <div className="w-28">
         <Chip

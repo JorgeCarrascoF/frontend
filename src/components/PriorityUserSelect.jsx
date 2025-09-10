@@ -20,7 +20,7 @@ const UserOption = (props) => (
   </components.Option>
 );
 
-const PriorityUserSelect = ({ log, isInactive, handleAssignedChange, selectedUser }) => {
+const PriorityUserSelect = ({ label, log, isInactive, handleAssignedChange, selectedUser }) => {
   const { data: users } = useQuery({
     queryKey: ["users"],
     queryFn: () =>
@@ -51,6 +51,8 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange, selectedUse
   const userOptions = [...suggested, ...normal];
 
   return (
+    <div className="w-full flex flex-col">
+      {label && (<span className="mb-1 w-full text-left">{label}</span>)}
     <Select
       options={userOptions}
       value={selectedUser || userOptions.find((u) => u.value === log.assigned_to) || null}
@@ -95,7 +97,7 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange, selectedUse
         }),
         singleValue: (provided) => ({
           ...provided,
-          color: "#737373",
+          color: "black",
           textAlign: "left",
         }),
         placeholder: (provided) => ({
@@ -105,6 +107,7 @@ const PriorityUserSelect = ({ log, isInactive, handleAssignedChange, selectedUse
         }),
       }}
     />
+    </div>
   );
 };
 

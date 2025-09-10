@@ -9,6 +9,7 @@ import Select from "react-select";
 import Modal from "./Modal";
 import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateLogForm() {
   const [log, setLog] = useState({});
@@ -16,6 +17,8 @@ export default function CreateLogForm() {
   const [labelMessageCount, setLabelMessageCount] = useState(0);
   const [message, setMessage] = useState("");
   const [logCreated, setLogCreated] = useState(false);
+
+  const navigate = useNavigate();
 
   const userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -29,6 +32,7 @@ export default function CreateLogForm() {
     if (logCreated) {
       timer = setTimeout(() => {
         setLogCreated(false);
+        navigate("/dashboard");
       }, 3000);
     }
     return () => clearTimeout(timer);
@@ -78,6 +82,8 @@ export default function CreateLogForm() {
     mutation.mutate(log);
   };
 
+  console.log(userData.role)
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -88,7 +94,7 @@ export default function CreateLogForm() {
         <div className="w-[62%] flex flex-col">
           <div className="relative flex flex-col w-full">
             <input
-              placeholder="Placeholder"
+              placeholder="Type error message..."
               className={`border w-full border-gray-300 h-[56px] rounded-lg px-3 py-2 text-sm ${
                 !log.message && "bg-[#fafafa]"
               }`}
@@ -105,7 +111,7 @@ export default function CreateLogForm() {
             </span>
           </div>
         </div>
-        <div className="w-[214px] border 2xl:w-[20rem]">
+        <div className="w-[214px] 2xl:w-[20rem]">
           <SelectInput
             colorizeOnActive={false}
             placeholder="Status"
@@ -115,7 +121,7 @@ export default function CreateLogForm() {
               { value: "solved", label: "Resolved" },
             ]}
             onChange={(e) => setLog({ ...log, status: e.target.value })}
-            value={log.status || ""}
+            value={log.status || "unresolved"}
           />
         </div>
       </div>
@@ -124,7 +130,7 @@ export default function CreateLogForm() {
       <div className="flex justify-between  w-[82%] gap-4 mb-10">
         <div className="relative flex flex-col w-[60%]">
           <textarea
-            placeholder="Placeholder"
+            placeholder="Add more information..."
             className={`border rounded-lg border-gray-300 px-3 py-2 text-sm w-full h-[134px] resize-none ${
               !log.description && "bg-[#fafafa]"
             }`}
@@ -160,7 +166,8 @@ export default function CreateLogForm() {
 
       <div className="flex justify-between w-[85%] mt-10">
         <div className="flex items-center justify-between w-[58%]">
-          <div className="w-[56%] flex flex-col">
+          {userData.role  == "user" && ( <div className="w-[56%] flex flex-col">
+            
             <Select
               options={userOptions}
               value={
@@ -218,8 +225,8 @@ export default function CreateLogForm() {
                 }),
               }}
               isDisabled={mutation.isLoading || userData.role == "user"}
-            />
-          </div>
+            /> 
+          </div>)}
           <div className="w-[40%] flex flex-col">
             <SelectInput
               colorizeOnActive={false}

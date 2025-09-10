@@ -34,6 +34,7 @@ const CustomOption = (props) => (
 const SelectInput = ({
   value,
   onChange,
+  label = "",
   options = [],
   placeholder = "Select an option",
   colorizeOnActive = true,
@@ -41,63 +42,66 @@ const SelectInput = ({
 }) => {
   const selectedOption = options.find((o) => o.value === value) || null;
   return (
-    <Select
-      value={selectedOption}
-      onChange={(selected) =>
-        onChange({ target: { value: selected?.value || "" } })
-      }
-      options={options}
-      isDisabled={isDisabled}
-      placeholder={placeholder}
-      components={{ Option: CustomOption, DropdownIndicator }}
-      colorizeOnActive={colorizeOnActive}
-      styles={{
-        control: (provided, state) => ({
-          ...provided,
-          borderRadius: "8px",
-          borderColor: state.isFocused ? "#295ba2" : "#d1d5db",
-          backgroundColor:
-            selectedOption && colorizeOnActive ? "#295ba2" : "#ffffff",
-          color: selectedOption && colorizeOnActive ? "white" : "black",
-          cursor: "pointer",
-        }),
-        menu: (provided) => ({
-          ...provided,
-          borderRadius: "8px",
-          backgroundColor: "#ffffff",
-          boxShadow:
-            "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)",
-          cursor: "pointer",
-        }),
-        option: (provided, state) => ({
-          backgroundColor: state.isFocused ? "#e3ebf6" : "#ffffff",
-          padding: 8,
-          paddingLeft: 16,
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          gap: 10,
-        }),
-        dropdownIndicator: (provided) => ({
-          ...provided,
-          paddingRight: 5,
-        }),
-        indicatorSeparator: () => ({
-          display: "none",
-        }),
-        singleValue: (provided) => ({
-          ...provided,
-          color: selectedOption && colorizeOnActive ? "#ffffff" : "#737373",
-          textAlign: "left"
-        }),
-        placeholder: (provided) => ({
-          ...provided,
-          color: "#737373",
-          textAlign: "left"
-        })
-      }}
-    />
+    <div className="flex flex-col">
+      {label && (<span className="mb-1 w-full text-left">{label}</span>)}
+      <Select
+        value={selectedOption}
+        onChange={(selected) =>
+          onChange({ target: { value: selected?.value || "" } })
+        }
+        options={options}
+        isDisabled={isDisabled}
+        placeholder={placeholder}
+        components={{ Option: CustomOption, DropdownIndicator }}
+        colorizeOnActive={colorizeOnActive}
+        styles={{
+          control: (provided, state) => ({
+            ...provided,
+            borderRadius: "8px",
+            borderColor: state.isFocused ? "#295ba2" : "#d1d5db",
+            backgroundColor:
+              selectedOption && colorizeOnActive ? "#295ba2" : "#ffffff",
+            color: selectedOption && colorizeOnActive ? "white" : "black",
+            cursor: "pointer",
+          }),
+          menu: (provided) => ({
+            ...provided,
+            borderRadius: "8px",
+            backgroundColor: "#ffffff",
+            boxShadow:
+              "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)",
+            cursor: "pointer",
+          }),
+          option: (provided, state) => ({
+            backgroundColor: state.isFocused ? "#e3ebf6" : "#ffffff",
+            padding: 8,
+            paddingLeft: 16,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: 10,
+          }),
+          dropdownIndicator: (provided) => ({
+            ...provided,
+            paddingRight: 5,
+          }),
+          indicatorSeparator: () => ({
+            display: "none",
+          }),
+          singleValue: (provided) => ({
+            ...provided,
+            color: selectedOption && colorizeOnActive ? "#ffffff" : "black",
+            textAlign: "left",
+          }),
+          placeholder: (provided) => ({
+            ...provided,
+            color: "#737373",
+            textAlign: "left",
+          }),
+        }}
+      />
+    </div>
   );
 };
 
