@@ -15,8 +15,7 @@ const DeactivateLog = ({ logId, inactive }) => {
 
   const mutation = useMutation({
     mutationFn: (active) => updateLog(logId, active),
-    onSuccess: (response) => {
-      console.log("Log updated successfully", response);
+    onSuccess: () => {
       queryClient.invalidateQueries(["log", logId]);
     },
     onError: (error) => {

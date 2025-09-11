@@ -63,7 +63,6 @@ const OnboardingComponent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("data sent", { ghToken, repoLink });
     setGhToken("");
     setRepoLink("");
   };

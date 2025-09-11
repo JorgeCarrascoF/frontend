@@ -30,8 +30,7 @@ const LogAISuggestion = ({ log, inactive = false }) => {
 
   const createLogReportMutation = useMutation({
     mutationFn: createLogReport,
-    onSuccess: (data) => {
-      console.log("Log report created:", data);
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["logReport", log.id] });
     },
     onError: (error) => {

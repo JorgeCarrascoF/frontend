@@ -52,20 +52,15 @@ const ChangePasswordOnFirstLogin = () => {
       });
     },
     onError: (error) => {
-      console.log("Error changing password:", error);
       setMessage(error.message);
     },
   });
 
   const userMutation = useMutation({
     mutationFn: changeUserFirstLoginStatus,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       navigate("/");
-    },
-    onError: (error) => {
-      console.log("Error changing user first login status:", error);
-    },
+    }
   });
 
   const handleSubmit = (e) => {

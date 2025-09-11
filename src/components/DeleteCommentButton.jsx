@@ -19,7 +19,6 @@ const DeleteCommentButton = ({ logId, commentId }) => {
   const mutation = useMutation({
     mutationFn: (id) => deleteComment(id),
     onSuccess: () => {
-      console.log(`Comment with commentId ${commentId} deleted successfully`);
       showToast("The message has been deleted successfully", "success");
       queryClient.invalidateQueries(["comments", logId]);
       setDeleting(false);

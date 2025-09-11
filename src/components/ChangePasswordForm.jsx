@@ -56,7 +56,6 @@ const ChangePasswordForm = ({ setChangingPassword }) => {
     },
 
     onError: (error) => {
-      console.log("Error changing password:", error);
       setMessage(error.message);
     },
   });

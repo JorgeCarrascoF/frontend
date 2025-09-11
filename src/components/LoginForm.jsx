@@ -34,7 +34,6 @@ const LoginForm = () => {
     onSuccess: (data) => {
       setSuccess("Login successful!");
       login(data.token, data.user.id, data.user, remember);
-      console.log("User logged in");
 
       setEmail("");
       setPassword("");

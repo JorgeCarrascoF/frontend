@@ -50,8 +50,7 @@ const LogInfo = ({ logId }) => {
 
   const mutation = useMutation({
     mutationFn: ({ updates }) => updateLog(logId, updates),
-    onSuccess: (response) => {
-      console.log("Log updated successfully", response);
+    onSuccess: () => {
       queryClient.invalidateQueries(["log", logId]);
       showToast("Log has been updated successfully", "success");
     },
@@ -59,8 +58,7 @@ const LogInfo = ({ logId }) => {
 
   const statusMutation = useMutation({
     mutationFn: ({ newStatus }) => registerStatusChange(logId, newStatus),
-    onSuccess: (response) => {
-      console.log("Status changed successfully", response);
+    onSuccess: () => {
       queryClient.invalidateQueries(["log", logId]);
       queryClient.invalidateQueries(["statusRegister", logId]);
     },

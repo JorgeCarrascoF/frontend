@@ -23,8 +23,7 @@ const UserComment = ({ comment, currentUserId }) => {
 
   const mutation = useMutation({
     mutationFn: (params) => updateComment(comment.id, params),
-    onSuccess: (data) => {
-      console.log("Comment updated successfully:", data);
+    onSuccess: () => {
       queryClient.invalidateQueries(["comments", comment.id]);
     },
     onError: (error) => {
@@ -35,8 +34,7 @@ const UserComment = ({ comment, currentUserId }) => {
   // !! Duplicado para gestionar correctamente el spinner en dos iconos diferentes
   const editMutation = useMutation({
     mutationFn: (params) => updateComment(comment.id, params),
-    onSuccess: (data) => {
-      console.log("Comment updated successfully:", data);
+    onSuccess: () => {
       queryClient.invalidateQueries(["comments", comment.id]);
     },
     onError: (error) => {

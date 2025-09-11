@@ -6,7 +6,6 @@ export const recoverPassword = async (email) => {
     return response.data;
   } catch (error) {
     if (error.response) {
-      console.log(error.response.data.message);
         throw new Error(error.response.data.message);
     } else {
       throw new Error("Unexpected error");

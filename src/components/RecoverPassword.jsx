@@ -31,18 +31,15 @@ const RecoverPassword = ({ setForgotPassword }) => {
       return;
     },
     onError: (error) => {
-      console.log("Error sending link", error.message);
       setErrorMessage(error.message);
     },
   });
 
   const userMutation = useMutation({
     mutationFn: changeUserFirstLoginStatus,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
     },
-    onError: (error) => {
-      console.log("Error changing user first login status:", error);
+    onError: () => {
     },
   });
 

@@ -17,7 +17,6 @@ export async function changeEmail({ newEmail }) {
     );
     return response.data;
   } catch (err) {
-    console.log("error ", err);
     if (err.response && err.response.data) {
       throw new Error(err.response.data.msg || "Error changing email");
     }

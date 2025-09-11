@@ -82,8 +82,6 @@ export default function CreateLogForm() {
     mutation.mutate(log);
   };
 
-  console.log(userData.role)
-
   return (
     <form
       onSubmit={handleSubmit}
@@ -166,7 +164,7 @@ export default function CreateLogForm() {
 
       <div className="flex justify-between w-[85%] mt-10">
         <div className="flex items-center justify-between w-[58%]">
-          {userData.role  == "user" && ( <div className="w-[56%] flex flex-col">
+          {userData.role  !== "user" && ( <div className="w-[56%] flex flex-col">
             
             <Select
               options={userOptions}
