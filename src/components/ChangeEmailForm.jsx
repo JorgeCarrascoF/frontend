@@ -47,7 +47,6 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
       }, 3000);
     },
     onError: (error) => {
-      console.log("Error changing email:", error);
       setMessage(error.message);
     },
   });
