@@ -15,16 +15,16 @@ import DeactivateLog from "./DeactivateLog";
 import LogStatusRegister from "./LogStatusRegister";
 import PriorityUserSelect from "./PriorityUserSelect";
 import { formatDateAndHour } from "../utils/formatDateAndHour";
-import useToast from "../hooks/useToast";
 import { getComments } from "../queries/getComments";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
+import { useToast } from "../hooks/useToast";
 
 const LogInfo = ({ logId }) => {
   const queryClient = useQueryClient();
   let currentUser = JSON.parse(localStorage.getItem("userData"));
 
-  const { showToast, ToastContainer } = useToast();
+  const { showToast } = useToast();
 
   const [selectedUser, setSelectedUser] = useState(null);
 
@@ -301,7 +301,6 @@ const LogInfo = ({ logId }) => {
       <RelatedLogs log={log} inactive={isInactive} />
       <LogStatusRegister logId={logId} inactive={isInactive} />
       <LogAISuggestion log={log} inactive={isInactive || !log.culprit} />
-      <ToastContainer />
     </>
   );
 };

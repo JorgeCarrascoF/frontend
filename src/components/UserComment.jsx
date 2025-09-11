@@ -18,6 +18,7 @@ const UserComment = ({ comment, currentUserId }) => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   const isSuperAdmin = userData?.role === "superadmin";
 
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -50,7 +51,6 @@ const UserComment = ({ comment, currentUserId }) => {
 
     const diff = now - commentDate;
 
-
     return diff <= EDIT_TIME && diff >= 0;
   };
 
@@ -75,7 +75,6 @@ const UserComment = ({ comment, currentUserId }) => {
   const canEdit = canEditComment(comment.created_at);
 
   const dateAndHour = splitDate(comment.created_at);
-
 
   return (
     <div className="p-3 flex items-center">

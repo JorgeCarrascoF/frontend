@@ -9,6 +9,7 @@ import { maxLimitInteger } from "../utils/maxLimitInteger";
 
 const AllLogComments = ({ logId }) => {
   const userId = localStorage.getItem("userId");
+
   const { data: log, isLoading: isLoadingLog } = useQuery({
     queryKey: ["log", logId],
     queryFn: () => getLogById(logId),
@@ -62,7 +63,7 @@ const AllLogComments = ({ logId }) => {
           ))
         )}
       </div>
-      <CommentInput logId={logId} inactive={!(log?.active)} />
+      <CommentInput logId={logId} inactive={!log?.active} />
     </div>
   );
 };

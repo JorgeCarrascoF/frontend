@@ -1,14 +1,14 @@
 import { useState } from "react";
 import TextInput from "./TextInput";
 import Button from "./Button";
-import useToast from "../hooks/useToast";
 import { useMutation } from "@tanstack/react-query";
 import { recoverPassword } from "../queries/recoverPassword";
 import { changeUserFirstLoginStatus } from "../queries/changeUserFirstLoginStatus";
+import { useToast } from "../hooks/useToast";
 
 const RecoverPassword = ({ setForgotPassword }) => {
   const [email, setEmail] = useState("");
-  const { showToast, ToastContainer } = useToast();
+  const { showToast } = useToast();
   const [errorMessage, setErrorMessage] = useState("");
 
   const isEmailValid = (email) => {
@@ -88,7 +88,6 @@ const RecoverPassword = ({ setForgotPassword }) => {
         >
           Back to login
         </span>
-        <ToastContainer />
       </div>
     </form>
   );

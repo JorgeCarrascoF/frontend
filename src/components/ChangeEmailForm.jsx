@@ -8,7 +8,7 @@ import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import useToast from "../hooks/useToast";
+import { useToast } from "../hooks/useToast";
 
 const ChangeEmailForm = ({ setChangingEmail }) => {
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -21,7 +21,7 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
 
   const { logout } = useAuth();
   const navigate = useNavigate();
-  const { showToast, ToastContainer } = useToast();
+  const { showToast } = useToast();
 
   useEffect(() => {
     const isValid =
@@ -163,7 +163,6 @@ const ChangeEmailForm = ({ setChangingEmail }) => {
           </p>
         </div>
       </Modal>
-      <ToastContainer />
     </div>
   );
 };

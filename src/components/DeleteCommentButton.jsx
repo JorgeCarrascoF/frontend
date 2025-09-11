@@ -4,20 +4,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import WarningAmberRoundedIcon from "@mui/icons-material/WarningAmberRounded";
 import deleteComment from "../queries/deleteComment";
 import { ClipLoader } from "react-spinners";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "./Button";
 import Modal from "./Modal";
+import { useToast } from "../hooks/useToast";
 
 const DeleteCommentButton = ({ logId, commentId }) => {
   const [deleting, setDeleting] = useState(false);
   const [showingModal, setShowingModal] = useState(false);
 
   const queryClient = useQueryClient();
+  const { showToast } = useToast();
 
   const mutation = useMutation({
     mutationFn: (id) => deleteComment(id),
     onSuccess: () => {
       console.log(`Comment with commentId ${commentId} deleted successfully`);
+      showToast("The message has been deleted successfully", "success");
       queryClient.invalidateQueries(["comments", logId]);
       setDeleting(false);
     },

@@ -3,8 +3,8 @@ import Button from "./Button";
 import UserIconSmall from "./UserIconSmall";
 import { createComment } from "../queries/createComment";
 import { useState } from "react";
-import useToast from "../hooks/useToast";
 import checkUrl from "../queries/checkUrl";
+import { useToast } from "../hooks/useToast";
 
 const CommentInput = ({ logId, inactive = false }) => {
   let userData = JSON.parse(localStorage.getItem("userData"));
@@ -13,7 +13,7 @@ const CommentInput = ({ logId, inactive = false }) => {
 
   const queryClient = useQueryClient();
 
-  const { showToast, ToastContainer } = useToast();
+  const { showToast } = useToast();
 
   const mutation = useMutation({
     mutationFn: ({ logId, comment }) => {
@@ -86,7 +86,6 @@ const CommentInput = ({ logId, inactive = false }) => {
           </Button>
         </div>
       </div>
-      <ToastContainer />
     </form>
   );
 };

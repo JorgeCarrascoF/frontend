@@ -10,7 +10,7 @@ import Modal from "./Modal";
 import Button from "./Button";
 import { changeUserStatus } from "../queries/changeUserStatus";
 import SelectInput from "./SelectInput";
-import useToast from "../hooks/useToast";
+import { useToast } from "../hooks/useToast";
 
 const UserInfo = ({ userId }) => {
   const [activeTab, setActiveTab] = useState("info");
@@ -28,7 +28,7 @@ const UserInfo = ({ userId }) => {
     }
   }, [statusChangeConfirmed]);
 
-  const { showToast, ToastContainer } = useToast();
+  const { showToast } = useToast();
 
   const queryClient = useQueryClient();
 
@@ -327,7 +327,6 @@ const UserInfo = ({ userId }) => {
           ""
         )}
       </Modal>
-      <ToastContainer />
     </div>
   );
 };
