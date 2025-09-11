@@ -15,7 +15,7 @@ const ErrorMessage = ({ message, inactive }) => {
       />
       <div className="flex flex-col items-start justify-center h-28 max-w-[80%]">
         <h1 className="text-black font-medium py-1">Error message</h1>
-        <p className="text-[#737373] text-left leading-7 break-words w-full">{message}</p>
+        <p className="text-[#737373] text-left leading-9 break-words w-full">{message}</p>
       </div>
     </div>
   );
