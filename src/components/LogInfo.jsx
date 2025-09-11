@@ -178,7 +178,7 @@ const LogInfo = ({ logId }) => {
         </div>
 
         <div className="flex flex-col items-start mb-">
-          <div className="mb-4 flex w-[80%] justify-between">
+          <div className="mb-4 flex w-[90%] justify-between">
             <ErrorMessage message={log.message} inactive={isInactive} />
 
             {currentUser?.role === "superadmin" ? (
@@ -193,7 +193,7 @@ const LogInfo = ({ logId }) => {
               ""
             )}
           </div>
-          <div className="w-[90%] mt-7 grid grid-cols-3 gap-3 gap-y-12">
+          <div className="w-[90%] mt-7 grid grid-cols-3 gap-10 gap-y-7">
             <InfoItem label="Environment" value={log.environment} />
             <InfoItem
               label="Error Type"
