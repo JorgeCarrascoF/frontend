@@ -5,8 +5,8 @@ export async function changeUserFirstLoginStatus({userId, isFirstLogin}) {
     const token = getToken();
     try {
         const response = await api.patch(
-            `/users/${userId}`,
-            { isFirstLogin: isFirstLogin },
+            `/users/first-login/${userId}`,
+            { status: isFirstLogin },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

@@ -24,22 +24,9 @@ const RecoverPassword = ({ setForgotPassword }) => {
         "A new password has been generated and sent to your email.",
         "success"
       );
-      userMutation.mutate({
-        userId: localStorage.getItem("userId"),
-        isFirstLogin: true,
-      });
-      return;
     },
     onError: (error) => {
       setErrorMessage(error.message);
-    },
-  });
-
-  const userMutation = useMutation({
-    mutationFn: changeUserFirstLoginStatus,
-    onSuccess: () => {
-    },
-    onError: () => {
     },
   });
 
