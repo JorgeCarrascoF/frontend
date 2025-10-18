@@ -30,7 +30,7 @@ const stepsData = [
 
 const sentryScript = `
 Sentry.init({
-  dsn: "https://bc7acf8bf6c9695be588c2c31bfa3a6c@o4509752918540288.ingest.sentry.io/4509752919851088",
+  dsn: "https://c8f07b4b38b745219e04a09995e7f343@backend-llwm.onrender.com/42",
   sendDefaultPii: true,
   environment: import.meta.env.VITE_SENTRY_ENVIRONMENT || "development",
   integrations: [
