@@ -106,6 +106,12 @@ const LogInfo = ({ logId }) => {
       return;
     }
 
+    if (selectedUserData.role === "superadmin") {
+      showToast("The user is not valid for log assignment");
+      setSelectedUser(null);
+      return;
+    }
+
     setSelectedUser(selected);
     mutation.mutate({
       updates: { assigned_to: selected.value },
