@@ -12,13 +12,13 @@ export async function createLog(logData) {
   logData.updated_at = new Date().toISOString();
   logData.json_sentry = {};
 
-
   try {
     const response = await api.post("/logs", logData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("response", response);
     return response.data;
   } catch (error) {
     console.error("Error creando log:", error);

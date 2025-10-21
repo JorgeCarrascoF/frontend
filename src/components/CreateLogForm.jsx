@@ -10,6 +10,7 @@ import Modal from "./Modal";
 import Icon from "@mdi/react";
 import { mdiCheckCircleOutline } from "@mdi/js";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../hooks/useToast";
 
 export default function CreateLogForm() {
   const [log, setLog] = useState({});
@@ -17,6 +18,8 @@ export default function CreateLogForm() {
   const [labelMessageCount, setLabelMessageCount] = useState(0);
   const [message, setMessage] = useState("");
   const [logCreated, setLogCreated] = useState(false);
+
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -49,8 +52,15 @@ export default function CreateLogForm() {
     onSuccess: () => {
       setLogCreated(true);
     },
-    onError: () => {
-      setMessage("Error creating log");
+    onError: (error) => {
+      if (error.response.status === 409) {
+        showToast(
+          "This log entry already exists and has been updated",
+          "info"
+        );
+      } else {
+        setMessage("Error creating log");
+      }
     },
   });
 
@@ -164,67 +174,68 @@ export default function CreateLogForm() {
 
       <div className="flex justify-between w-[85%] mt-10">
         <div className="flex items-center justify-between w-[58%]">
-          {userData.role  !== "user" && ( <div className="w-[56%] flex flex-col">
-            
-            <Select
-              options={userOptions}
-              value={
-                userOptions.find((u) => u.value === log.assigned_to) || null
-              }
-              onChange={(e) =>
-                setLog({ ...log, assigned_to: e ? e.value : null })
-              }
-              isSearchable
-              placeholder="Select user*"
-              className={`w-full`}
-              styles={{
-                control: (provided, state) => ({
-                  ...provided,
-                  borderRadius: "8px",
-                  borderColor: state.isFocused ? "#295ba2" : "#d1d5db",
-                  backgroundColor: "#ffffff",
-                  color: "black",
-                  cursor: "pointer",
-                }),
-                menu: (provided) => ({
-                  ...provided,
-                  borderRadius: "8px",
-                  backgroundColor: "#ffffff",
-                  boxShadow:
-                    "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)",
-                  cursor: "pointer",
-                }),
-                option: (provided, state) => ({
-                  backgroundColor: state.isFocused ? "#e3ebf6" : "#ffffff",
-                  padding: 8,
-                  paddingLeft: 16,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  gap: 10,
-                }),
-                dropdownIndicator: (provided) => ({
-                  ...provided,
-                  paddingRight: 5,
-                }),
-                indicatorSeparator: () => ({
-                  display: "none",
-                }),
-                singleValue: (provided) => ({
-                  ...provided,
-                  color: "#737373",
-                  textAlign: "left",
-                }),
-                placeholder: (provided) => ({
-                  ...provided,
-                  color: "#737373",
-                  textAlign: "left",
-                }),
-              }}
-              isDisabled={mutation.isLoading || userData.role == "user"}
-            /> 
-          </div>)}
+          {userData.role !== "user" && (
+            <div className="w-[56%] flex flex-col">
+              <Select
+                options={userOptions}
+                value={
+                  userOptions.find((u) => u.value === log.assigned_to) || null
+                }
+                onChange={(e) =>
+                  setLog({ ...log, assigned_to: e ? e.value : null })
+                }
+                isSearchable
+                placeholder="Select user*"
+                className={`w-full`}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    borderRadius: "8px",
+                    borderColor: state.isFocused ? "#295ba2" : "#d1d5db",
+                    backgroundColor: "#ffffff",
+                    color: "black",
+                    cursor: "pointer",
+                  }),
+                  menu: (provided) => ({
+                    ...provided,
+                    borderRadius: "8px",
+                    backgroundColor: "#ffffff",
+                    boxShadow:
+                      "0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05)",
+                    cursor: "pointer",
+                  }),
+                  option: (provided, state) => ({
+                    backgroundColor: state.isFocused ? "#e3ebf6" : "#ffffff",
+                    padding: 8,
+                    paddingLeft: 16,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    gap: 10,
+                  }),
+                  dropdownIndicator: (provided) => ({
+                    ...provided,
+                    paddingRight: 5,
+                  }),
+                  indicatorSeparator: () => ({
+                    display: "none",
+                  }),
+                  singleValue: (provided) => ({
+                    ...provided,
+                    color: "#737373",
+                    textAlign: "left",
+                  }),
+                  placeholder: (provided) => ({
+                    ...provided,
+                    color: "#737373",
+                    textAlign: "left",
+                  }),
+                }}
+                isDisabled={mutation.isLoading || userData.role == "user"}
+              />
+            </div>
+          )}
           <div className="w-[40%] flex flex-col">
             <SelectInput
               colorizeOnActive={false}
