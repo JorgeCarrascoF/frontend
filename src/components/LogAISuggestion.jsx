@@ -82,7 +82,8 @@ const LogAISuggestion = ({ log, inactive = false }) => {
                 setLoadingReport(true);
                 createLogReportMutation.mutate({ logId: log.id });
               }}
-              disabled={inactive}
+              // disabled={inactive}
+              disabled={true}
             >
               {loadingReport ? (
                 <ClipLoader color="white" size={15} />
